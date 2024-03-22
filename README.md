@@ -29,8 +29,8 @@
 관리자 로그아웃<br>
 관리자 아이디 찾기<br>
 관리자 비밀번호 찾기(SMTP)<br>
-관리자 수정 페이지<br>
-관리지 조회 페이지<br>
+관리자 추가 페이지<br>
+관리자 조회 페이지<br>
 
 <h2 align="center"> Tools / Languages </h2>
 
