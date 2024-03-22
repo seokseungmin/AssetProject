@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="max-width: 800px; margin-top: 50px;">
+    <div class="py-5 text-center">
+        <h2 th:text="#{software.list.title}">Software List</h2>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end" onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/assets/add/software}'|" type="button">
+                <span th:text="#{software.register}">Register software</span>
+            </button>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th th:text="#{software.asset.name}">Asset Name</th>
+                <th th:text="#{software.asset.type}">Asset Type</th>
+                <th th:text="#{software.asset.status}">Asset Status</th>
+                <th th:text="#{software.location}">Location</th>
+                <th th:text="#{software.department}">Department</th>
+                <th th:text="#{software.current.user}">Current User</th>
+                <th th:text="#{software.expiry.date}">Expiry Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="software : ${softwares}">
+                <td><a th:href="@{'/asset/' + ${software.softwareIdx} + '/edit/software'}" th:text="${software.softwareIdx}">ID</a></td>
+                <td th:text="${software.assetName}">Asset Name</td>
+                <td th:text="${software.assetType}">Asset Type</td>
+                <td th:text="${software.assetStatus}">Asset Status</td>
+                <td th:text="${software.location}">Location</td>
+                <td th:text="${software.dept}">Department</td>
+                <td th:text="${software.currentUser}">Current User</td>
+                <td th:text="${software.expiryDate}">Expiry Date</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

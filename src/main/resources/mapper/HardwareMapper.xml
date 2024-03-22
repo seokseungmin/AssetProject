@@ -1,0 +1,37 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Hardware">
+
+    <select id="findAll" resultType="Hardware">
+        SELECT
+            hw.hardwareIdx,
+            hw.cpu,
+            hw.ssd,
+            hw.hdd,
+            hw.memory,
+            hw.note,
+            a.assetName,
+            a.assetType,
+            a.assetStatus,
+            a.purchaseDate,
+            a.location,
+            a.dept,
+            a.currentUser
+        FROM hardware hw
+                 JOIN asset a ON hw.assetIdx = a.assetIdx
+        </select>
+
+    <select id="findOne" parameterType="Long" resultType="Hardware">
+        select * from hardware where hardwareIdx= #{id}
+    </select>
+
+    <insert id="save" parameterType="Hardware" useGeneratedKeys="true" keyProperty="hardwareIdx">
+        INSERT INTO hardware
+            (assetIdx, cpu, ssd, hdd, memory, note)
+        VALUES
+            (#{assetIdx}, #{cpu}, #{ssd}, #{hdd}, #{memory}, #{note})
+    </insert>
+
+
+</mapper>

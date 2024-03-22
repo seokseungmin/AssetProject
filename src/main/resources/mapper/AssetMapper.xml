@@ -1,0 +1,37 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Asset">
+
+    <select id="findAll" resultType="Asset">
+        SELECT * FROM asset
+    </select>
+
+    <select id="findOne" parameterType="Long" resultType="Asset">
+        select * from asset where assetIdx= #{id}
+    </select>
+
+
+    <select id="findAssetCodeOne" parameterType="String" resultType="Asset">
+        select assetIdx from asset where assetCode= #{assetCode}
+    </select>
+
+    <insert id="saveHardwareAsset" parameterType="Asset" useGeneratedKeys="true" keyProperty="assetIdx">
+        INSERT INTO asset
+        (assetCode, assetName, assetType, assetStatus, sn, location, dept,
+         purchaseDate, assignedDate, returnDate, currentUser, previousUser,
+         manufacturer)
+        VALUES
+            (#{assetCode}, #{assetName}, #{assetType}, #{assetStatus}, #{sn}, #{location}, #{dept},
+             #{purchaseDate}, #{assignedDate}, #{returnDate}, #{currentUser}, #{previousUser},
+             #{manufacturer})
+    </insert>
+
+    <insert id="saveSoftwareAsset" parameterType="com.example.assetproject.dto.Asset" useGeneratedKeys="true" keyProperty="assetIdx">
+        INSERT INTO asset
+        (assetCode, assetName, sn, purchaseDate, assetStatus, location, dept, manufacturer, currentUser, assignedDate, previousUser, returnDate, expiryDate)
+        VALUES
+            (#{assetCode}, #{assetName}, #{sn}, #{purchaseDate}, #{assetStatus}, #{location}, #{dept}, #{manufacturer}, #{currentUser}, #{assignedDate}, #{previousUser}, #{returnDate}, #{expiryDate})
+    </insert>
+
+</mapper>

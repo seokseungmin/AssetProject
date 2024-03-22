@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="max-width: 800px; margin-top: 50px;">
+    <div class="py-5 text-center">
+        <h2 th:text="#{asset.list.title}">자산 목록</h2>
+    </div>
+
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="vertical-align: middle;" th:text="#{asset.list.id}">ID</th>
+                <th style="vertical-align: middle;" th:text="#{asset.list.asset.code}">자산번호</th>
+                <th style="vertical-align: middle;" th:text="#{asset.list.asset.name}">자산명</th>
+                <th style="vertical-align: middle;" th:text="#{asset.list.asset.type}">자산유형</th>
+                <th style="vertical-align: middle;" th:text="#{asset.list.asset.status}">자산상태</th>
+                <th style="vertical-align: middle;" th:text="#{asset.list.serial.number}">시리얼번호</th>
+                <th style="vertical-align: middle;" th:text="#{asset.list.location}">위치</th>
+                <th style="vertical-align: middle;" th:text="#{asset.list.department}">부서</th>
+                <th style="vertical-align: middle;" th:text="#{asset.list.assigned.date}">지급일</th>
+                <th style="vertical-align: middle;" th:text="#{asset.list.return.date}">반납일</th>
+                <th style="vertical-align: middle;" th:text="#{asset.list.current.user}">현사용자</th>
+                <th style="vertical-align: middle;" th:text="#{asset.list.previous.user}">전사용자</th>
+                <th style="vertical-align: middle;" th:text="#{asset.list.manufacturer}">제조사</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="asset : ${assets}">
+                <td><a th:href="@{|/Assets/${asset.assetIdx}|}" th:text="${asset.assetIdx}">ID</a></td>
+                <td th:text="${asset.assetCode}">자산번호</td>
+                <td th:text="${asset.assetName}">자산명</td>
+                <td th:text="${asset.assetType}">자산유형</td>
+                <td th:text="${asset.assetStatus}">자산상태</td>
+                <td th:text="${asset.sn}">시리얼번호</td>
+                <td th:text="${asset.location}">위치</td>
+                <td th:text="${asset.dept}">부서</td>
+                <td th:text="${asset.assignedDate}">지급일</td>
+                <td th:text="${asset.returnDate}">반납일</td>
+                <td th:text="${asset.currentUser}">현사용자</td>
+                <td th:text="${asset.previousUser}">전사용자</td>
+                <td th:text="${asset.manufacturer}">제조사</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

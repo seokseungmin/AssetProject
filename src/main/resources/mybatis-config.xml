@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!-- 타입 별칭을 설정합니다. -->
+    <typeAliases>
+        <typeAlias type="com.example.assetproject.dto.Asset" alias="Asset"/>
+        <typeAlias type="com.example.assetproject.dto.Hardware" alias="Hardware"/>
+        <typeAlias type="com.example.assetproject.dto.Software" alias="Software"/>
+    </typeAliases>
+
+</configuration>

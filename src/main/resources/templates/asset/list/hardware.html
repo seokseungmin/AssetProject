@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="max-width: 800px; margin-top: 50px;">
+    <div class="py-5 text-center">
+        <h2 th:text="#{hardware.list.title}">Hardware List</h2>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end" onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/assets/add/hardware}'|" type="button">
+                <span th:text="#{hardware.register}">Register Hardware</span>
+            </button>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th><span th:text="#{hardware.asset.name}">Asset Name</span></th>
+                <th><span th:text="#{hardware.asset.type}">Asset Type</span></th>
+                <th><span th:text="#{hardware.asset.status}">Asset Status</span></th>
+                <th><span th:text="#{hardware.location}">Location</span></th>
+                <th><span th:text="#{hardware.department}">Department</span></th>
+                <th><span th:text="#{hardware.current.user}">Current User</span></th>
+                <th><span th:text="#{hardware.cpu}">CPU</span></th>
+                <th><span th:text="#{hardware.ssd}">SSD</span></th>
+                <th><span th:text="#{hardware.hdd}">HDD</span></th>
+                <th><span th:text="#{hardware.memory}">Memory</span></th>
+                <th><span th:text="#{hardware.usage.period}">Usage Period</span></th>
+                <th><span th:text="#{hardware.note}">Note</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="hardware : ${hardwares}">
+                <td><a th:href="@{'/asset/' + ${hardware.hardwareIdx} + '/edit/hardware'}" th:text="${hardware.hardwareIdx}">ID</a></td>
+                <td th:text="${hardware.assetName}">Asset Name</td>
+                <td th:text="${hardware.assetType}">Asset Type</td>
+                <td th:text="${hardware.assetStatus}">Asset Status</td>
+                <td th:text="${hardware.location}">Location</td>
+                <td th:text="${hardware.dept}">Department</td>
+                <td th:text="${hardware.currentUser}">Current User</td>
+                <td th:text="${hardware.cpu}">CPU</td>
+                <td th:text="${hardware.ssd}">SSD</td>
+                <td th:text="${hardware.hdd}">HDD</td>
+                <td th:text="${hardware.memory}">Memory</td>
+                <td>
+                    <span th:if="${hardware.purchaseDate != null}"
+                          th:text="${T(java.time.Period).between(hardware.purchaseDate, T(java.time.LocalDate).now()).getDays()} + 'days'"></span>
+                </td>
+                <td th:text="${hardware.note}">Note</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Software">
+
+    <select id="findAll" resultType="Software">
+        SELECT
+            s.softwareIdx,
+            a.assetName,
+            a.assetType,
+            a.assetStatus,
+            a.location,
+            a.dept,
+            a.currentUser,
+            s.expiryDate
+        FROM software s
+                 JOIN asset a ON s.assetIdx = a.assetIdx
+    </select>
+
+    <insert id="save" parameterType="Software" useGeneratedKeys="true" keyProperty="softwareIdx">
+        INSERT INTO software
+            (assetIdx, expiryDate, note)
+        VALUES
+            (#{assetIdx}, #{expiryDate}, #{note})
+    </insert>
+
+</mapper>
