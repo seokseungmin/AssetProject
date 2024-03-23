@@ -24,6 +24,7 @@
 소프트웨어 자산 수정 페이지<br>
 소프트웨어 자산 삭제 기능<br>
 작업이력 페이지<br>
+페이징처리<br>
 
 관리자 로그인<br>
 관리자 로그아웃<br>
@@ -34,7 +35,7 @@
 
 <h2 align="center"> Tools / Languages </h2>
 
-![Front-end](https://skillicons.dev/icons?i=idea,spring,gradle,java,mysql)<br>
+![Front-end](https://skillicons.dev/icons?i=idea,spring,gradle,java,mysql,html,css,javascript)<br>
 <img src="https://img.shields.io/badge/Spring Web-59666C?style=for-the-badge&logo=Spring&logoColor=white"/>
 <img src="https://img.shields.io/badge/SpringBoot-59666C?style=for-the-badge&logo=SpringBoot&logoColor=white"/>
 <img src="https://img.shields.io/badge/Thymeleaf-59666C?style=for-the-badge&logo=Spring&logoColor=white"/>
@@ -45,6 +46,8 @@
 <img src="https://img.shields.io/badge/gradle-59666C?style=for-the-badge&logo=gradle&logoColor=white"/>
 <img src="https://img.shields.io/badge/Lombok-59666C?style=for-the-badge&logo=Lombok&logoColor=white"/>
 <img src="https://img.shields.io/badge/Mysql-59666C?style=for-the-badge&logo=MySql&logoColor=white"/>
-
+<img src="https://img.shields.io/badge/html-59666C?style=for-the-badge&logo=html&logoColor=white"/>
+<img src="https://img.shields.io/badge/css-59666C?style=for-the-badge&logo=css&logoColor=white"/>
+<img src="https://img.shields.io/badge/javascript-59666C?style=for-the-badge&logo=javascript&logoColor=white"/>
 
 </div>
