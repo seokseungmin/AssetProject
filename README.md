@@ -46,8 +46,8 @@
 <img src="https://img.shields.io/badge/gradle-59666C?style=for-the-badge&logo=gradle&logoColor=white"/>
 <img src="https://img.shields.io/badge/Lombok-59666C?style=for-the-badge&logo=Lombok&logoColor=white"/>
 <img src="https://img.shields.io/badge/Mysql-59666C?style=for-the-badge&logo=MySql&logoColor=white"/>
-<img src="https://img.shields.io/badge/html-59666C?style=for-the-badge&logo=html&logoColor=white"/>
-<img src="https://img.shields.io/badge/css-59666C?style=for-the-badge&logo=css&logoColor=white"/>
+<img src="https://img.shields.io/badge/html-59666C?style=for-the-badge&logo=Html&logoColor=white"/>
+<img src="https://img.shields.io/badge/css-59666C?style=for-the-badge&logo=Css&logoColor=white"/>
 <img src="https://img.shields.io/badge/javascript-59666C?style=for-the-badge&logo=javascript&logoColor=white"/>
 
 </div>
