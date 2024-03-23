@@ -1,10 +1,10 @@
 package com.example.assetproject.controller;
 
-import com.example.assetproject.dto.Asset;
-import com.example.assetproject.dto.Hardware;
-import com.example.assetproject.dto.Software;
+import com.example.assetproject.dto.*;
 import com.example.assetproject.form.AssetHardwareAddForm;
+import com.example.assetproject.form.AssetHardwareUpdateForm;
 import com.example.assetproject.form.AssetSoftwareAddForm;
+import com.example.assetproject.form.AssetSoftwareUpdateForm;
 import com.example.assetproject.service.AssetService;
 import com.example.assetproject.service.HardwareService;
 import com.example.assetproject.service.SoftwareService;
@@ -16,10 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -110,6 +107,69 @@ public class AssetController {
         redirectAttributes.addAttribute("assetIdx", assetIdx);
 
         return "redirect:/assets/list/software";
+    }
+
+    //하드웨어 자산 수정 폼
+    @GetMapping("/{hardwareIdx}/edit/hardware")
+    public String editHardwareForm(@PathVariable Long hardwareIdx, Model model){
+
+        HardwareAssetDTO hardware = hardwareService.findHardwareById(hardwareIdx);
+
+        model.addAttribute("hardware", hardware);
+
+        return "asset/edit/editHardwareForm";
+    }
+
+    //하드웨어 자산 수정
+    @PostMapping("/{hardwareIdx}/edit/hardware")
+    @Transactional
+    public String edit(@PathVariable Long hardwareIdx, @Validated @ModelAttribute("hardware") AssetHardwareUpdateForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        //검증에 실패하면 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {}", bindingResult);
+            bindingResult.addError(new ObjectError("hardware", new String[]{"hardwareEdit"}, null, null));
+            return "asset/edit/editHardwareForm";
+        }
+
+        // Perform the update operation
+        hardwareService.update(hardwareIdx, form);
+
+        // Add a flash attribute to show a success message on the redirect target
+        redirectAttributes.addFlashAttribute("successMessage", "Hardware updated successfully!");
+
+        return "redirect:/assets/list/hardware";
+    }
+
+
+    //소프트웨어 자산 수정 폼
+    @GetMapping("/{softwareIdx}/edit/software")
+    public String editSoftwareForm(@PathVariable Long softwareIdx, Model model){
+
+        SoftwareAssetDTO software = softwareService.findSoftwareById(softwareIdx);
+
+        model.addAttribute("software", software);
+        return "asset/edit/editSoftwareForm";
+    }
+
+    //소프트웨어 자산 수정
+    @PostMapping("/{softwareIdx}/edit/software")
+    public String edit(@PathVariable Long softwareIdx, @Validated @ModelAttribute("software") AssetSoftwareUpdateForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+
+        //검증에 실패하면 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {}", bindingResult);
+            bindingResult.addError(new ObjectError("software", new String[]{"softwareEdit"}, null, null));
+            return "asset/edit/editSoftwareForm";
+        }
+
+        // Perform the update operation
+        softwareService.update(softwareIdx, form);
+
+        // Add a flash attribute to show a success message on the redirect target
+        redirectAttributes.addFlashAttribute("successMessage", "Software updated successfully!");
+        return "redirect:/assets/list/software";
+
     }
 
 }

@@ -34,7 +34,7 @@
             </thead>
             <tbody>
             <tr th:each="software : ${softwares}">
-                <td><a th:href="@{'/asset/' + ${software.softwareIdx} + '/edit/software'}" th:text="${software.softwareIdx}">ID</a></td>
+                <td><a th:href="@{'/assets/' + ${software.softwareIdx} + '/edit/software'}" th:text="${software.softwareIdx}">ID</a></td>
                 <td th:text="${software.assetName}">Asset Name</td>
                 <td th:text="${software.assetType}">Asset Type</td>
                 <td th:text="${software.assetStatus}">Asset Status</td>

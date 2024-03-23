@@ -19,4 +19,13 @@ public class Hardware extends Asset {
     private String memory;
     private LocalDate usageDuration;
     private String note;
+
+    public void update(String cpu, String ssd, String hdd, String memory, String note) {
+        this.cpu = cpu;
+        this.ssd = ssd;
+        this.hdd = hdd;
+        this.memory = memory;
+        this.note = note;
+        // usageDuration is not updated here, assuming it's not changed in this context
+    }
 }

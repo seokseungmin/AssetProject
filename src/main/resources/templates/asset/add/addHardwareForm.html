@@ -131,7 +131,7 @@
                 </td>
                 <td class="property">*<span th:text="#{hardware.purchase.date.label}"></span></td>
                 <td colspan="6">
-                    <input type="date" id="purchaseDate" name="purchaseDate" class="date-box hw-info" max="2100-12-31" min="1900-01-01" th:errorclass="field-error" th:field="*{purchaseDate}">
+                    <input type="date" id="purchaseDate" name="purchaseDate" class="date-box hw-info" max="2100-12-31" min="1900-01-01" th:errorclass="field-error" th:value="*{purchaseDate}">
                     <div class="field-error" th:errors="*{purchaseDate}"></div>
                 </td>
             </tr>

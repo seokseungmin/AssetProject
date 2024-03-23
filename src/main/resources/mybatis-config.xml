@@ -9,6 +9,8 @@
         <typeAlias type="com.example.assetproject.dto.Asset" alias="Asset"/>
         <typeAlias type="com.example.assetproject.dto.Hardware" alias="Hardware"/>
         <typeAlias type="com.example.assetproject.dto.Software" alias="Software"/>
+        <typeAlias type="com.example.assetproject.dto.HardwareAssetDTO" alias="HardwareAssetDTO"/>
+        <typeAlias type="com.example.assetproject.dto.SoftwareAssetDTO" alias="SoftwareAssetDTO"/>
     </typeAliases>
 
 </configuration>

@@ -39,7 +39,7 @@
             </thead>
             <tbody>
             <tr th:each="hardware : ${hardwares}">
-                <td><a th:href="@{'/asset/' + ${hardware.hardwareIdx} + '/edit/hardware'}" th:text="${hardware.hardwareIdx}">ID</a></td>
+                <td><a th:href="@{'/assets/' + ${hardware.hardwareIdx} + '/edit/hardware'}" th:text="${hardware.hardwareIdx}">ID</a></td>
                 <td th:text="${hardware.assetName}">Asset Name</td>
                 <td th:text="${hardware.assetType}">Asset Type</td>
                 <td th:text="${hardware.assetStatus}">Asset Status</td>

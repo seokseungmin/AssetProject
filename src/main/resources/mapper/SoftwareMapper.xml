@@ -17,6 +17,42 @@
                  JOIN asset a ON s.assetIdx = a.assetIdx
     </select>
 
+    <select id="findById" parameterType="Long" resultType="Software">
+        select * from software where softwareIdx= #{softwareIdx}
+    </select>
+
+    <select id="findSoftwareById" parameterType="Long" resultType="SoftwareAssetDTO">
+        SELECT
+            a.assetIdx,
+            a.assetCode,
+            a.assetName,
+            a.assetType,
+            a.assetStatus,
+            a.sn,
+            a.location,
+            a.dept,
+            a.purchaseDate,
+            a.assignedDate,
+            a.returnDate,
+            a.currentUser,
+            a.previousUser,
+            a.manufacturer,
+            s.softwareIdx,
+            s.expiryDate,
+            s.note
+        FROM software s
+                 JOIN asset a ON s.assetIdx = a.assetIdx
+        WHERE s.softwareIdx = #{softwareIdx}
+    </select>
+
+    <update id="update" parameterType="Software">
+        UPDATE software
+        SET
+            expiryDate = #{expiryDate},
+            note = #{note}
+        WHERE softwareIdx = #{softwareIdx}
+    </update>
+
     <insert id="save" parameterType="Software" useGeneratedKeys="true" keyProperty="softwareIdx">
         INSERT INTO software
             (assetIdx, expiryDate, note)

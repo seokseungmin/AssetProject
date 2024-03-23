@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title th:text="#{hardware.edit.form.title}">하드웨어 자산 수정 폼</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+            margin-top: 50px;
+        }
+        .field-error{
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2 th:text="#{hardware.edit.form.title}">하드웨어 자산 수정 폼</h2> <!-- 수정된 부분: 제목 변경 -->
+        <h6 th:text="#{hardware.required}">* 수정할 정보를 입력하세요.</h6>
+    </div>
+    <h4 class="mb-3" th:text="#{hardware.asset.update}">자산 수정</h4>
+    <form id="editForm" th:action="@{|/assets/${hardware.hardwareIdx}/edit/hardware|}" th:object="${hardware}" method="post">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+               th:text="${err}"><span th:text="#{hardware.error.global}"></span></p>
+        </div>
+
+        <table>
+            <!-- Load item information -->
+            <tr>
+                <td class="property">*<span th:text="#{hardware.asset.type.select}"></span></td>
+                <td colspan="4">
+                    <select class="select" id="assetType" name="assetType" th:field="*{assetType}">
+                        <option value=""><span th:text="#{hardware.asset.type.select}"></span></option>
+                        <option value="MONITOR" th:text="#{hardware.asset.type.monitor}">모니터</option>
+                        <option value="NOTEBOOK" th:text="#{hardware.asset.type.notebook}">노트북</option>
+                        <option value="PHONE" th:text="#{hardware.asset.type.phone}">테스트폰</option>
+                    </select>
+                    <p class="field-error" th:if="${#fields.hasErrors('assetType')}" th:errors="*{assetType}"></p>
+                </td>
+                <td class="property">*<span th:text="#{hardware.asset.name.label}"></span></td>
+                <td colspan="6">
+                    <input type="text" class="hw-info" id="assetName" name="assetName" th:value="*{assetName}">
+                    <p class="field-error" th:if="${#fields.hasErrors('assetName')}" th:errors="*{assetName}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td class="property">*<span th:text="#{hardware.location.label}"></span></td>
+                <td colspan="4">
+                    <input type="text" class="hw-info" th:placeholder="#{hardware.location.placeholder}"  id="location" name="location" th:value="*{location}">
+                    <p class="field-error" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></p>
+                </td>
+                <td class="property">*<span th:text="#{hardware.manufacturer.label}"></span></td>
+                <td colspan="6">
+                    <input type="text" class="hw-info" id="manufacturer" name="manufacturer" th:value="*{manufacturer}">
+                    <p class="field-error" th:if="${#fields.hasErrors('manufacturer')}" th:errors="*{manufacturer}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td class="property">*<span th:text="#{hardware.asset.status.label}"></span></td>
+                <td colspan="4" class="center-select">
+                    <select class="select" id="assetStatus" name="assetStatus" th:field="*{assetStatus}">
+                        <option value=""><span th:text="#{hardware.asset.status.select}"></span></option>
+                        <option value="ASSIGNED" th:text="#{hardware.asset.status.assigned}">입고</option>
+                        <option value="RETURNED" th:text="#{hardware.asset.status.returned}">출고</option>
+                    </select>
+                    <p class="field-error" th:if="${#fields.hasErrors('assetStatus')}" th:errors="*{assetStatus}"></p>
+                </td>
+                <td>CPU</td>
+                <td colspan="6">
+                    <input type="text" class="hw-info" id="cpu" name="cpu" th:value="*{cpu}">
+                    <p class="field-error" th:if="${#fields.hasErrors('cpu')}" th:errors="*{cpu}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td class="property">*S/N</td>
+                <td colspan="6">
+                    <input type="text" class="hw-info" id="sn" name="sn" th:value="*{sn}">
+                    <p class="field-error" th:if="${#fields.hasErrors('sn')}" th:errors="*{sn}"></p>
+                </td>
+                <td>SSD</td>
+                <td colspan="6" class="center-select">
+                    <input type="text" class="hw-info" id="ssd" name="ssd" th:value="*{ssd}">
+                    <select class="select" id="ssdSelect" name="ssdSelect">
+                        <option value="GB">GB</option>
+                        <option value="TB">TB</option>
+                    </select>
+                    <p class="field-error" th:if="${#fields.hasErrors('ssd')}" th:errors="*{ssd}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td class="property">*<span th:text="#{hardware.purchase.date.label}"></span></td>
+                <td colspan="6">
+                    <input type="date" id="purchaseDate" name="purchaseDate" class="date-box hw-info" max="2100-12-31" min="1900-01-01" th:value="*{purchaseDate}">
+                    <p class="field-error" th:if="${#fields.hasErrors('purchaseDate')}" th:errors="*{purchaseDate}"></p>
+                </td>
+                <td>HDD</td>
+                <td colspan="6">
+                    <input type="text" class="hw-info" id="hdd" name="hdd" th:value="*{hdd}">
+                    <select class="select" id="hddSelect" name="hddSelect">
+                        <option value="GB">GB</option>
+                        <option value="TB">TB</option>
+                    </select>
+                    <p class="field-error" th:if="${#fields.hasErrors('hdd')}" th:errors="*{hdd}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{hardware.department.label}">부서</td>
+                <td colspan="6" class="center-select">
+                    <select class="select" id="dept" name="dept" th:field="*{dept}">
+                        <option value= ""><span th:text="#{hardware.select.department}"></span></option>
+                        <option value="대표이사" th:text="#{hardware.option.ceo}">대표이사</option>
+                        <option value="경영고문" th:text="#{hardware.option.management_consultant}">경영고문</option>
+                        <option value="전략운영팀" th:text="#{hardware.option.strategy_operation_team}">전략운영팀</option>
+                        <option value="사업팀" th:text="#{hardware.option.business_team}">사업팀</option>
+                        <option value="경영전략팀" th:text="#{hardware.option.management_strategy_team}">경영전략팀</option>
+                        <option value="UX팀" th:text="#{hardware.option.ux_team}">UX팀</option>
+                        <option value="사업1팀" th:text="#{hardware.option.business_team_1}">사업1팀</option>
+                        <option value="사업2팀" th:text="#{hardware.option.business_team_2}">사업2팀</option>
+                        <option value="아모레운영팀" th:text="#{hardware.option.amore_operation_team}">아모레운영팀</option>
+                        <option value="전략채널팀" th:text="#{hardware.option.strategy_channel_team}">전략채널팀</option>
+                        <option value="인턴" th:text="#{hardware.option.intern}">인턴</option>
+                    </select>
+                    <p class="field-error" th:if="${#fields.hasErrors('dept')}" th:errors="*{dept}"></p>
+                </td>
+                <td th:text="#{hardware.current.user.label}">현 사용자</td>
+                <td colspan="6">
+                    <input type="text" class="hw-info" id="currentUser" name="currentUser" th:value="*{currentUser}">
+                    <p class="field-error" th:if="${#fields.hasErrors('currentUser')}" th:errors="*{currentUser}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{hardware.assigned.date.label}">지급일</td>
+                <td colspan="6">
+                    <input type="date" id="assignedDate" name="assignedDate" class="date-box hw-info" max="2100-12-31" min="1900-01-01" th:value="*{assignedDate}">
+                    <p class="field-error" th:if="${#fields.hasErrors('assignedDate')}" th:errors="*{assignedDate}"></p>
+                </td>
+                <td th:text="#{hardware.previous.user.label}">전 사용자</td>
+                <td colspan="6">
+                    <input type="text" class="hw-info" id="previousUser" name="previousUser" th:value="*{previousUser}">
+                    <p class="field-error" th:if="${#fields.hasErrors('previousUser')}" th:errors="*{previousUser}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{hardware.return.date.label}">반납일</td>
+                <td colspan="6">
+                    <input type="date" id="returnDate" name="returnDate" class="date-box hw-info" max="2100-12-31" min="1900-01-01" th:value="*{returnDate}">
+                    <p class="field-error" th:if="${#fields.hasErrors('returnDate')}" th:errors="*{returnDate}"></p>
+                </td>
+                <td th:text="#{hardware.memory}">메모리</td>
+                <td colspan="6" class="right-select">
+                    <input type="text" class="hw-info" id="memory" name="memory" th:value="*{memory}">
+                    <select class="select memory" id="memorySelect" name="memorySelect">
+                        <option value="GB">GB</option>
+                    </select>
+                    <p class="field-error" th:if="${#fields.hasErrors('memory')}" th:errors="*{memory}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2" th:text="#{hardware.note.label}">비고</td>
+                <td colspan="12">
+                    <input type="text" id="note" name="note" th:value="*{note}">
+                    <p class="field-error" th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></p>
+                </td>
+            </tr>
+            <!-- Hidden field for automatically generated asset code -->
+            <input type="hidden" id="assetCode" name="assetCode">
+        </table>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{hardware.button.edit}">수정</button> <!-- 수정된 부분: 버튼 텍스트 변경 -->
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg" type="button" onclick="cancelEdit()"
+                        th:text="#{hardware.button.cancel}">취소</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    // Update asset code function
+    function updateAssetCode() {
+        var assetType = document.getElementById('assetType').value;
+        var purchaseDate = document.getElementById('purchaseDate').value;
+        var sn = document.getElementById('sn').value;
+
+        var year = purchaseDate.split('-')[0].slice(-2);
+        var month = purchaseDate.split('-')[1];
+
+        var assetCode = 'HW-' + year + month + '-' + sn.slice(-4);
+
+        document.getElementById('assetCode').value = assetCode;
+    }
+
+    // Call update asset code function on form submission
+    document.getElementById("editForm").addEventListener("submit", function (event) {
+        updateAssetCode(); // Update asset code
+    });
+
+    // Cancel button action
+    function cancelEdit() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

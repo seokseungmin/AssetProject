@@ -2,16 +2,19 @@ package com.example.assetproject.service;
 
 import com.example.assetproject.dto.Asset;
 import com.example.assetproject.dto.Hardware;
+import com.example.assetproject.dto.HardwareAssetDTO;
 import com.example.assetproject.form.AssetHardwareAddForm;
+import com.example.assetproject.form.AssetHardwareUpdateForm;
 import com.example.assetproject.repository.AssetRepository;
 import com.example.assetproject.repository.HardwareRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class HardwareService {
@@ -60,8 +63,48 @@ public class HardwareService {
         return assetIdx;
     }
 
-    public Hardware findOne(Long id) {
-        return hardwareRepository.findOne(id);
+    public Hardware findById(Long hardwareIdx) {
+        return hardwareRepository.findById(hardwareIdx);
     }
 
+    @Transactional
+    public void update(Long hardwareIdx, AssetHardwareUpdateForm form) {
+
+        Hardware hardware = hardwareRepository.findById(hardwareIdx);
+        if (hardware == null) {
+            throw new IllegalArgumentException("Hardware not found with id: " + hardwareIdx);
+        }
+
+        // Asset 엔티티 업데이트 로직 추가
+        Asset asset = assetRepository.findById(hardware.getAssetIdx());
+        log.debug("asset ={}", asset);
+        if (asset == null) {
+            throw new IllegalArgumentException("Asset not found with id: " + hardware.getAssetIdx());
+        }
+
+        // form으로부터 받은 값으로 Asset 엔티티 업데이트
+        asset.setAssetCode(form.getAssetCode());
+        asset.setAssetName(form.getAssetName());
+        asset.setAssetStatus(form.getAssetStatus());
+        asset.setAssetType(form.getAssetType());
+        asset.setAssignedDate(form.getAssignedDate());
+        asset.setCurrentUser(form.getCurrentUser());
+        asset.setDept(form.getDept());
+        asset.setLocation(form.getLocation());
+        asset.setManufacturer(form.getManufacturer());
+        asset.setPreviousUser(form.getPreviousUser());
+        asset.setPurchaseDate(form.getPurchaseDate());
+        asset.setReturnDate(form.getReturnDate());
+        asset.setSn(form.getSn());
+
+        assetRepository.update(asset);
+
+        hardware.update(form.getCpu(), form.getSsd(), form.getHdd(), form.getMemory(), form.getNote());
+        hardwareRepository.update(hardware);
+    }
+
+
+    public HardwareAssetDTO findHardwareById(Long hardwareIdx) {
+        return hardwareRepository.findHardwareById(hardwareIdx);
+    }
 }

@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title th:text="#{software.form.title}">소프트웨어 자산 수정 폼</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+            margin-top: 50px;
+        }
+        .field-error{
+            color: #dc3545;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2 th:text="#{software.edit.form.title}">소프트웨어 자산 수정 폼</h2>
+        <h6><span th:text="#{software.required}">는 필수 입력 항목입니다.</span></h6>
+    </div>
+    <h4 class="mb-3">자산 입력</h4>
+    <form id="editForm" th:action="@{|/assets/${software.softwareIdx}/edit/software|}" th:object="${software}" method="post">
+        <table>
+            <tr>
+                <td rowspan="6" class="schema" th:text="#{software.asset}">자산</td>
+                <td class="property">*<span th:text="#{software.asset.name}">자산명</span></td>
+                <td colspan="5" class="input">
+                    <input type="text" id="assetName" name="assetName" th:value="*{assetName}" placeholder="" />
+                    <p class="field-error" th:if="${#fields.hasErrors('assetName')}" th:errors="*{assetName}"></p>
+                </td>
+                <td class="property input">*<span th:text="#{software.serial.number.placeholder}">S/N</span></td>
+                <td colspan="5">
+                    <input type="text" id="sn" name="sn" th:value="*{sn}" placeholder="" />
+                    <p class="field-error" th:if="${#fields.hasErrors('sn')}" th:errors="*{sn}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td class="property">*<span th:text="#{software.purchase.date.placeholder}">구매일</span></td>
+                <td colspan="5">
+                    <input type="date" id="purchaseDate" name="purchaseDate" class="date-box hw-info" max="2100-12-31" min="1900-01-01" th:value="*{purchaseDate}" placeholder="" />
+                    <p class="field-error" th:if="${#fields.hasErrors('purchaseDate')}" th:errors="*{purchaseDate}"></p>
+                </td>
+                <td class="property">*<span th:text="#{software.asset.status.label}">자산 상태</span></td>
+                <td colspan="5" class="center-select">
+                    <select class="select" id="assetStatus" name="assetStatus" th:field="*{assetStatus}">
+                        <option value=""><span th:text="#{software.asset.status.select}"></span></option>
+                        <option value="ASSIGNED" th:text="#{software.asset.status.assigned}">입고</option>
+                        <option value="RETURNED" th:text="#{software.asset.status.returned}">출고</option>
+                    </select>
+                    <p class="field-error" th:if="${#fields.hasErrors('assetStatus')}" th:errors="*{assetStatus}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td class="property">*<span th:text="#{software.location.label}">위치</span></td>
+                <td colspan="5">
+                    <input type="text" class="hw-info" placeholder="" id="location" name="location" th:value="*{location}"/>
+                    <p class="field-error" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></p>
+                </td>
+                <td class="property"><span th:text="#{software.department.select.placeholder}">부서</span></td>
+                <td colspan="5" class="center-select">
+                    <select class="select" id="dept" name="dept" th:field="*{dept}">
+                        <option value= ""><span th:text="#{software.select.department}"></span></option>
+                        <option value="대표이사" th:text="#{software.option.ceo}">대표이사</option>
+                        <option value="경영고문" th:text="#{software.option.management_consultant}">경영고문</option>
+                        <option value="전략운영팀" th:text="#{software.option.strategy_operation_team}">전략운영팀</option>
+                        <option value="사업팀" th:text="#{software.option.business_team}">사업팀</option>
+                        <option value="경영전략팀" th:text="#{software.option.management_strategy_team}">경영전략팀</option>
+                        <option value="UX팀" th:text="#{software.option.ux_team}">UX팀</option>
+                        <option value="사업1팀" th:text="#{software.option.business_team_1}">사업1팀</option>
+                        <option value="사업2팀" th:text="#{software.option.business_team_2}">사업2팀</option>
+                        <option value="아모레운영팀" th:text="#{software.option.amore_operation_team}">아모레운영팀</option>
+                        <option value="전략채널팀" th:text="#{software.option.strategy_channel_team}">전략채널팀</option>
+                        <option value="인턴" th:text="#{software.option.intern}">인턴</option>
+                    </select>
+                    <p class="field-error" th:if="${#fields.hasErrors('dept')}" th:errors="*{dept}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td class="property">*<span th:text="#{software.manufacturer.placeholder}">제조사</span></td>
+                <td colspan="5" class="input">
+                    <input type="text" id="manufacturer" name="manufacturer" th:value="*{manufacturer}" placeholder=""/>
+                    <p class="field-error" th:if="${#fields.hasErrors('manufacturer')}" th:errors="*{manufacturer}"></p>
+                </td>
+                <td class="property"><span th:text="#{software.current.user.placeholder}">현 사용자</span></td>
+                <td colspan="5" class="input">
+                    <input type="text" id="currentUser" name="currentUser" th:value="*{currentUser}" placeholder="" />
+                    <p class="field-error" th:if="${#fields.hasErrors('currentUser')}" th:errors="*{currentUser}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td class="property"><span th:text="#{software.expiry.date.placeholder}">만료일</span></td>
+                <td colspan="5">
+                    <input type="date" id="expiryDate" name="expiryDate" class="date-box hw-info" max="2100-12-31" min="1900-01-01" th:value="*{expiryDate}" placeholder="" />
+                    <p class="field-error" th:if="${#fields.hasErrors('expiryDate')}" th:errors="*{expiryDate}"></p>
+                </td>
+                <td class="property"><span th:text="#{software.previous.user.placeholder}">전 사용자</span></td>
+                <td colspan="5" class="input">
+                    <input type="text" id="previousUser" name="previousUser" th:value="*{previousUser}" placeholder="" />
+                    <p class="field-error" th:if="${#fields.hasErrors('previousUser')}" th:errors="*{previousUser}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td class="property"><span th:text="#{software.assigned.date.placeholder}">지급일</span></td>
+                <td colspan="5">
+                    <input type="date" id="assignedDate" name="assignedDate" class="date-box hw-info" max="2100-12-31" min="1900-01-01" th:value="*{assignedDate}" placeholder="" />
+                    <p class="field-error" th:if="${#fields.hasErrors('assignedDate')}" th:errors="*{assignedDate}"></p>
+                </td>
+                <td class="property"><span th:text="#{software.return.date.placeholder}">반납일</span></td>
+                <td colspan="5">
+                    <input type="date" id="returnDate" name="returnDate" class="date-box hw-info" max="2100-12-31" min="1900-01-01" th:value="*{returnDate}" placeholder="" />
+                    <p class="field-error" th:if="${#fields.hasErrors('returnDate')}" th:errors="*{returnDate}"></p>
+                </td>
+            </tr>
+            <!-- assetType을 SOFTWARE로 설정하는 hidden 필드 -->
+            <input type="hidden" id="assetType" name="assetType" value="SOFTWARE">
+            <!-- 아래에 자산 코드 자동 생성을 위한 hidden 필드 추가 -->
+            <input type="hidden" id="assetCode" name="assetCode" th:value="*{assetCode}">
+        </table>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{software.asset.update}">수정</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg" type="button" onclick="cancelEdit()" th:text="#{software.button.cancel}">취소</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    function cancelEdit() {
+        window.history.back();
+    }
+    // 폼이 제출될 때 자산 코드 업데이트 함수를 호출
+    document.getElementById("editForm").addEventListener("submit", function(event) {
+        updateAssetCode(); // 자산 코드 업데이트
+        // 다음 코드는 폼 제출을 계속 진행합니다.
+    });
+
+    // 자산 코드 업데이트 함수
+    function updateAssetCode() {
+        // 필요한 정보 가져오기
+        var purchaseDate = document.getElementById('purchaseDate').value;
+        var serialNumber = document.getElementById('sn').value;
+
+        // 년도에서 뒤의 두 자리와 월 추출
+        var yearLastTwoDigits = purchaseDate.split('-')[0].slice(-2);
+        var month = purchaseDate.split('-')[1];
+
+        // 자산 코드 생성
+        var assetCode = "SW-" + yearLastTwoDigits + month + "-" + serialNumber.slice(-4);
+
+        // 자동 생성된 자산 코드를 hidden 필드에 설정
+        document.getElementById('assetCode').value = assetCode;
+    }
+</script>
+</body>
+</html>

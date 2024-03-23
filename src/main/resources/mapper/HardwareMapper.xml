@@ -22,8 +22,36 @@
                  JOIN asset a ON hw.assetIdx = a.assetIdx
         </select>
 
-    <select id="findOne" parameterType="Long" resultType="Hardware">
-        select * from hardware where hardwareIdx= #{id}
+    <select id="findById" parameterType="Long" resultType="Hardware">
+        select * from hardware where hardwareIdx= #{hardwareIdx}
+    </select>
+
+    <select id="findHardwareById" parameterType="Long" resultType="HardwareAssetDTO">
+        SELECT
+            a.assetIdx,
+            a.assetCode,
+            a.assetName,
+            a.assetType,
+            a.assetStatus,
+            a.sn,
+            a.location,
+            a.dept,
+            a.purchaseDate,
+            a.assignedDate,
+            a.returnDate,
+            a.currentUser,
+            a.previousUser,
+            a.manufacturer,
+            h.hardwareIdx,
+            h.cpu,
+            h.ssd,
+            h.hdd,
+            h.memory,
+            h.usageDuration,
+            h.note
+        FROM hardware h
+                 JOIN asset a ON h.assetIdx = a.assetIdx
+        WHERE h.hardwareIdx = #{hardwareIdx}
     </select>
 
     <insert id="save" parameterType="Hardware" useGeneratedKeys="true" keyProperty="hardwareIdx">
@@ -33,5 +61,15 @@
             (#{assetIdx}, #{cpu}, #{ssd}, #{hdd}, #{memory}, #{note})
     </insert>
 
+    <update id="update" parameterType="Hardware">
+        UPDATE hardware
+        SET
+            cpu = #{cpu},
+            ssd = #{ssd},
+            hdd = #{hdd},
+            memory = #{memory},
+            note = #{note}
+        WHERE hardwareIdx = #{hardwareIdx}
+    </update>
 
 </mapper>

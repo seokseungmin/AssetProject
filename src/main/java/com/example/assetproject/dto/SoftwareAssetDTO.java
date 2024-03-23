@@ -1,21 +1,19 @@
 package com.example.assetproject.dto;
 
-
 import com.example.assetproject.types.Status;
 import com.example.assetproject.types.Type;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
-@NoArgsConstructor // 파라미터가 없는 기본 생성자를 생성
-@AllArgsConstructor // 모든 필드를 포함하는 생성자
-@EqualsAndHashCode
-public class Asset {
-    private Long assetIdx; // 고유 식별자로 충분
-    private Long hardwareIdx;
-    private Long softwareIdx;
+@NoArgsConstructor
+public class SoftwareAssetDTO {
+    // Asset 테이블 필드
+    private Long assetIdx;
     private String assetCode;
     private String assetName;
     private Type assetType;
@@ -29,5 +27,9 @@ public class Asset {
     private String currentUser;
     private String previousUser;
     private String manufacturer;
-}
 
+    // Hardware 테이블 필드
+    private Long softwareIdx;
+    private LocalDate expiryDate;
+    private String note;
+}

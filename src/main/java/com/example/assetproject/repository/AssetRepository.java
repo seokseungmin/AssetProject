@@ -1,7 +1,6 @@
 package com.example.assetproject.repository;
 
 import com.example.assetproject.dto.Asset;
-import com.example.assetproject.dto.Hardware;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,11 +21,11 @@ public class AssetRepository {
         sql.insert("Asset.saveHardwareAsset", asset);
     }
 
-    public Asset findOne(Long id) {
-        return sql.selectOne("Asset.findOne", id);
+    public Asset findById(Long id) {
+        return sql.selectOne("Asset.findById", id);
     }
 
-    public Long findAssetCodeOne(String assetCode) {
-        return sql.selectOne("Asset.findAssetCodeOne", assetCode);
+    public void update(Asset asset) {
+        sql.selectOne("Asset.update", asset);
     }
 }

@@ -7,13 +7,8 @@
         SELECT * FROM asset
     </select>
 
-    <select id="findOne" parameterType="Long" resultType="Asset">
+    <select id="findById" parameterType="Long" resultType="Asset">
         select * from asset where assetIdx= #{id}
-    </select>
-
-
-    <select id="findAssetCodeOne" parameterType="String" resultType="Asset">
-        select assetIdx from asset where assetCode= #{assetCode}
     </select>
 
     <insert id="saveHardwareAsset" parameterType="Asset" useGeneratedKeys="true" keyProperty="assetIdx">
@@ -27,11 +22,30 @@
              #{manufacturer})
     </insert>
 
-    <insert id="saveSoftwareAsset" parameterType="com.example.assetproject.dto.Asset" useGeneratedKeys="true" keyProperty="assetIdx">
+    <insert id="saveSoftwareAsset" parameterType="Asset" useGeneratedKeys="true" keyProperty="assetIdx">
         INSERT INTO asset
         (assetCode, assetName, sn, purchaseDate, assetStatus, location, dept, manufacturer, currentUser, assignedDate, previousUser, returnDate, expiryDate)
         VALUES
             (#{assetCode}, #{assetName}, #{sn}, #{purchaseDate}, #{assetStatus}, #{location}, #{dept}, #{manufacturer}, #{currentUser}, #{assignedDate}, #{previousUser}, #{returnDate}, #{expiryDate})
     </insert>
+
+    <update id="update" parameterType="Asset">
+        UPDATE asset
+        SET
+            assetCode = #{assetCode},
+            assetName = #{assetName},
+            assetType = #{assetType},
+            assetStatus = #{assetStatus},
+            sn = #{sn},
+            location = #{location},
+            dept = #{dept},
+            purchaseDate = #{purchaseDate},
+            assignedDate = #{assignedDate},
+            returnDate = #{returnDate},
+            currentUser = #{currentUser},
+            previousUser = #{previousUser},
+            manufacturer = #{manufacturer}
+        WHERE assetIdx = #{assetIdx}
+    </update>
 
 </mapper>
