@@ -47,7 +47,7 @@
 <img src="https://img.shields.io/badge/Lombok-59666C?style=for-the-badge&logo=Lombok&logoColor=white"/>
 <img src="https://img.shields.io/badge/Mysql-59666C?style=for-the-badge&logo=MySql&logoColor=white"/>
 <img src="https://img.shields.io/badge/html-59666C?style=for-the-badge&logo=Html&logoColor=white"/>
-<img src="https://img.shields.io/badge/css-59666C?style=for-the-badge&logo=Css&logoColor=white"/>
-<img src="https://img.shields.io/badge/javascript-59666C?style=for-the-badge&logo=javascript&logoColor=white"/>
-
+<img alt="Css" src ="https://img.shields.io/badge/CSS3-59666C.svg?&style=for-the-badge&logo=CSS3&logoColor=white"/> 
+<img alt="JavaScript" src ="https://img.shields.io/badge/JavaScript-59666C.svg?&style=for-the-badge&logo=JavaScript&logoColor=white"/>
+ 
 </div>
