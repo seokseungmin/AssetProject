@@ -42,9 +42,9 @@
 <img src="https://img.shields.io/badge/Mybatis-59666C?style=for-the-badge&logo=Spring&logoColor=white"/>
 <img src="https://img.shields.io/badge/Validation-59666C?style=for-the-badge&logo=Spring&logoColor=white"/>
 <img src="https://img.shields.io/badge/Devtools-59666C?style=for-the-badge&logo=Spring&logoColor=white"/><br>
-<img src="https://img.shields.io/badge/Java-59666C?style=for-the-badge&logo=Java&logoColor=white"/>
+<img src="https://img.shields.io/badge/Spring-59666C?style=for-the-badge&logo=Java&logoColor=white"/>
 <img src="https://img.shields.io/badge/gradle-59666C?style=for-the-badge&logo=gradle&logoColor=white"/>
-<img src="https://img.shields.io/badge/Lombok-59666C?style=for-the-badge&logo=Lombok&logoColor=white"/>
+<img src="https://img.shields.io/badge/Spring-59666C?style=for-the-badge&logo=Lombok&logoColor=white"/>
 <img src="https://img.shields.io/badge/Mysql-59666C?style=for-the-badge&logo=MySql&logoColor=white"/>
 <img alt="Html" src ="https://img.shields.io/badge/HTML5-59666C.svg?&style=for-the-badge&logo=HTML5&logoColor=white"/>
 <img alt="Css" src ="https://img.shields.io/badge/CSS3-59666C.svg?&style=for-the-badge&logo=CSS3&logoColor=white"/> 
