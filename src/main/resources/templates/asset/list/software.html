@@ -3,25 +3,40 @@
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        function toggleCheckboxes(source) {
+            checkboxes = document.getElementsByName('softwareIds');
+            for(var i = 0, n = checkboxes.length; i < n; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="container" style="max-width: 800px; margin-top: 50px;">
     <div class="py-5 text-center">
         <h2 th:text="#{software.list.title}">Software List</h2>
     </div>
-    <div class="row">
+    <div class="row mb-3">
         <div class="col">
             <button class="btn btn-primary float-end" onclick="location.href='addForm.html'"
                     th:onclick="|location.href='@{/assets/add/software}'|" type="button">
-                <span th:text="#{software.register}">Register software</span>
+                <span th:text="#{software.register}">Register Software</span>
             </button>
         </div>
     </div>
-    <hr class="my-4">
-    <div>
+
+    <form th:action="@{/assets/deleteSelectedSoftware}" method="post">
+        <div class="row mb-3">
+            <div class="col">
+                <button type="submit" class="btn btn-danger">Delete Selected</button>
+            </div>
+        </div>
+
         <table class="table">
             <thead>
             <tr>
+                <th><input type="checkbox" onclick="toggleCheckboxes(this)"/></th>
                 <th>ID</th>
                 <th th:text="#{software.asset.name}">Asset Name</th>
                 <th th:text="#{software.asset.type}">Asset Type</th>
@@ -34,18 +49,19 @@
             </thead>
             <tbody>
             <tr th:each="software : ${softwares}">
-                <td><a th:href="@{'/assets/' + ${software.softwareIdx} + '/edit/software'}" th:text="${software.softwareIdx}">ID</a></td>
-                <td th:text="${software.assetName}">Asset Name</td>
-                <td th:text="${software.assetType}">Asset Type</td>
-                <td th:text="${software.assetStatus}">Asset Status</td>
-                <td th:text="${software.location}">Location</td>
-                <td th:text="${software.dept}">Department</td>
-                <td th:text="${software.currentUser}">Current User</td>
-                <td th:text="${software.expiryDate}">Expiry Date</td>
+                <td><input type="checkbox" th:value="${software.softwareIdx}" name="softwareIds"/></td>
+                <td th:text="${software.softwareIdx}"></td>
+                <td th:text="${software.assetName}"></td>
+                <td th:text="${software.assetType}"></td>
+                <td th:text="${software.assetStatus}"></td>
+                <td th:text="${software.location}"></td>
+                <td th:text="${software.dept}"></td>
+                <td th:text="${software.currentUser}"></td>
+                <td th:text="${software.expiryDate}"></td>
             </tr>
             </tbody>
         </table>
-    </div>
+    </form>
 </div> <!-- /container -->
 </body>
 </html>

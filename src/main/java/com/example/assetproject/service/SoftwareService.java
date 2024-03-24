@@ -1,10 +1,8 @@
 package com.example.assetproject.service;
 
-import com.example.assetproject.dto.Asset;
-import com.example.assetproject.dto.Hardware;
-import com.example.assetproject.dto.Software;
+import com.example.assetproject.entity.Asset;
+import com.example.assetproject.entity.Software;
 import com.example.assetproject.dto.SoftwareAssetDTO;
-import com.example.assetproject.form.AssetHardwareUpdateForm;
 import com.example.assetproject.form.AssetSoftwareAddForm;
 import com.example.assetproject.form.AssetSoftwareUpdateForm;
 import com.example.assetproject.repository.AssetRepository;
@@ -102,5 +100,17 @@ public class SoftwareService {
         return softwareRepository.findSoftwareById(softwareIdx);
     }
 
-
+    @Transactional
+    public void deleteSelectedSoftware(List<Long> softwareIds) {
+        for (Long softwareIdx : softwareIds) {
+            // 각 소프트웨어에 대해 Asset ID(assetIdx)를 찾아낸다.
+            Long assetIdx = softwareRepository.findAssetIdxBySoftwareIdx(softwareIdx);
+            if (assetIdx != null) {
+                // 먼저 Software를 삭제한다.
+                softwareRepository.deleteById(softwareIdx);
+                // 연결된 Asset도 삭제한다.
+                assetRepository.deleteById(assetIdx);
+            }
+        }
+    }
 }

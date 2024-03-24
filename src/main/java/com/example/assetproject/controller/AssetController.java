@@ -1,6 +1,9 @@
 package com.example.assetproject.controller;
 
 import com.example.assetproject.dto.*;
+import com.example.assetproject.entity.Asset;
+import com.example.assetproject.entity.Hardware;
+import com.example.assetproject.entity.Software;
 import com.example.assetproject.form.AssetHardwareAddForm;
 import com.example.assetproject.form.AssetHardwareUpdateForm;
 import com.example.assetproject.form.AssetSoftwareAddForm;
@@ -171,5 +174,27 @@ public class AssetController {
         return "redirect:/assets/list/software";
 
     }
+
+    //하드웨어 자산 삭제
+    @PostMapping("/deleteSelectedHardware")
+    @Transactional
+    public String deleteSelectedHardware(@RequestParam("hardwareIds") List<Long> hardwareIds, RedirectAttributes redirectAttributes) {
+
+        // Hardware 자산 삭제
+        hardwareService.deleteSelectedHardware(hardwareIds);
+        redirectAttributes.addFlashAttribute("successMessage", "Selected hardware assets have been successfully deleted.");
+        return "redirect:/assets/list/hardware";
+    }
+
+    //소프트웨어 자산 삭제
+    @PostMapping("/deleteSelectedSoftware")
+    @Transactional
+    public String deleteSelectedSoftware(@RequestParam("softwareIds") List<Long> softwareIds, RedirectAttributes redirectAttributes) {
+
+        softwareService.deleteSelectedSoftware(softwareIds);
+        redirectAttributes.addFlashAttribute("successMessage", "Selected software assets have been successfully deleted.");
+        return "redirect:/assets/list/software";
+    }
+
 
 }

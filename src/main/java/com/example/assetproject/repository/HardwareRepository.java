@@ -1,14 +1,12 @@
 package com.example.assetproject.repository;
 
-import com.example.assetproject.dto.Hardware;
+import com.example.assetproject.entity.Hardware;
 import com.example.assetproject.dto.HardwareAssetDTO;
-import com.example.assetproject.form.AssetHardwareAddForm;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -36,4 +34,14 @@ public class HardwareRepository {
     public HardwareAssetDTO findHardwareById(Long hardwareIdx) {
         return sql.selectOne("Hardware.findHardwareById", hardwareIdx);
     }
+
+
+    public Long findAssetIdxByHardwareIdx(Long hardwareIdx) {
+        return sql.selectOne("Hardware.findAssetIdxByHardwareIdx", hardwareIdx);
+    }
+
+    public void deleteById(Long hardwareIdx) {
+        sql.delete("Hardware.deleteHardware", hardwareIdx);
+    }
+
 }

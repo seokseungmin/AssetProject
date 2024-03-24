@@ -1,7 +1,7 @@
 package com.example.assetproject.service;
 
-import com.example.assetproject.dto.Asset;
-import com.example.assetproject.dto.Hardware;
+import com.example.assetproject.entity.Asset;
+import com.example.assetproject.entity.Hardware;
 import com.example.assetproject.dto.HardwareAssetDTO;
 import com.example.assetproject.form.AssetHardwareAddForm;
 import com.example.assetproject.form.AssetHardwareUpdateForm;
@@ -106,5 +106,19 @@ public class HardwareService {
 
     public HardwareAssetDTO findHardwareById(Long hardwareIdx) {
         return hardwareRepository.findHardwareById(hardwareIdx);
+    }
+
+    @Transactional
+    public void deleteSelectedHardware(List<Long> hardwareIds) {
+        for (Long hardwareIdx : hardwareIds) {
+            // 각 소프트웨어에 대해 Asset ID(assetIdx)를 찾아낸다.
+            Long assetIdx = hardwareRepository.findAssetIdxByHardwareIdx(hardwareIdx);
+            if (assetIdx != null) {
+                // 먼저 Software를 삭제한다.
+                hardwareRepository.deleteById(hardwareIdx);
+                // 연결된 Asset도 삭제한다.
+                assetRepository.deleteById(assetIdx);
+            }
+        }
     }
 }

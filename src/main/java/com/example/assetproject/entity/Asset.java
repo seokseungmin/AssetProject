@@ -1,4 +1,4 @@
-package com.example.assetproject.dto;
+package com.example.assetproject.entity;
 
 
 import com.example.assetproject.types.Status;

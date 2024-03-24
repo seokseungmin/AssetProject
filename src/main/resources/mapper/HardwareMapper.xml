@@ -72,4 +72,12 @@
         WHERE hardwareIdx = #{hardwareIdx}
     </update>
 
+    <delete id="deleteHardware" parameterType="long">
+        DELETE FROM hardware WHERE hardwareIdx = #{hardwareIdx}
+    </delete>
+
+    <select id="findAssetIdxByHardwareIdx" parameterType="Long" resultType="Long">
+        select assetIdx from hardware where hardwareIdx= #{hardwareIdx}
+    </select>
+
 </mapper>

@@ -1,6 +1,6 @@
 package com.example.assetproject.service;
 
-import com.example.assetproject.dto.Asset;
+import com.example.assetproject.entity.Asset;
 import com.example.assetproject.repository.AssetRepository;
 import com.example.assetproject.repository.HardwareRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +23,7 @@ public class AssetService {
         return assetRepository.findById(id);
     }
 
-
+    public void deleteHardware(Long assetIdx) {
+        assetRepository.deleteHardware(assetIdx);
+    }
 }

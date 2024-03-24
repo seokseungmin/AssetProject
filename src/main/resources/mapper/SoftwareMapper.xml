@@ -60,4 +60,12 @@
             (#{assetIdx}, #{expiryDate}, #{note})
     </insert>
 
+    <delete id="deleteSoftware" parameterType="long">
+        DELETE FROM software WHERE softwareIdx = #{softwareIdx}
+    </delete>
+
+    <select id="findAssetIdxBySoftwareIdx" parameterType="long" resultType="long">
+        SELECT assetIdx FROM software WHERE softwareIdx = #{softwareIdx}
+    </select>
+
 </mapper>

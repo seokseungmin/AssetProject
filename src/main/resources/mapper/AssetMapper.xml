@@ -48,4 +48,11 @@
         WHERE assetIdx = #{assetIdx}
     </update>
 
+    <delete id="deleteHardware" parameterType="long">
+        DELETE FROM asset WHERE assetIdx = #{assetIdx}
+    </delete>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM asset WHERE assetIdx = #{assetIdx}
+    </delete>
 </mapper>

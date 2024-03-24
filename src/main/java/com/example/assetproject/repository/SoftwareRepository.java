@@ -1,8 +1,7 @@
 package com.example.assetproject.repository;
 
-import com.example.assetproject.dto.Software;
+import com.example.assetproject.entity.Software;
 import com.example.assetproject.dto.SoftwareAssetDTO;
-import com.example.assetproject.form.AssetSoftwareUpdateForm;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -33,5 +32,13 @@ public class SoftwareRepository {
 
     public void update(Software software) {
         sql.update("Software.update", software);
+    }
+
+    public void deleteById(Long softwareIdx) {
+        sql.delete("Software.deleteSoftware", softwareIdx);
+    }
+
+    public Long findAssetIdxBySoftwareIdx(Long softwareIdx) {
+        return sql.selectOne("Software.findAssetIdxBySoftwareIdx", softwareIdx);
     }
 }

@@ -1,5 +1,6 @@
-package com.example.assetproject.dto;
+package com.example.assetproject.entity;
 
+import com.example.assetproject.entity.Asset;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

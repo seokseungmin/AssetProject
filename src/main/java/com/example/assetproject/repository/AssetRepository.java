@@ -1,6 +1,6 @@
 package com.example.assetproject.repository;
 
-import com.example.assetproject.dto.Asset;
+import com.example.assetproject.entity.Asset;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -27,5 +27,13 @@ public class AssetRepository {
 
     public void update(Asset asset) {
         sql.selectOne("Asset.update", asset);
+    }
+
+    public void deleteHardware(Long assetIdx) {
+        sql.delete("Asset.deleteHardware", assetIdx);
+    }
+
+    public void deleteById(Long assetIdx) {
+        sql.delete("Asset.deleteById", assetIdx);
     }
 }

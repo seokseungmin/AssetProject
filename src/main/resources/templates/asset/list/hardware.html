@@ -3,62 +3,75 @@
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        // 전체 선택 또는 선택 해제
+        function toggleCheckboxes(source) {
+            checkboxes = document.getElementsByName('hardwareIds');
+            for(var i = 0, n = checkboxes.length; i < n; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+    </script>
 </head>
 <body>
-<div class="container" style="max-width: 800px; margin-top: 50px;">
-    <div class="py-5 text-center">
-        <h2 th:text="#{hardware.list.title}">Hardware List</h2>
-    </div>
-    <div class="row">
-        <div class="col">
-            <button class="btn btn-primary float-end" onclick="location.href='addForm.html'"
-                    th:onclick="|location.href='@{/assets/add/hardware}'|" type="button">
-                <span th:text="#{hardware.register}">Register Hardware</span>
-            </button>
+    <div class="container" style="max-width: 800px; margin-top: 50px;">
+        <div class="py-5 text-center">
+            <h2 th:text="#{hardware.list.title}">Hardware List</h2>
         </div>
-    </div>
-    <hr class="my-4">
-    <div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary float-end" th:href="@{/assets/add/hardware}">Register Hardware</a>
+            </div>
+        </div>
+
+        <hr class="my-4">
+    <form th:action="@{/assets/deleteSelectedHardware}" method="post">
+        <div class="mb-3">
+            <button type="submit" class="btn btn-danger">Delete Selected</button>
+        </div>
         <table class="table">
             <thead>
             <tr>
+                <th><input type="checkbox" onclick="toggleCheckboxes(this)"/></th>
                 <th>ID</th>
-                <th><span th:text="#{hardware.asset.name}">Asset Name</span></th>
-                <th><span th:text="#{hardware.asset.type}">Asset Type</span></th>
-                <th><span th:text="#{hardware.asset.status}">Asset Status</span></th>
-                <th><span th:text="#{hardware.location}">Location</span></th>
-                <th><span th:text="#{hardware.department}">Department</span></th>
-                <th><span th:text="#{hardware.current.user}">Current User</span></th>
-                <th><span th:text="#{hardware.cpu}">CPU</span></th>
-                <th><span th:text="#{hardware.ssd}">SSD</span></th>
-                <th><span th:text="#{hardware.hdd}">HDD</span></th>
-                <th><span th:text="#{hardware.memory}">Memory</span></th>
-                <th><span th:text="#{hardware.usage.period}">Usage Period</span></th>
-                <th><span th:text="#{hardware.note}">Note</span></th>
+                <th>Asset Name</th>
+                <th>Asset Type</th>
+                <th>Asset Status</th>
+                <th>Location</th>
+                <th>Department</th>
+                <th>Current User</th>
+                <th>CPU</th>
+                <th>SSD</th>
+                <th>HDD</th>
+                <th>Memory</th>
+                <th>Usage Period</th>
+                <th>Note</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="hardware : ${hardwares}">
-                <td><a th:href="@{'/assets/' + ${hardware.hardwareIdx} + '/edit/hardware'}" th:text="${hardware.hardwareIdx}">ID</a></td>
-                <td th:text="${hardware.assetName}">Asset Name</td>
-                <td th:text="${hardware.assetType}">Asset Type</td>
-                <td th:text="${hardware.assetStatus}">Asset Status</td>
-                <td th:text="${hardware.location}">Location</td>
-                <td th:text="${hardware.dept}">Department</td>
-                <td th:text="${hardware.currentUser}">Current User</td>
-                <td th:text="${hardware.cpu}">CPU</td>
-                <td th:text="${hardware.ssd}">SSD</td>
-                <td th:text="${hardware.hdd}">HDD</td>
-                <td th:text="${hardware.memory}">Memory</td>
+                <td><input type="checkbox" th:value="${hardware.hardwareIdx}" name="hardwareIds"/></td>
+                <td th:text="${hardware.hardwareIdx}"></td>
+                <td th:text="${hardware.assetName}"></td>
+                <td th:text="${hardware.assetType}"></td>
+                <td th:text="${hardware.assetStatus}"></td>
+                <td th:text="${hardware.location}"></td>
+                <td th:text="${hardware.dept}"></td>
+                <td th:text="${hardware.currentUser}"></td>
+                <td th:text="${hardware.cpu}"></td>
+                <td th:text="${hardware.ssd}"></td>
+                <td th:text="${hardware.hdd}"></td>
+                <td th:text="${hardware.memory}"></td>
                 <td>
-                    <span th:if="${hardware.purchaseDate != null}"
-                          th:text="${T(java.time.Period).between(hardware.purchaseDate, T(java.time.LocalDate).now()).getDays()} + 'days'"></span>
+                    <span th:if="${hardware.usageDuration}">
+                        <span th:text="${hardware.usageDuration}">0</span> days
+                    </span>
                 </td>
-                <td th:text="${hardware.note}">Note</td>
+                <td th:text="${hardware.note}"></td>
             </tr>
             </tbody>
         </table>
-    </div>
+    </form>
 </div> <!-- /container -->
 </body>
 </html>
