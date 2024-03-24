@@ -63,3 +63,48 @@
 <img alt="JavaScript" src ="https://img.shields.io/badge/JavaScript-59666C.svg?&style=for-the-badge&logo=JavaScript&logoColor=white"/>
  
 </div>
+
+<h2 align="center"> Tables </h2>
+
+```sql
+CREATE TABLE `asset` (
+  `assetIdx` BIGINT AUTO_INCREMENT PRIMARY KEY,
+  `assetCode` VARCHAR(255) NULL,
+  `assetName` VARCHAR(255) NULL,
+  `assetType` ENUM('MONITOR', 'NOTEBOOK', 'PHONE', 'SOFTWARE') NULL,
+  `assetStatus` ENUM('ASSIGNED', 'RETURNED', 'INACTIVE', 'ACTIVE') NULL,
+  `sn` VARCHAR(255) NULL,
+  `location` VARCHAR(255) NULL,
+  `dept` VARCHAR(255) NULL,
+  `purchaseDate` DATE NULL,
+  `assignedDate` DATE NULL,
+  `returnDate` DATE NULL,
+  `currentUser` VARCHAR(255) NULL,
+  `previousUser` VARCHAR(255) NULL,
+  `manufacturer` VARCHAR(255) NULL
+);
+
+CREATE TABLE `hardware` (
+  `hardwareIdx` BIGINT AUTO_INCREMENT PRIMARY KEY,
+  `assetIdx` BIGINT NULL,
+  `cpu` VARCHAR(255) NULL,
+  `ssd` VARCHAR(255) NULL,
+  `hdd` VARCHAR(255) NULL,
+  `memory` VARCHAR(255) NULL,
+  `usageDuration` DATE NULL,
+  `note` TEXT NULL,
+  CONSTRAINT `hardware_ibfk_1` FOREIGN KEY (`assetIdx`) REFERENCES `asset` (`assetIdx`)
+);
+
+CREATE INDEX `idx_hardware_assetIdx` ON `hardware` (`assetIdx`);
+
+CREATE TABLE `software` (
+  `softwareIdx` BIGINT AUTO_INCREMENT PRIMARY KEY,
+  `assetIdx` BIGINT NULL,
+  `expiryDate` DATE NULL,
+  `note` TEXT NULL,
+  CONSTRAINT `software_ibfk_1` FOREIGN KEY (`assetIdx`) REFERENCES `asset` (`assetIdx`)
+);
+
+CREATE INDEX `idx_software_assetIdx` ON `software` (`assetIdx`);
+```
