@@ -68,4 +68,8 @@
         SELECT assetIdx FROM software WHERE softwareIdx = #{softwareIdx}
     </select>
 
+    <select id="findSoftwareIdxByAssetIdx" parameterType="long" resultType="long">
+        SELECT softwareIdx FROM software WHERE assetIdx = #{assetIdx}
+    </select>
+
 </mapper>

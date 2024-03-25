@@ -26,4 +26,8 @@ public class AssetService {
     public void deleteHardware(Long assetIdx) {
         assetRepository.deleteHardware(assetIdx);
     }
+
+    public String findAssetCodeById(Long assetIdx) {
+        return assetRepository.findAssetCodeById(assetIdx);
+    }
 }

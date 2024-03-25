@@ -34,24 +34,24 @@
             <tr>
                 <th><input type="checkbox" onclick="toggleCheckboxes(this)"/></th>
                 <th>ID</th>
-                <th>Asset Name</th>
-                <th>Asset Type</th>
-                <th>Asset Status</th>
-                <th>Location</th>
-                <th>Department</th>
-                <th>Current User</th>
-                <th>CPU</th>
-                <th>SSD</th>
-                <th>HDD</th>
-                <th>Memory</th>
-                <th>Usage Period</th>
-                <th>Note</th>
+                <th><span th:text="#{hardware.asset.name}">Asset Name</span></th>
+                <th><span th:text="#{hardware.asset.type}">Asset Type</span></th>
+                <th><span th:text="#{hardware.asset.status}">Asset Status</span></th>
+                <th><span th:text="#{hardware.location}">Location</span></th>
+                <th><span th:text="#{hardware.department}">Department</span></th>
+                <th><span th:text="#{hardware.current.user}">Current User</span></th>
+                <th><span th:text="#{hardware.cpu}">CPU</span></th>
+                <th><span th:text="#{hardware.ssd}">SSD</span></th>
+                <th><span th:text="#{hardware.hdd}">HDD</span></th>
+                <th><span th:text="#{hardware.memory}">Memory</span></th>
+                <th><span th:text="#{hardware.usage.period}">Usage Period</span></th>
+                <th><span th:text="#{hardware.note}">Note</span></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="hardware : ${hardwares}">
                 <td><input type="checkbox" th:value="${hardware.hardwareIdx}" name="hardwareIds"/></td>
-                <td th:text="${hardware.hardwareIdx}"></td>
+                <td><a th:href="@{'/assets/' + ${hardware.hardwareIdx} + '/edit/hardware'}" th:text="${hardware.hardwareIdx}">ID</a></td>
                 <td th:text="${hardware.assetName}"></td>
                 <td th:text="${hardware.assetType}"></td>
                 <td th:text="${hardware.assetStatus}"></td>

@@ -41,4 +41,8 @@ public class SoftwareRepository {
     public Long findAssetIdxBySoftwareIdx(Long softwareIdx) {
         return sql.selectOne("Software.findAssetIdxBySoftwareIdx", softwareIdx);
     }
+
+    public Long findSoftwareIdxByAssetIdx(Long assetIdx) {
+        return sql.selectOne("Software.findSoftwareIdxByAssetIdx", assetIdx);
+    }
 }

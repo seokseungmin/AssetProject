@@ -80,4 +80,8 @@
         select assetIdx from hardware where hardwareIdx= #{hardwareIdx}
     </select>
 
+    <select id="findHardwareIdxByAssetIdx" parameterType="Long" resultType="Long">
+        select hardwareIdx from hardware where assetIdx= #{assetIdx}
+    </select>
+
 </mapper>

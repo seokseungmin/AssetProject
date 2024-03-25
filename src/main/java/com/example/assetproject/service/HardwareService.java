@@ -121,4 +121,8 @@ public class HardwareService {
             }
         }
     }
+
+    public Long findHardwareIdxByAssetIdx(Long assetIdx) {
+        return hardwareRepository.findHardwareIdxByAssetIdx(assetIdx);
+    }
 }

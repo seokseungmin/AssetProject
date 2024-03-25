@@ -112,6 +112,36 @@ public class AssetController {
         return "redirect:/assets/list/software";
     }
 
+    // 자산 타입 확인 및 수정 폼으로 리다이렉트
+    @GetMapping("/{assetIdx}/edit/asset")
+    public String editAssetForm(@PathVariable Long assetIdx, Model model) {
+        // 자산 코드 확인
+        String assetCode = assetService.findAssetCodeById(assetIdx);
+
+        if (assetCode != null) {
+            // 자산 코드에서 접두어 추출 (예: "HW", "SW")
+            String assetPrefix = assetCode.substring(0, 2);
+
+            if ("HW".equals(assetPrefix)) {
+
+                Long hardwareIdx =hardwareService.findHardwareIdxByAssetIdx(assetIdx);
+                HardwareAssetDTO hardware = hardwareService.findHardwareById(hardwareIdx);
+                model.addAttribute("hardware", hardware);
+                return "asset/edit/editHardwareForm";
+            } else if ("SW".equals(assetPrefix)) {
+
+                Long softwareIdx =softwareService.findSoftwareIdxByAssetIdx(assetIdx);
+                SoftwareAssetDTO software = softwareService.findSoftwareById(softwareIdx);
+                model.addAttribute("software", software);
+                return "asset/edit/editSoftwareForm";
+            }
+        }
+
+        // 자산 코드가 null이거나 기대하는 형식이 아닌 경우 적절한 에러 처리 또는 기본 페이지로 리다이렉트
+        return "redirect:/assets/list/asset";
+    }
+
+
     //하드웨어 자산 수정 폼
     @GetMapping("/{hardwareIdx}/edit/hardware")
     public String editHardwareForm(@PathVariable Long hardwareIdx, Model model){

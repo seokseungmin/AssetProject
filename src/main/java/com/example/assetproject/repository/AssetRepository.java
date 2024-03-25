@@ -36,4 +36,8 @@ public class AssetRepository {
     public void deleteById(Long assetIdx) {
         sql.delete("Asset.deleteById", assetIdx);
     }
+
+    public String findAssetCodeById(Long assetIdx) {
+        return sql.selectOne("Asset.findAssetCodeById", assetIdx);
+    }
 }

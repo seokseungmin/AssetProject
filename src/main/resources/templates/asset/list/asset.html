@@ -32,7 +32,7 @@
             </thead>
             <tbody>
             <tr th:each="asset : ${assets}">
-                <td><a th:href="@{|/Assets/${asset.assetIdx}|}" th:text="${asset.assetIdx}">ID</a></td>
+                <td><a th:href="@{'/assets/' + ${asset.assetIdx} + '/edit/asset'}" th:text="${asset.assetIdx}">ID</a></td>
                 <td th:text="${asset.assetCode}">자산번호</td>
                 <td th:text="${asset.assetName}">자산명</td>
                 <td th:text="${asset.assetType}">자산유형</td>

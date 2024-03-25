@@ -50,7 +50,7 @@
             <tbody>
             <tr th:each="software : ${softwares}">
                 <td><input type="checkbox" th:value="${software.softwareIdx}" name="softwareIds"/></td>
-                <td th:text="${software.softwareIdx}"></td>
+                <td><a th:href="@{'/assets/' + ${software.softwareIdx} + '/edit/software'}" th:text="${software.softwareIdx}">ID</a></td>
                 <td th:text="${software.assetName}"></td>
                 <td th:text="${software.assetType}"></td>
                 <td th:text="${software.assetStatus}"></td>

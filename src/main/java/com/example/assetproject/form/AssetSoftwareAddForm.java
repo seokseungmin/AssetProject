@@ -12,7 +12,6 @@ public class AssetSoftwareAddForm {
 
     private String assetCode; // 자산번호
 
-    private Long swIdx; // 소프트웨어 인덱스
     private Long assetIdx; // 자산인덱스
 
     @NotBlank(message = "자산명은 필수입니다.")

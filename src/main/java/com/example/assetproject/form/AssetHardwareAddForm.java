@@ -44,8 +44,6 @@ public class AssetHardwareAddForm {
     @NotBlank(message = "제조사는 필수입니다.")
     private String manufacturer; //제조사
 
-    private Long hwIdx; // 하드웨어 인덱스
-
     private String cpu; // 중앙처리장치
     private String ssd; // 스토리지
     private String hdd; // 하드디스크

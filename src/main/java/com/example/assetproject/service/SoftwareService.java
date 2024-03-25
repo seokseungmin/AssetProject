@@ -113,4 +113,8 @@ public class SoftwareService {
             }
         }
     }
+
+    public Long findSoftwareIdxByAssetIdx(Long assetIdx) {
+        return softwareRepository.findSoftwareIdxByAssetIdx(assetIdx);
+    }
 }
