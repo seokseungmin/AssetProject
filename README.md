@@ -22,16 +22,16 @@
 소프트웨어 자산 등록 페이지(검증기능 완료)<br>
 하드웨어 자산 수정 페이지(검증기능 완료)<br>
 소프트웨어 자산 수정 페이지(검증기능 완료)<br>
-
-만들어야할 페이지 및 기능들<br>
-
 하드웨어 자산 삭제 기능<br>
 소프트웨어 자산 삭제 기능<br>
+
+만들어야할 페이지 및 기능들<br>
 
 자산정렬<br>
 자산검색<br>
 페이징처리<br>
-------------------------------------- 여가까지 기능 만들고 전체코드 리펙토링 해보기.
+
+------------------------------------- 여기까지 기능 만들고 전체코드 리펙토링 해보기.
 
 관리자 로그인(스프링 시큐리티 JWT or OAuth2)<br>
 관리자 로그아웃<br>
@@ -63,3 +63,55 @@
 <img alt="JavaScript" src ="https://img.shields.io/badge/JavaScript-59666C.svg?&style=for-the-badge&logo=JavaScript&logoColor=white"/>
  
 </div>
+
+<h2 align="center"> Tables </h2>
+
+```sql
+CREATE TABLE `asset` (
+  `assetIdx` BIGINT AUTO_INCREMENT PRIMARY KEY,
+  `assetCode` VARCHAR(255) NULL,
+  `assetName` VARCHAR(255) NULL,
+  `assetType` ENUM('MONITOR', 'NOTEBOOK', 'PHONE', 'SOFTWARE') NULL,
+  `assetStatus` ENUM('ASSIGNED', 'RETURNED', 'INACTIVE', 'ACTIVE') NULL,
+  `sn` VARCHAR(255) NULL,
+  `location` VARCHAR(255) NULL,
+  `dept` VARCHAR(255) NULL,
+  `purchaseDate` DATE NULL,
+  `assignedDate` DATE NULL,
+  `returnDate` DATE NULL,
+  `currentUser` VARCHAR(255) NULL,
+  `previousUser` VARCHAR(255) NULL,
+  `manufacturer` VARCHAR(255) NULL
+);
+
+CREATE TABLE `hardware` (
+  `hardwareIdx` BIGINT AUTO_INCREMENT PRIMARY KEY,
+  `assetIdx` BIGINT NULL,
+  `cpu` VARCHAR(255) NULL,
+  `ssd` VARCHAR(255) NULL,
+  `hdd` VARCHAR(255) NULL,
+  `memory` VARCHAR(255) NULL,
+  `usageDuration` DATE NULL,
+  `note` TEXT NULL,
+  CONSTRAINT `hardware_ibfk_1` FOREIGN KEY (`assetIdx`) REFERENCES `asset` (`assetIdx`)
+);
+
+CREATE INDEX `idx_hardware_assetIdx` ON `hardware` (`assetIdx`);
+
+CREATE TABLE `software` (
+  `softwareIdx` BIGINT AUTO_INCREMENT PRIMARY KEY,
+  `assetIdx` BIGINT NULL,
+  `expiryDate` DATE NULL,
+  `note` TEXT NULL,
+  CONSTRAINT `software_ibfk_1` FOREIGN KEY (`assetIdx`) REFERENCES `asset` (`assetIdx`)
+);
+
+CREATE INDEX `idx_software_assetIdx` ON `software` (`assetIdx`);
+
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE software;
+TRUNCATE TABLE hardware;
+TRUNCATE TABLE asset;
+SET FOREIGN_KEY_CHECKS = 1;
+
+```
