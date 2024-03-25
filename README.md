@@ -107,4 +107,11 @@ CREATE TABLE `software` (
 );
 
 CREATE INDEX `idx_software_assetIdx` ON `software` (`assetIdx`);
+
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE software;
+TRUNCATE TABLE hardware;
+TRUNCATE TABLE asset;
+SET FOREIGN_KEY_CHECKS = 1;
+
 ```
