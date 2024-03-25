@@ -84,31 +84,152 @@
         select hardwareIdx from hardware where assetIdx= #{assetIdx}
     </select>
 
-    <select id="findAllWithPaging" parameterType="map" resultType="Hardware">
+<!--    <select id="findAllWithPaging" parameterType="map" resultType="Hardware">-->
+<!--        SELECT-->
+<!--            hw.hardwareIdx,-->
+<!--            hw.cpu,-->
+<!--            hw.ssd,-->
+<!--            hw.hdd,-->
+<!--            hw.memory,-->
+<!--            hw.note,-->
+<!--            a.assetName,-->
+<!--            a.assetType,-->
+<!--            a.assetStatus,-->
+<!--            a.purchaseDate,-->
+<!--            a.location,-->
+<!--            a.dept,-->
+<!--            a.currentUser-->
+<!--        FROM hardware hw-->
+<!--                 JOIN asset a ON hw.assetIdx = a.assetIdx-->
+<!--        ORDER BY hw.hardwareIdx ASC-->
+<!--            LIMIT #{pageSize} OFFSET #{offset}-->
+<!--    </select>-->
+
+<!--    <select id="countAll" resultType="Integer">-->
+<!--        SELECT-->
+<!--            COUNT(hardwareIdx)-->
+<!--        FROM hardware-->
+<!--    </select>-->
+
+    <select id="findAllWithPagingAndFilter" parameterType="map" resultType="Hardware">
         SELECT
-            hw.hardwareIdx,
-            hw.cpu,
-            hw.ssd,
-            hw.hdd,
-            hw.memory,
-            hw.note,
-            a.assetName,
-            a.assetType,
-            a.assetStatus,
-            a.purchaseDate,
-            a.location,
-            a.dept,
-            a.currentUser
+        hw.hardwareIdx,
+        hw.cpu,
+        hw.ssd,
+        hw.hdd,
+        hw.memory,
+        hw.note,
+        a.assetName,
+        a.assetType,
+        a.assetStatus,
+        a.purchaseDate,
+        a.location,
+        a.dept,
+        a.currentUser
         FROM hardware hw
-                 JOIN asset a ON hw.assetIdx = a.assetIdx
+        JOIN asset a ON hw.assetIdx = a.assetIdx
+        <where>
+            <if test="category != null and category != '' and keyword != null">
+                <choose>
+                    <when test="category == 'assetName'">
+                        AND a.assetName LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetType'">
+                        AND a.assetType LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetStatus'">
+                        AND a.assetStatus LIKE #{keyword}
+                    </when>
+                    <!-- 여기에 다른 카테고리 조건을 추가할 수 있습니다. -->
+                    <when test="category == 'assetType'">
+                        AND a.assetType LIKE #{keyword}
+                    </when>
+                    <when test="category == 'purchaseDate'">
+                        AND a.purchaseDate LIKE #{keyword}
+                    </when>
+                    <when test="category == 'location'">
+                        AND a.location LIKE #{keyword}
+                    </when>
+                    <when test="category == 'dept'">
+                        AND a.dept LIKE #{keyword}
+                    </when>
+                    <when test="category == 'currentUser'">
+                        AND a.currentUser LIKE #{keyword}
+                    </when>
+                    <when test="category == 'cpu'">
+                        AND hw.cpu LIKE #{keyword}
+                    </when>
+                    <when test="category == 'ssd'">
+                        AND hw.ssd LIKE #{keyword}
+                    </when>
+                    <when test="category == 'hdd'">
+                        AND hw.hdd LIKE #{keyword}
+                    </when>
+                    <when test="category == 'memory'">
+                        AND hw.memory LIKE #{keyword}
+                    </when>
+                    <when test="category == 'note'">
+                        AND hw.note LIKE #{keyword}
+                    </when>
+                </choose>
+            </if>
+        </where>
         ORDER BY hw.hardwareIdx ASC
-            LIMIT #{pageSize} OFFSET #{offset}
+        LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-    <select id="countAll" resultType="Integer">
-        SELECT
-            COUNT(hardwareIdx)
-        FROM hardware
+    <select id="countAllFiltered" parameterType="map" resultType="Integer">
+    SELECT
+    COUNT(hw.hardwareIdx)
+    FROM hardware hw
+    JOIN asset a ON hw.assetIdx = a.assetIdx
+    <where>
+    <if test="category != null and category != '' and keyword != null">
+        <choose>
+            <when test="category == 'assetName'">
+                AND a.assetName LIKE #{keyword}
+            </when>
+            <when test="category == 'assetType'">
+                AND a.assetType LIKE #{keyword}
+            </when>
+            <when test="category == 'assetStatus'">
+                AND a.assetStatus LIKE #{keyword}
+            </when>
+            <!-- 여기에 다른 카테고리 조건을 추가할 수 있습니다. -->
+            <when test="category == 'assetType'">
+                AND a.assetType LIKE #{keyword}
+            </when>
+            <when test="category == 'purchaseDate'">
+                AND a.purchaseDate LIKE #{keyword}
+            </when>
+            <when test="category == 'location'">
+                AND a.location LIKE #{keyword}
+            </when>
+            <when test="category == 'dept'">
+                AND a.dept LIKE #{keyword}
+            </when>
+            <when test="category == 'currentUser'">
+                AND a.currentUser LIKE #{keyword}
+            </when>
+            <when test="category == 'cpu'">
+                AND hw.cpu LIKE #{keyword}
+            </when>
+            <when test="category == 'ssd'">
+                AND hw.ssd LIKE #{keyword}
+            </when>
+            <when test="category == 'hdd'">
+                AND hw.hdd LIKE #{keyword}
+            </when>
+            <when test="category == 'memory'">
+                AND hw.memory LIKE #{keyword}
+            </when>
+            <when test="category == 'note'">
+                AND hw.note LIKE #{keyword}
+            </when>
+
+        </choose>
+    </if>
+    </where>
     </select>
 
 </mapper>

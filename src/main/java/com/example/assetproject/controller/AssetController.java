@@ -46,20 +46,25 @@ public class AssetController {
 
     //자산리스트 조회(페이징처리)
     @GetMapping("/list/asset")
-    public String assets(@RequestParam(defaultValue = "1") int page, Model model) {
+    public String assets(@RequestParam(defaultValue = "1") int page,
+                         @RequestParam(required = false) String category,
+                         @RequestParam(required = false) String keyword,
+                         Model model) {
 
         // 페이지 번호가 1 미만인 경우 1로 강제 설정
         page = Math.max(page, 1);
 
         int pageSize = 10; // 페이지당 보여줄 아이템 수
-        int totalItems = assetService.countAll(); // 전체 항목 수 계산
+        int totalItems = assetService.countAllFiltered(category, keyword);
         int totalPages = (int) Math.ceil((double) totalItems / pageSize); // 전체 페이지 수 계산
 
-        List<Asset> assets = assetService.findAllWithPaging(page, pageSize);
+        List<Asset> assets = assetService.findAllWithPagingAndFilter(page, pageSize, category, keyword);
         PaginationModel pagination = new PaginationModel(page, totalPages, totalItems, pageSize);
 
         model.addAttribute("assets", assets);
         model.addAttribute("pagination", pagination); // 페이징 정보 모델 추가
+        model.addAttribute("category", category);
+        model.addAttribute("keyword", keyword);
 
         return "asset/list/asset";
     }
@@ -75,20 +80,25 @@ public class AssetController {
 
     //소프트웨어 자산리스트 조회(페이징처리)
     @GetMapping("/list/software")
-    public String software(@RequestParam(defaultValue = "1") int page, Model model) {
+    public String software(@RequestParam(defaultValue = "1") int page,
+                           @RequestParam(required = false) String category,
+                           @RequestParam(required = false) String keyword,
+                           Model model) {
 
         // 페이지 번호가 1 미만인 경우 1로 강제 설정
         page = Math.max(page, 1);
 
         int pageSize = 10; // 페이지당 보여줄 아이템 수
-        int totalItems = softwareService.countAll(); // 전체 항목 수 계산
+        int totalItems = softwareService.countAllFiltered(category, keyword);
         int totalPages = (int) Math.ceil((double) totalItems / pageSize); // 전체 페이지 수 계산
 
-        List<Software> softwares = softwareService.findAllWithPaging(page, pageSize);
+        List<Software> softwares = softwareService.findAllWithPagingAndFilter(page, pageSize, category, keyword);
         PaginationModel pagination = new PaginationModel(page, totalPages, totalItems, pageSize);
 
         model.addAttribute("softwares", softwares);
         model.addAttribute("pagination", pagination); // 페이징 정보 모델 추가
+        model.addAttribute("category", category);
+        model.addAttribute("keyword", keyword);
 
         return "asset/list/software";
     }
@@ -103,21 +113,25 @@ public class AssetController {
 
     // //하드웨어 자산리스트 조회(페이징처리)
     @GetMapping("/list/hardware")
-    public String hardware(@RequestParam(defaultValue = "1") int page, Model model) {
+    public String hardware(@RequestParam(defaultValue = "1") int page,
+                           @RequestParam(required = false) String category,
+                           @RequestParam(required = false) String keyword,
+                           Model model) {
 
         // 페이지 번호가 1 미만인 경우 1로 강제 설정
         page = Math.max(page, 1);
 
         int pageSize = 10; // 페이지당 보여줄 아이템 수
-        int totalItems = hardwareService.countAll(); // 전체 항목 수 계산
-        int totalPages = (int) Math.ceil((double) totalItems / pageSize); // 전체 페이지 수 계산
+        int totalItems = hardwareService.countAllFiltered(category, keyword);
+        int totalPages = (int) Math.ceil((double) totalItems / pageSize);
 
-        List<Hardware> hardwares = hardwareService.findAllWithPaging(page, pageSize);
+        List<Hardware> hardwares = hardwareService.findAllWithPagingAndFilter(page, pageSize, category, keyword);
         PaginationModel pagination = new PaginationModel(page, totalPages, totalItems, pageSize);
 
         model.addAttribute("hardwares", hardwares);
-        model.addAttribute("pagination", pagination); // 페이징 정보 모델 추가
-
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("category", category);
+        model.addAttribute("keyword", keyword);
         return "asset/list/hardware";
     }
 

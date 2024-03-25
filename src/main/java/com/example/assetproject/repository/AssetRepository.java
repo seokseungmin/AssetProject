@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,11 +40,22 @@ public class AssetRepository {
         return sql.selectOne("Asset.findAssetCodeById", assetIdx);
     }
 
-    public List<Asset> findAllWithPaging(Map<String, Object> params) {
-        return sql.selectList("Asset.findAllWithPaging", params);
+//    public List<Asset> findAllWithPaging(Map<String, Object> params) {
+//        return sql.selectList("Asset.findAllWithPaging", params);
+//    }
+//
+//    public int countAll() {
+//        return sql.selectOne("Asset.countAll");
+//    }
+
+    public List<Asset> findAllWithPagingAndFilter(Map<String, Object> params) {
+        return sql.selectList("Asset.findAllWithPagingAndFilter", params);
     }
 
-    public int countAll() {
-        return sql.selectOne("Asset.countAll");
+    public int countAllFiltered(String category, String keyword) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("category", category);
+        params.put("keyword", keyword);
+        return sql.selectOne("Asset.countAllFiltered", params);
     }
 }

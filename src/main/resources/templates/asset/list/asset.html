@@ -18,6 +18,33 @@
         <h2 th:text="#{asset.list.title}">자산 목록</h2>
     </div>
 
+    <!-- 검색 폼 추가 -->
+    <div class="row mb-3">
+        <div class="col">
+            <!-- 별도의 검색 폼 -->
+            <form th:action="@{/assets/list/asset}" method="get">
+                <div class="input-group mb-3">
+                    <select class="form-select" id="category" name="category">
+                        <option value="">All Categories</option>
+                        <option value="assetName">Asset Name</option>
+                        <option value="assetCode">Asset Code</option>
+                        <option value="assetType">Asset Type</option>
+                        <option value="assetStatus">Asset Status</option>
+                        <option value="sn">Serial Number</option>
+                        <option value="location">Location</option>
+                        <option value="dept">Department</option>
+                        <option value="currentUser">Current User</option>
+                        <option value="previousUser">PreviousUser User</option>
+                        <option value="manufacturer">Manufacturer</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="Search..." name="keyword"/>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     <hr class="my-4">
     <div>
         <form th:action="@{/assets/deleteSelectedAsset}" method="post">
@@ -68,13 +95,13 @@
         <div>
             <ul class="pagination">
                 <li class="page-item" th:classappend="${pagination.currentPage == 1} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage - 1})}">Previous</a>
+                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage - 1}, category=${category}, keyword=${keyword})}">Previous</a>
                 </li>
                 <li class="page-item" th:each="i : ${#numbers.sequence(1, pagination.totalPages)}" th:classappend="${i == pagination.currentPage} ? 'active' : ''">
-                    <a class="page-link" th:text="${i}" th:href="@{/assets/list/asset(page=${i})}"></a>
+                    <a class="page-link" th:text="${i}" th:href="@{/assets/list/asset(page=${i}, category=${category}, keyword=${keyword})}"></a>
                 </li>
                 <li class="page-item" th:classappend="${pagination.currentPage == pagination.totalPages} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage + 1})}">Next</a>
+                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage + 1}, category=${category}, keyword=${keyword})}">Next</a>
                 </li>
             </ul>
         </div>

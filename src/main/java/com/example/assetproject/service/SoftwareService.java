@@ -121,15 +121,29 @@ public class SoftwareService {
         return softwareRepository.findSoftwareIdxByAssetIdx(assetIdx);
     }
 
-    public List<Software> findAllWithPaging(int pageNum, int pageSize) {
+//    public List<Software> findAllWithPaging(int pageNum, int pageSize) {
+//        int offset = (pageNum - 1) * pageSize;
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("offset", offset);
+//        params.put("pageSize", pageSize);
+//        return softwareRepository.findAllWithPaging(params);
+//    }
+//
+//    public int countAll() {
+//        return softwareRepository.countAll();
+//    }
+
+    public List<Software> findAllWithPagingAndFilter(int pageNum, int pageSize, String category, String keyword) {
         int offset = (pageNum - 1) * pageSize;
         Map<String, Object> params = new HashMap<>();
         params.put("offset", offset);
         params.put("pageSize", pageSize);
-        return softwareRepository.findAllWithPaging(params);
+        params.put("category", category);
+        params.put("keyword", "%" + (keyword == null ? "" : keyword) + "%"); // 와일드카드 검색을 위해 키워드 양쪽에 % 추가
+        return softwareRepository.findAllWithPagingAndFilter(params);
     }
 
-    public int countAll() {
-        return softwareRepository.countAll();
+    public int countAllFiltered(String category, String keyword) {
+        return softwareRepository.countAllFiltered(category, "%" + (keyword == null ? "" : keyword) + "%");
     }
 }

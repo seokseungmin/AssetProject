@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,13 +50,25 @@ public class HardwareRepository {
         return sql.selectOne("Hardware.findHardwareIdxByAssetIdx", assetIdx);
     }
 
-    // HardwareRepository.java
-    public List<Hardware> findAllWithPaging(Map<String, Object> params) {
-        return sql.selectList("Hardware.findAllWithPaging", params);
+
+//    public List<Hardware> findAllWithPaging(Map<String, Object> params) {
+//        return sql.selectList("Hardware.findAllWithPaging", params);
+//    }
+//
+//
+//    public int countAll() {
+//        return sql.selectOne("Hardware.countAll");
+//    }
+
+    public List<Hardware> findAllWithPagingAndFilter(Map<String, Object> params) {
+        return sql.selectList("Hardware.findAllWithPagingAndFilter", params);
     }
 
-
-    public int countAll() {
-        return sql.selectOne("Hardware.countAll");
+    public int countAllFiltered(String category, String keyword) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("category", category);
+        params.put("keyword", keyword);
+        return sql.selectOne("Hardware.countAllFiltered", params);
     }
+
 }

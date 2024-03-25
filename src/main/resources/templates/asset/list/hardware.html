@@ -24,6 +24,33 @@
             </div>
         </div>
 
+        <!-- 검색 폼 추가 -->
+        <div class="row mb-3">
+            <div class="col">
+                <!-- 별도의 검색 폼 -->
+                <form th:action="@{/assets/list/hardware}" method="get">
+                    <div class="input-group mb-3">
+                        <select class="form-select" id="category" name="category">
+                            <option value="">All Categories</option>
+                            <option value="assetName">Asset Name</option>
+                            <option value="assetType">Asset Type</option>
+                            <option value="assetStatus">Asset Status</option>
+                            <option value="location">Location</option>
+                            <option value="dept">Department</option>
+                            <option value="currentUser">Current User</option>
+                            <option value="cpu">CPU</option>
+                            <option value="ssd">SSD</option>
+                            <option value="hdd">HDD</option>
+                            <option value="memory">Memory</option>
+                            <option value="note">Note</option>
+                        </select>
+                        <input type="text" class="form-control" placeholder="Search..." name="keyword"/>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <hr class="my-4">
     <form th:action="@{/assets/deleteSelectedHardware}" method="post">
         <div class="mb-3">
@@ -76,13 +103,13 @@
         <div>
             <ul class="pagination">
                 <li class="page-item" th:classappend="${pagination.currentPage == 1} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{/assets/list/hardware(page=${pagination.currentPage - 1})}">Previous</a>
+                    <a class="page-link" th:href="@{/assets/list/hardware(page=${pagination.currentPage - 1}, category=${category}, keyword=${keyword})}">Previous</a>
                 </li>
                 <li class="page-item" th:each="i : ${#numbers.sequence(1, pagination.totalPages)}" th:classappend="${i == pagination.currentPage} ? 'active' : ''">
-                    <a class="page-link" th:text="${i}" th:href="@{/assets/list/hardware(page=${i})}"></a>
+                    <a class="page-link" th:text="${i}" th:href="@{/assets/list/hardware(page=${i}, category=${category}, keyword=${keyword})}"></a>
                 </li>
                 <li class="page-item" th:classappend="${pagination.currentPage == pagination.totalPages} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{/assets/list/hardware(page=${pagination.currentPage + 1})}">Next</a>
+                    <a class="page-link" th:href="@{/assets/list/hardware(page=${pagination.currentPage + 1}, category=${category}, keyword=${keyword})}">Next</a>
                 </li>
             </ul>
         </div>

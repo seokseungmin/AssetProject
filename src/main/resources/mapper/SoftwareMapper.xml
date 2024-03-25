@@ -73,26 +73,102 @@
     </select>
 
 
-    <select id="findAllWithPaging" parameterType="map" resultType="Software">
+<!--    <select id="findAllWithPaging" parameterType="map" resultType="Software">-->
+<!--        SELECT-->
+<!--            s.softwareIdx,-->
+<!--            a.assetName,-->
+<!--            a.assetType,-->
+<!--            a.assetStatus,-->
+<!--            a.location,-->
+<!--            a.dept,-->
+<!--            a.currentUser,-->
+<!--            s.expiryDate-->
+<!--        FROM software s-->
+<!--                 JOIN asset a ON s.assetIdx = a.assetIdx-->
+<!--        ORDER BY s.softwareIdx ASC-->
+<!--            LIMIT #{pageSize} OFFSET #{offset}-->
+<!--    </select>-->
+
+<!--    <select id="countAll" resultType="Integer">-->
+<!--        SELECT-->
+<!--            COUNT(softwareIdx)-->
+<!--        FROM software-->
+<!--    </select>-->
+
+    <select id="findAllWithPagingAndFilter" parameterType="map" resultType="Software">
         SELECT
-            s.softwareIdx,
-            a.assetName,
-            a.assetType,
-            a.assetStatus,
-            a.location,
-            a.dept,
-            a.currentUser,
-            s.expiryDate
-        FROM software s
-                 JOIN asset a ON s.assetIdx = a.assetIdx
-        ORDER BY s.softwareIdx ASC
-            LIMIT #{pageSize} OFFSET #{offset}
+        a.assetName,
+        a.assetType,
+        a.assetStatus,
+        a.location,
+        a.dept,
+        a.currentUser,
+        sw.expiryDate
+        FROM software sw
+        JOIN asset a ON sw.assetIdx = a.assetIdx
+        <where>
+            <if test="category != null and category != '' and keyword != null">
+                <choose>
+                    <when test="category == 'assetName'">
+                        AND a.assetName LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetType'">
+                        AND a.assetType LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetStatus'">
+                        AND a.assetStatus LIKE #{keyword}
+                    </when>
+                    <when test="category == 'location'">
+                        AND a.location LIKE #{keyword}
+                    </when>
+                    <when test="category == 'dept'">
+                        AND a.dept LIKE #{keyword}
+                    </when>
+                    <when test="category == 'currentUser'">
+                        AND a.currentUser LIKE #{keyword}
+                    </when>
+                    <when test="category == 'expiryDate'">
+                        AND sw.expiryDate LIKE #{keyword}
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ORDER BY sw.softwareIdx ASC
+        LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-    <select id="countAll" resultType="Integer">
+    <select id="countAllFiltered" parameterType="map" resultType="Integer">
         SELECT
-            COUNT(softwareIdx)
-        FROM software
+        COUNT(sw.softwareIdx)
+        FROM software sw
+        JOIN asset a ON sw.assetIdx = a.assetIdx
+        <where>
+            <if test="category != null and category != '' and keyword != null">
+                <choose>
+                    <when test="category == 'assetName'">
+                        AND a.assetName LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetType'">
+                        AND a.assetType LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetStatus'">
+                        AND a.assetStatus LIKE #{keyword}
+                    </when>
+                    <when test="category == 'location'">
+                        AND a.location LIKE #{keyword}
+                    </when>
+                    <when test="category == 'dept'">
+                        AND a.dept LIKE #{keyword}
+                    </when>
+                    <when test="category == 'currentUser'">
+                        AND a.currentUser LIKE #{keyword}
+                    </when>
+                    <when test="category == 'expiryDate'">
+                        AND sw.expiryDate LIKE #{keyword}
+                    </when>
+                </choose>
+            </if>
+        </where>
     </select>
 
 </mapper>

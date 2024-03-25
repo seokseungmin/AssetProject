@@ -62,16 +62,129 @@
             LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-    <select id="findAllWithPaging" parameterType="map" resultType="Hardware">
-        SELECT * FROM asset
+<!--    <select id="findAllWithPaging" parameterType="map" resultType="Hardware">-->
+<!--        SELECT * FROM asset-->
+<!--        ORDER BY assetIdx ASC-->
+<!--            LIMIT #{pageSize} OFFSET #{offset}-->
+<!--    </select>-->
+
+<!--    <select id="countAll" resultType="Integer">-->
+<!--        SELECT-->
+<!--            COUNT(assetIdx)-->
+<!--        FROM asset-->
+<!--    </select>-->
+
+    <select id="findAllWithPagingAndFilter" parameterType="map" resultType="Asset">
+        SELECT
+        assetIdx,
+        assetCode,
+        assetName,
+        assetType,
+        assetStatus,
+        sn,
+        location,
+        dept,
+        assignedDate,
+        returnDate,
+        currentUser,
+        previousUser,
+        manufacturer
+        FROM asset
+        <where>
+            <if test="category != null and category != '' and keyword != null">
+                <choose>
+                    <when test="category == 'assetCode'">
+                        AND assetCode LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetName'">
+                        AND assetName LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetType'">
+                        AND assetType LIKE #{keyword}
+                    </when>
+                    <!-- 여기에 다른 카테고리 조건을 추가할 수 있습니다. -->
+                    <when test="category == 'assetStatus'">
+                        AND assetStatus LIKE #{keyword}
+                    </when>
+                    <when test="category == 'sn'">
+                        AND sn LIKE #{keyword}
+                    </when>
+                    <when test="category == 'location'">
+                        AND location LIKE #{keyword}
+                    </when>
+                    <when test="category == 'dept'">
+                        AND dept LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assignedDate'">
+                        AND assignedDate LIKE #{keyword}
+                    </when>
+                    <when test="category == 'returnDate'">
+                        AND returnDate LIKE #{keyword}
+                    </when>
+                    <when test="category == 'currentUser'">
+                        AND currentUser LIKE #{keyword}
+                    </when>
+                    <when test="category == 'previousUser'">
+                        AND previousUser LIKE #{keyword}
+                    </when>
+                    <when test="category == 'manufacturer'">
+                        AND manufacturer LIKE #{keyword}
+                    </when>
+                </choose>
+            </if>
+        </where>
         ORDER BY assetIdx ASC
-            LIMIT #{pageSize} OFFSET #{offset}
+        LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-    <select id="countAll" resultType="Integer">
+    <select id="countAllFiltered" parameterType="map" resultType="Integer">
         SELECT
-            COUNT(assetIdx)
+        COUNT(assetIdx)
         FROM asset
+        <where>
+            <if test="category != null and category != '' and keyword != null">
+                <choose>
+                    <when test="category == 'assetCode'">
+                        AND assetCode LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetName'">
+                        AND assetName LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetType'">
+                        AND assetType LIKE #{keyword}
+                    </when>
+                    <!-- 여기에 다른 카테고리 조건을 추가할 수 있습니다. -->
+                    <when test="category == 'assetStatus'">
+                        AND assetStatus LIKE #{keyword}
+                    </when>
+                    <when test="category == 'sn'">
+                        AND sn LIKE #{keyword}
+                    </when>
+                    <when test="category == 'location'">
+                        AND location LIKE #{keyword}
+                    </when>
+                    <when test="category == 'dept'">
+                        AND dept LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assignedDate'">
+                        AND assignedDate LIKE #{keyword}
+                    </when>
+                    <when test="category == 'returnDate'">
+                        AND returnDate LIKE #{keyword}
+                    </when>
+                    <when test="category == 'currentUser'">
+                        AND currentUser LIKE #{keyword}
+                    </when>
+                    <when test="category == 'previousUser'">
+                        AND previousUser LIKE #{keyword}
+                    </when>
+                    <when test="category == 'manufacturer'">
+                        AND manufacturer LIKE #{keyword}
+                    </when>
+
+                </choose>
+            </if>
+        </where>
     </select>
 
 </mapper>

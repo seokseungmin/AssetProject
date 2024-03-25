@@ -1,11 +1,13 @@
 package com.example.assetproject.repository;
 
+import com.example.assetproject.entity.Hardware;
 import com.example.assetproject.entity.Software;
 import com.example.assetproject.dto.SoftwareAssetDTO;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,11 +49,22 @@ public class SoftwareRepository {
         return sql.selectOne("Software.findSoftwareIdxByAssetIdx", assetIdx);
     }
 
-    public List<Software> findAllWithPaging(Map<String, Object> params) {
-        return sql.selectList("Software.findAllWithPaging", params);
+//    public List<Software> findAllWithPaging(Map<String, Object> params) {
+//        return sql.selectList("Software.findAllWithPaging", params);
+//    }
+//
+//    public int countAll() {
+//        return sql.selectOne("Software.countAll");
+//    }
+
+    public List<Software> findAllWithPagingAndFilter(Map<String, Object> params) {
+        return sql.selectList("Software.findAllWithPagingAndFilter", params);
     }
 
-    public int countAll() {
-        return sql.selectOne("Software.countAll");
+    public int countAllFiltered(String category, String keyword) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("category", category);
+        params.put("keyword", keyword);
+        return sql.selectOne("Software.countAllFiltered", params);
     }
 }

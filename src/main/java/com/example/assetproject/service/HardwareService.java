@@ -128,16 +128,32 @@ public class HardwareService {
         return hardwareRepository.findHardwareIdxByAssetIdx(assetIdx);
     }
 
-    public List<Hardware> findAllWithPaging(int pageNum, int pageSize) {
+//    public List<Hardware> findAllWithPaging(int pageNum, int pageSize) {
+//
+//        int offset = (pageNum - 1) * pageSize;
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("offset", offset);
+//        params.put("pageSize", pageSize);
+//        return hardwareRepository.findAllWithPaging(params);
+//    }
+//
+//    public int countAll() {
+//        return hardwareRepository.countAll();
+//    }
+//}
 
+    public List<Hardware> findAllWithPagingAndFilter(int pageNum, int pageSize, String category, String keyword) {
         int offset = (pageNum - 1) * pageSize;
         Map<String, Object> params = new HashMap<>();
         params.put("offset", offset);
         params.put("pageSize", pageSize);
-        return hardwareRepository.findAllWithPaging(params);
+        params.put("category", category);
+        params.put("keyword", "%" + (keyword == null ? "" : keyword) + "%"); // 와일드카드 검색을 위해 키워드 양쪽에 % 추가
+        return hardwareRepository.findAllWithPagingAndFilter(params);
     }
 
-    public int countAll() {
-        return hardwareRepository.countAll();
+    public int countAllFiltered(String category, String keyword) {
+        return hardwareRepository.countAllFiltered(category, "%" + (keyword == null ? "" : keyword) + "%");
     }
 }
+
