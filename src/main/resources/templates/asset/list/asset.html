@@ -56,18 +56,65 @@
             <tr>
                 <th><input type="checkbox" onclick="toggleCheckboxes(this)"/></th>
                 <th style="vertical-align: middle;" th:text="#{asset.list.id}">ID</th>
-                <th style="vertical-align: middle;" th:text="#{asset.list.asset.code}">자산번호</th>
-                <th style="vertical-align: middle;" th:text="#{asset.list.asset.name}">자산명</th>
-                <th style="vertical-align: middle;" th:text="#{asset.list.asset.type}">자산유형</th>
-                <th style="vertical-align: middle;" th:text="#{asset.list.asset.status}">자산상태</th>
-                <th style="vertical-align: middle;" th:text="#{asset.list.serial.number}">시리얼번호</th>
-                <th style="vertical-align: middle;" th:text="#{asset.list.location}">위치</th>
-                <th style="vertical-align: middle;" th:text="#{asset.list.department}">부서</th>
-                <th style="vertical-align: middle;" th:text="#{asset.list.assigned.date}">지급일</th>
-                <th style="vertical-align: middle;" th:text="#{asset.list.return.date}">반납일</th>
-                <th style="vertical-align: middle;" th:text="#{asset.list.current.user}">현사용자</th>
-                <th style="vertical-align: middle;" th:text="#{asset.list.previous.user}">전사용자</th>
-                <th style="vertical-align: middle;" th:text="#{asset.list.manufacturer}">제조사</th>
+                <th>
+                    <span th:text="#{asset.list.asset.code}">자산번호</span>
+                    <a th:href="@{/assets/list/asset(sort='assetCode', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/asset(sort='assetCode', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{asset.list.asset.name}">자산명</span>
+                    <a th:href="@{/assets/list/asset(sort='assetName', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/asset(sort='assetName', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                <th>
+                    <span th:text="#{asset.list.asset.type}">자산유형</span>
+                    <a th:href="@{/assets/list/asset(sort='assetType', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/asset(sort='assetType', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{asset.list.asset.status}">자산상태</span>
+                    <a th:href="@{/assets/list/asset(sort='assetStatus', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/asset(sort='assetStatus', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{asset.list.serial.number}">시리얼번호</span>
+                    <a th:href="@{/assets/list/asset(sort='sn', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/asset(sort='sn', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{asset.list.location}">위치</span>
+                    <a th:href="@{/assets/list/asset(sort='location', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/asset(sort='location', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{asset.list.department}">부서</span>
+                    <a th:href="@{/assets/list/asset(sort='dept', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/asset(sort='dept', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{asset.list.assigned.date}">지급일</span>
+                    <a th:href="@{/assets/list/asset(sort='assignedDate', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/asset(sort='assignedDate', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{asset.list.return.date}">반납일</span>
+                    <a th:href="@{/assets/list/asset(sort='returnDate', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/asset(sort='returnDate', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{asset.list.current.user}">현사용자</span>
+                    <a th:href="@{/assets/list/asset(sort='currentUser', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/asset(sort='currentUser', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{asset.list.previous.user}">전사용자</span>
+                    <a th:href="@{/assets/list/asset(sort='previousUser', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/asset(sort='previousUser', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{asset.list.manufacturer}">제조사</span>
+                    <a th:href="@{/assets/list/asset(sort='manufacturer', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/asset(sort='manufacturer', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -95,13 +142,13 @@
         <div>
             <ul class="pagination">
                 <li class="page-item" th:classappend="${pagination.currentPage == 1} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage - 1}, category=${category}, keyword=${keyword})}">Previous</a>
+                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage - 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}">Previous</a>
                 </li>
                 <li class="page-item" th:each="i : ${#numbers.sequence(1, pagination.totalPages)}" th:classappend="${i == pagination.currentPage} ? 'active' : ''">
-                    <a class="page-link" th:text="${i}" th:href="@{/assets/list/asset(page=${i}, category=${category}, keyword=${keyword})}"></a>
+                    <a class="page-link" th:text="${i}" th:href="@{/assets/list/asset(page=${i}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}"></a>
                 </li>
                 <li class="page-item" th:classappend="${pagination.currentPage == pagination.totalPages} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage + 1}, category=${category}, keyword=${keyword})}">Next</a>
+                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage + 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}">Next</a>
                 </li>
             </ul>
         </div>

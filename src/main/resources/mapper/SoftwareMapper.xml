@@ -133,7 +133,30 @@
                 </choose>
             </if>
         </where>
-        ORDER BY sw.softwareIdx ASC
+        <choose>
+            <when test="sort == 'assetName'">
+                ORDER BY a.assetName ${order}
+            </when>
+            <when test="sort == 'assetType'">
+                ORDER BY a.assetType ${order}
+            </when>
+            <when test="sort == 'assetStatus'">
+                ORDER BY a.assetStatus ${order}
+            </when>
+            <when test="sort == 'location'">
+                ORDER BY a.location ${order}
+            </when>
+            <when test="sort == 'dept'">
+                ORDER BY a.dept ${order}
+            </when>
+            <when test="sort == 'expiryDate'">
+                ORDER BY sw.expiryDate ${order}
+            </when>
+            <!-- 이하 정렬 조건들 생략 -->
+            <otherwise>
+                ORDER BY sw.softwareIdx ASC
+            </otherwise>
+        </choose>
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 

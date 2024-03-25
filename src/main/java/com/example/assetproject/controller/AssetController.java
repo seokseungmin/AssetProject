@@ -49,6 +49,8 @@ public class AssetController {
     public String assets(@RequestParam(defaultValue = "1") int page,
                          @RequestParam(required = false) String category,
                          @RequestParam(required = false) String keyword,
+                         @RequestParam(required = false) String sort,
+                         @RequestParam(required = false, defaultValue = "asc") String order,
                          Model model) {
 
         // 페이지 번호가 1 미만인 경우 1로 강제 설정
@@ -58,13 +60,15 @@ public class AssetController {
         int totalItems = assetService.countAllFiltered(category, keyword);
         int totalPages = (int) Math.ceil((double) totalItems / pageSize); // 전체 페이지 수 계산
 
-        List<Asset> assets = assetService.findAllWithPagingAndFilter(page, pageSize, category, keyword);
+        List<Asset> assets = assetService.findAllWithPagingAndFilter(page, pageSize, category, keyword, sort, order);
         PaginationModel pagination = new PaginationModel(page, totalPages, totalItems, pageSize);
 
         model.addAttribute("assets", assets);
         model.addAttribute("pagination", pagination); // 페이징 정보 모델 추가
         model.addAttribute("category", category);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("sort", sort);
+        model.addAttribute("order", order);
 
         return "asset/list/asset";
     }
@@ -83,6 +87,8 @@ public class AssetController {
     public String software(@RequestParam(defaultValue = "1") int page,
                            @RequestParam(required = false) String category,
                            @RequestParam(required = false) String keyword,
+                           @RequestParam(required = false) String sort,
+                           @RequestParam(required = false, defaultValue = "asc") String order,
                            Model model) {
 
         // 페이지 번호가 1 미만인 경우 1로 강제 설정
@@ -92,13 +98,15 @@ public class AssetController {
         int totalItems = softwareService.countAllFiltered(category, keyword);
         int totalPages = (int) Math.ceil((double) totalItems / pageSize); // 전체 페이지 수 계산
 
-        List<Software> softwares = softwareService.findAllWithPagingAndFilter(page, pageSize, category, keyword);
+        List<Software> softwares = softwareService.findAllWithPagingAndFilter(page, pageSize, category, keyword, sort, order);
         PaginationModel pagination = new PaginationModel(page, totalPages, totalItems, pageSize);
 
         model.addAttribute("softwares", softwares);
         model.addAttribute("pagination", pagination); // 페이징 정보 모델 추가
         model.addAttribute("category", category);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("sort", sort);
+        model.addAttribute("order", order);
 
         return "asset/list/software";
     }
@@ -116,6 +124,8 @@ public class AssetController {
     public String hardware(@RequestParam(defaultValue = "1") int page,
                            @RequestParam(required = false) String category,
                            @RequestParam(required = false) String keyword,
+                           @RequestParam(required = false) String sort,
+                           @RequestParam(required = false, defaultValue = "asc") String order,
                            Model model) {
 
         // 페이지 번호가 1 미만인 경우 1로 강제 설정
@@ -125,13 +135,16 @@ public class AssetController {
         int totalItems = hardwareService.countAllFiltered(category, keyword);
         int totalPages = (int) Math.ceil((double) totalItems / pageSize);
 
-        List<Hardware> hardwares = hardwareService.findAllWithPagingAndFilter(page, pageSize, category, keyword);
+        List<Hardware> hardwares = hardwareService.findAllWithPagingAndFilter(page, pageSize, category, keyword, sort, order);
         PaginationModel pagination = new PaginationModel(page, totalPages, totalItems, pageSize);
 
         model.addAttribute("hardwares", hardwares);
         model.addAttribute("pagination", pagination);
         model.addAttribute("category", category);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("sort", sort);
+        model.addAttribute("order", order);
+
         return "asset/list/hardware";
     }
 

@@ -142,12 +142,14 @@ public class HardwareService {
 //    }
 //}
 
-    public List<Hardware> findAllWithPagingAndFilter(int pageNum, int pageSize, String category, String keyword) {
+    public List<Hardware> findAllWithPagingAndFilter(int pageNum, int pageSize, String category, String keyword, String sort, String order) {
         int offset = (pageNum - 1) * pageSize;
         Map<String, Object> params = new HashMap<>();
         params.put("offset", offset);
         params.put("pageSize", pageSize);
         params.put("category", category);
+        params.put("sort", sort);
+        params.put("order", order);
         params.put("keyword", "%" + (keyword == null ? "" : keyword) + "%"); // 와일드카드 검색을 위해 키워드 양쪽에 % 추가
         return hardwareRepository.findAllWithPagingAndFilter(params);
     }

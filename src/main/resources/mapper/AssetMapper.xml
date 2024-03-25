@@ -133,7 +133,48 @@
                 </choose>
             </if>
         </where>
-        ORDER BY assetIdx ASC
+        <choose>
+            <when test="sort == 'assetCode'">
+                ORDER BY assetCode ${order}
+            </when>
+            <when test="sort == 'assetName'">
+                ORDER BY assetName ${order}
+            </when>
+            <when test="sort == 'assetType'">
+                ORDER BY assetType ${order}
+            </when>
+            <when test="sort == 'assetStatus'">
+                ORDER BY assetStatus ${order}
+            </when>
+            <when test="sort == 'sn'">
+                ORDER BY sn ${order}
+            </when>
+            <when test="sort == 'location'">
+                ORDER BY location ${order}
+            </when>
+            <when test="sort == 'dept'">
+                ORDER BY dept ${order}
+            </when>
+            <when test="sort == 'assignedDate'">
+                ORDER BY assignedDate ${order}
+            </when>
+            <when test="sort == 'returnDate'">
+                ORDER BY returnDate ${order}
+            </when>
+            <when test="sort == 'currentUser'">
+                ORDER BY currentUser ${order}
+            </when>
+            <when test="sort == 'previousUser'">
+                ORDER BY previousUser ${order}
+            </when>
+            <when test="sort == 'manufacturer'">
+                ORDER BY manufacturer ${order}
+            </when>
+            <!-- 이하 정렬 조건들 생략 -->
+            <otherwise>
+                ORDER BY assetIdx ASC
+            </otherwise>
+        </choose>
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 

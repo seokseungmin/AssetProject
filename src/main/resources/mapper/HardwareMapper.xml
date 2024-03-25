@@ -141,9 +141,6 @@
                         AND a.assetStatus LIKE #{keyword}
                     </when>
                     <!-- 여기에 다른 카테고리 조건을 추가할 수 있습니다. -->
-                    <when test="category == 'assetType'">
-                        AND a.assetType LIKE #{keyword}
-                    </when>
                     <when test="category == 'purchaseDate'">
                         AND a.purchaseDate LIKE #{keyword}
                     </when>
@@ -174,7 +171,48 @@
                 </choose>
             </if>
         </where>
-        ORDER BY hw.hardwareIdx ASC
+        <choose>
+            <when test="sort == 'assetName'">
+                ORDER BY a.assetName ${order}
+            </when>
+            <when test="sort == 'assetStatus'">
+                ORDER BY a.assetStatus ${order}
+            </when>
+            <when test="sort == 'assetType'">
+                ORDER BY a.assetType ${order}
+            </when>
+            <when test="sort == 'purchaseDate'">
+                ORDER BY a.purchaseDate ${order}
+            </when>
+            <when test="sort == 'location'">
+                ORDER BY a.location ${order}
+            </when>
+            <when test="sort == 'dept'">
+                ORDER BY a.dept ${order}
+            </when>
+            <when test="sort == 'currentUser'">
+                ORDER BY a.currentUser ${order}
+            </when>
+            <when test="sort == 'cpu'">
+                ORDER BY hw.cpu ${order}
+            </when>
+            <when test="sort == 'ssd'">
+                ORDER BY hw.ssd ${order}
+            </when>
+            <when test="sort == 'hdd'">
+                ORDER BY hw.hdd ${order}
+            </when>
+            <when test="sort == 'memory'">
+                ORDER BY hw.memory ${order}
+            </when>
+            <when test="sort == 'note'">
+                ORDER BY hw.note ${order}
+            </when>
+            <!-- 이하 정렬 조건들 생략 -->
+            <otherwise>
+                ORDER BY hw.hardwareIdx ASC
+            </otherwise>
+        </choose>
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
@@ -196,9 +234,6 @@
                 AND a.assetStatus LIKE #{keyword}
             </when>
             <!-- 여기에 다른 카테고리 조건을 추가할 수 있습니다. -->
-            <when test="category == 'assetType'">
-                AND a.assetType LIKE #{keyword}
-            </when>
             <when test="category == 'purchaseDate'">
                 AND a.purchaseDate LIKE #{keyword}
             </when>

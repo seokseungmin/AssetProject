@@ -61,18 +61,65 @@
             <tr>
                 <th><input type="checkbox" onclick="toggleCheckboxes(this)"/></th>
                 <th>ID</th>
-                <th><span th:text="#{hardware.asset.name}">Asset Name</span></th>
-                <th><span th:text="#{hardware.asset.type}">Asset Type</span></th>
-                <th><span th:text="#{hardware.asset.status}">Asset Status</span></th>
-                <th><span th:text="#{hardware.location}">Location</span></th>
-                <th><span th:text="#{hardware.department}">Department</span></th>
-                <th><span th:text="#{hardware.current.user}">Current User</span></th>
-                <th><span th:text="#{hardware.cpu}">CPU</span></th>
-                <th><span th:text="#{hardware.ssd}">SSD</span></th>
-                <th><span th:text="#{hardware.hdd}">HDD</span></th>
-                <th><span th:text="#{hardware.memory}">Memory</span></th>
-                <th><span th:text="#{hardware.usage.period}">Usage Period</span></th>
-                <th><span th:text="#{hardware.note}">Note</span></th>
+                <th>
+                    <span th:text="#{hardware.asset.name}">Asset Name</span>
+                    <a th:href="@{/assets/list/hardware(sort='assetName', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/hardware(sort='assetName', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{hardware.asset.type}">Asset Type</span>
+                    <a th:href="@{/assets/list/hardware(sort='assetType', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/hardware(sort='assetType', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{hardware.asset.status}">Asset Status</span>
+                    <a th:href="@{/assets/list/hardware(sort='assetStatus', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/hardware(sort='assetStatus', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{hardware.location}">Location</span>
+                    <a th:href="@{/assets/list/hardware(sort='location', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/hardware(sort='location', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{hardware.department}">Department</span>
+                    <a th:href="@{/assets/list/hardware(sort='dept', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/hardware(sort='dept', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{hardware.current.user}">Current User</span>
+                    <a th:href="@{/assets/list/hardware(sort='currentUser', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/hardware(sort='currentUser', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{hardware.cpu}">CPU</span>
+                    <a th:href="@{/assets/list/hardware(sort='cpu', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/hardware(sort='cpu', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{hardware.ssd}">SSD</span>
+                    <a th:href="@{/assets/list/hardware(sort='ssd', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/hardware(sort='ssd', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{hardware.hdd}">HDD</span>
+                    <a th:href="@{/assets/list/hardware(sort='hdd', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/hardware(sort='hdd', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{hardware.memory}">Memory</span>
+                    <a th:href="@{/assets/list/hardware(sort='memory', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/hardware(sort='memory', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
+                <th>
+                    <span th:text="#{hardware.usage.period}">Usage Period</span>
+                    <!-- Add sorting links for 'usageDuration' or any other appropriate field -->
+                </th>
+                <th>
+                    <span th:text="#{hardware.note}">Note</span>
+                    <a th:href="@{/assets/list/hardware(sort='note', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                    <a th:href="@{/assets/list/hardware(sort='note', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -103,13 +150,13 @@
         <div>
             <ul class="pagination">
                 <li class="page-item" th:classappend="${pagination.currentPage == 1} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{/assets/list/hardware(page=${pagination.currentPage - 1}, category=${category}, keyword=${keyword})}">Previous</a>
+                    <a class="page-link" th:href="@{/assets/list/hardware(page=${pagination.currentPage - 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}">Previous</a>
                 </li>
                 <li class="page-item" th:each="i : ${#numbers.sequence(1, pagination.totalPages)}" th:classappend="${i == pagination.currentPage} ? 'active' : ''">
-                    <a class="page-link" th:text="${i}" th:href="@{/assets/list/hardware(page=${i}, category=${category}, keyword=${keyword})}"></a>
+                    <a class="page-link" th:text="${i}" th:href="@{/assets/list/hardware(page=${i}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}"></a>
                 </li>
                 <li class="page-item" th:classappend="${pagination.currentPage == pagination.totalPages} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{/assets/list/hardware(page=${pagination.currentPage + 1}, category=${category}, keyword=${keyword})}">Next</a>
+                    <a class="page-link" th:href="@{/assets/list/hardware(page=${pagination.currentPage + 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}">Next</a>
                 </li>
             </ul>
         </div>
