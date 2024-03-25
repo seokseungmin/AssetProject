@@ -72,4 +72,27 @@
         SELECT softwareIdx FROM software WHERE assetIdx = #{assetIdx}
     </select>
 
+
+    <select id="findAllWithPaging" parameterType="map" resultType="Software">
+        SELECT
+            s.softwareIdx,
+            a.assetName,
+            a.assetType,
+            a.assetStatus,
+            a.location,
+            a.dept,
+            a.currentUser,
+            s.expiryDate
+        FROM software s
+                 JOIN asset a ON s.assetIdx = a.assetIdx
+        ORDER BY s.softwareIdx ASC
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countAll" resultType="Integer">
+        SELECT
+            COUNT(softwareIdx)
+        FROM software
+    </select>
+
 </mapper>

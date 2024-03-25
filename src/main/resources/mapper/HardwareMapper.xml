@@ -3,24 +3,24 @@
 
 <mapper namespace="Hardware">
 
-    <select id="findAll" resultType="Hardware">
-        SELECT
-            hw.hardwareIdx,
-            hw.cpu,
-            hw.ssd,
-            hw.hdd,
-            hw.memory,
-            hw.note,
-            a.assetName,
-            a.assetType,
-            a.assetStatus,
-            a.purchaseDate,
-            a.location,
-            a.dept,
-            a.currentUser
-        FROM hardware hw
-                 JOIN asset a ON hw.assetIdx = a.assetIdx
-        </select>
+<!--    <select id="findAll" resultType="Hardware">-->
+<!--        SELECT-->
+<!--            hw.hardwareIdx,-->
+<!--            hw.cpu,-->
+<!--            hw.ssd,-->
+<!--            hw.hdd,-->
+<!--            hw.memory,-->
+<!--            hw.note,-->
+<!--            a.assetName,-->
+<!--            a.assetType,-->
+<!--            a.assetStatus,-->
+<!--            a.purchaseDate,-->
+<!--            a.location,-->
+<!--            a.dept,-->
+<!--            a.currentUser-->
+<!--        FROM hardware hw-->
+<!--                 JOIN asset a ON hw.assetIdx = a.assetIdx-->
+<!--        </select>-->
 
     <select id="findById" parameterType="Long" resultType="Hardware">
         select * from hardware where hardwareIdx= #{hardwareIdx}
@@ -82,6 +82,33 @@
 
     <select id="findHardwareIdxByAssetIdx" parameterType="Long" resultType="Long">
         select hardwareIdx from hardware where assetIdx= #{assetIdx}
+    </select>
+
+    <select id="findAllWithPaging" parameterType="map" resultType="Hardware">
+        SELECT
+            hw.hardwareIdx,
+            hw.cpu,
+            hw.ssd,
+            hw.hdd,
+            hw.memory,
+            hw.note,
+            a.assetName,
+            a.assetType,
+            a.assetStatus,
+            a.purchaseDate,
+            a.location,
+            a.dept,
+            a.currentUser
+        FROM hardware hw
+                 JOIN asset a ON hw.assetIdx = a.assetIdx
+        ORDER BY hw.hardwareIdx ASC
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countAll" resultType="Integer">
+        SELECT
+            COUNT(hardwareIdx)
+        FROM hardware
     </select>
 
 </mapper>

@@ -3,9 +3,9 @@
 
 <mapper namespace="Asset">
 
-    <select id="findAll" resultType="Asset">
-        SELECT * FROM asset
-    </select>
+<!--    <select id="findAll" resultType="Asset">-->
+<!--        SELECT * FROM asset-->
+<!--    </select>-->
 
     <select id="findById" parameterType="Long" resultType="Asset">
         select * from asset where assetIdx= #{id}
@@ -56,5 +56,22 @@
         select assetCode from asset where assetIdx= #{assetIdx}
     </select>
 
+    <select id="findAll" resultType="Asset">
+        SELECT * FROM asset
+        ORDER BY assetIdx ASC
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="findAllWithPaging" parameterType="map" resultType="Hardware">
+        SELECT * FROM asset
+        ORDER BY assetIdx ASC
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countAll" resultType="Integer">
+        SELECT
+            COUNT(assetIdx)
+        FROM asset
+    </select>
 
 </mapper>

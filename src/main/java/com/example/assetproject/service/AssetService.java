@@ -1,6 +1,7 @@
 package com.example.assetproject.service;
 
 import com.example.assetproject.entity.Asset;
+import com.example.assetproject.entity.Hardware;
 import com.example.assetproject.repository.AssetRepository;
 import com.example.assetproject.repository.HardwareRepository;
 import com.example.assetproject.repository.SoftwareRepository;
@@ -8,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -18,9 +21,9 @@ public class AssetService {
     private final HardwareRepository hardwareRepository;
     private final SoftwareRepository softwareRepository;
 
-    public List<Asset> findAll() {
-        return assetRepository.findAll();
-    }
+//    public List<Asset> findAll() {
+//        return assetRepository.findAll();
+//    }
 
     public Asset findById(Long id) {
         return assetRepository.findById(id);
@@ -49,4 +52,16 @@ public class AssetService {
         }
     }
 
+    public List<Asset> findAllWithPaging(int pageNum, int pageSize) {
+
+        int offset = (pageNum - 1) * pageSize;
+        Map<String, Object> params = new HashMap<>();
+        params.put("offset", offset);
+        params.put("pageSize", pageSize);
+        return assetRepository.findAllWithPaging(params);
+    }
+
+    public int countAll() {
+        return assetRepository.countAll();
+    }
 }

@@ -4,6 +4,7 @@ import com.example.assetproject.dto.HardwareAssetDTO;
 import com.example.assetproject.dto.SoftwareAssetDTO;
 import com.example.assetproject.entity.Asset;
 import com.example.assetproject.entity.Hardware;
+import com.example.assetproject.entity.PaginationModel;
 import com.example.assetproject.entity.Software;
 import com.example.assetproject.form.AssetHardwareAddForm;
 import com.example.assetproject.form.AssetHardwareUpdateForm;
@@ -36,26 +37,87 @@ public class AssetController {
     private final HardwareService hardwareService;
 
     //자산리스트 조회
+//    @GetMapping("/list/asset")
+//    public String assets(Model model){
+//        List<Asset> assets = assetService.findAll();
+//        model.addAttribute("assets", assets);
+//        return "asset/list/asset";
+//    }
+
+    //자산리스트 조회(페이징처리)
     @GetMapping("/list/asset")
-    public String assets(Model model){
-        List<Asset> assets = assetService.findAll();
+    public String assets(@RequestParam(defaultValue = "1") int page, Model model) {
+
+        // 페이지 번호가 1 미만인 경우 1로 강제 설정
+        page = Math.max(page, 1);
+
+        int pageSize = 10; // 페이지당 보여줄 아이템 수
+        int totalItems = assetService.countAll(); // 전체 항목 수 계산
+        int totalPages = (int) Math.ceil((double) totalItems / pageSize); // 전체 페이지 수 계산
+
+        List<Asset> assets = assetService.findAllWithPaging(page, pageSize);
+        PaginationModel pagination = new PaginationModel(page, totalPages, totalItems, pageSize);
+
         model.addAttribute("assets", assets);
+        model.addAttribute("pagination", pagination); // 페이징 정보 모델 추가
+
         return "asset/list/asset";
     }
 
-    //하드웨어 자산리스트 조회
+
+    //소프트웨어 자산리스트 조회
+//    @GetMapping("/list/software")
+//    public String software(Model model){
+//        List<Software> softwares = softwareService.findAll();
+//        model.addAttribute("softwares", softwares);
+//        return "asset/list/software";
+//    }
+
+    //소프트웨어 자산리스트 조회(페이징처리)
     @GetMapping("/list/software")
-    public String software(Model model){
-        List<Software> softwares = softwareService.findAll();
+    public String software(@RequestParam(defaultValue = "1") int page, Model model) {
+
+        // 페이지 번호가 1 미만인 경우 1로 강제 설정
+        page = Math.max(page, 1);
+
+        int pageSize = 10; // 페이지당 보여줄 아이템 수
+        int totalItems = softwareService.countAll(); // 전체 항목 수 계산
+        int totalPages = (int) Math.ceil((double) totalItems / pageSize); // 전체 페이지 수 계산
+
+        List<Software> softwares = softwareService.findAllWithPaging(page, pageSize);
+        PaginationModel pagination = new PaginationModel(page, totalPages, totalItems, pageSize);
+
         model.addAttribute("softwares", softwares);
+        model.addAttribute("pagination", pagination); // 페이징 정보 모델 추가
+
         return "asset/list/software";
     }
 
-    //소프트웨어 자산리스트 조회
+    //하드웨어 자산리스트 조회
+//    @GetMapping("/list/hardware")
+//    public String hardware(Model model){
+//        List<Hardware> hardwares = hardwareService.findAll();
+//        model.addAttribute("hardwares", hardwares);
+//        return "asset/list/hardware";
+//    }
+
+    // //하드웨어 자산리스트 조회(페이징처리)
     @GetMapping("/list/hardware")
-    public String hardware(Model model){
-        List<Hardware> hardwares = hardwareService.findAll();
+    public String hardware(@RequestParam(defaultValue = "1") int page, Model model) {
+
+        // 페이지 번호가 1 미만인 경우 1로 강제 설정
+        page = Math.max(page, 1);
+
+        int pageSize = 10; // 페이지당 보여줄 아이템 수
+        int totalItems = hardwareService.countAll(); // 전체 항목 수 계산
+        int totalPages = (int) Math.ceil((double) totalItems / pageSize); // 전체 페이지 수 계산
+
+        List<Hardware> hardwares = hardwareService.findAllWithPaging(page, pageSize);
+        PaginationModel pagination = new PaginationModel(page, totalPages, totalItems, pageSize);
+
         model.addAttribute("hardwares", hardwares);
+        model.addAttribute("pagination", pagination); // 페이징 정보 모델 추가
+
         return "asset/list/hardware";
     }
 

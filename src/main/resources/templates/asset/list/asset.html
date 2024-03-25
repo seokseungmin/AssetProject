@@ -63,6 +63,23 @@
             </tbody>
         </table>
         </form>
+
+
+        <div>
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${pagination.currentPage == 1} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage - 1})}">Previous</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(1, pagination.totalPages)}" th:classappend="${i == pagination.currentPage} ? 'active' : ''">
+                    <a class="page-link" th:text="${i}" th:href="@{/assets/list/asset(page=${i})}"></a>
+                </li>
+                <li class="page-item" th:classappend="${pagination.currentPage == pagination.totalPages} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage + 1})}">Next</a>
+                </li>
+            </ul>
+        </div>
+
+
     </div>
 </div> <!-- /container -->
 </body>

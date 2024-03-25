@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -44,5 +45,13 @@ public class SoftwareRepository {
 
     public Long findSoftwareIdxByAssetIdx(Long assetIdx) {
         return sql.selectOne("Software.findSoftwareIdxByAssetIdx", assetIdx);
+    }
+
+    public List<Software> findAllWithPaging(Map<String, Object> params) {
+        return sql.selectList("Software.findAllWithPaging", params);
+    }
+
+    public int countAll() {
+        return sql.selectOne("Software.countAll");
     }
 }

@@ -12,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -22,9 +24,9 @@ public class HardwareService {
     private final HardwareRepository hardwareRepository;
     private final AssetRepository assetRepository;
 
-    public List<Hardware> findAll() {
-        return hardwareRepository.findAll();
-    }
+//    public List<Hardware> findAll() {
+//        return hardwareRepository.findAll();
+//    }
 
     // Hardware 객체를 받아서 저장하는 메서드
     @Transactional
@@ -124,5 +126,18 @@ public class HardwareService {
 
     public Long findHardwareIdxByAssetIdx(Long assetIdx) {
         return hardwareRepository.findHardwareIdxByAssetIdx(assetIdx);
+    }
+
+    public List<Hardware> findAllWithPaging(int pageNum, int pageSize) {
+
+        int offset = (pageNum - 1) * pageSize;
+        Map<String, Object> params = new HashMap<>();
+        params.put("offset", offset);
+        params.put("pageSize", pageSize);
+        return hardwareRepository.findAllWithPaging(params);
+    }
+
+    public int countAll() {
+        return hardwareRepository.countAll();
     }
 }

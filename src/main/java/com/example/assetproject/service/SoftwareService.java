@@ -1,6 +1,7 @@
 package com.example.assetproject.service;
 
 import com.example.assetproject.entity.Asset;
+import com.example.assetproject.entity.Hardware;
 import com.example.assetproject.entity.Software;
 import com.example.assetproject.dto.SoftwareAssetDTO;
 import com.example.assetproject.form.AssetSoftwareAddForm;
@@ -12,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -116,5 +119,17 @@ public class SoftwareService {
 
     public Long findSoftwareIdxByAssetIdx(Long assetIdx) {
         return softwareRepository.findSoftwareIdxByAssetIdx(assetIdx);
+    }
+
+    public List<Software> findAllWithPaging(int pageNum, int pageSize) {
+        int offset = (pageNum - 1) * pageSize;
+        Map<String, Object> params = new HashMap<>();
+        params.put("offset", offset);
+        params.put("pageSize", pageSize);
+        return softwareRepository.findAllWithPaging(params);
+    }
+
+    public int countAll() {
+        return softwareRepository.countAll();
     }
 }

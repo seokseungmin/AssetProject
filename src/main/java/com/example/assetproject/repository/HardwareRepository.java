@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -14,9 +15,9 @@ public class HardwareRepository {
 
     private final SqlSessionTemplate sql;
 
-    public List<Hardware> findAll() {
-        return sql.selectList("Hardware.findAll");
-    }
+//    public List<Hardware> findAll() {
+//        return sql.selectList("Hardware.findAll");
+//    }
 
     // AssetHardwareAddForm 데이터를 받아서 데이터베이스에 저장
     public void save(Hardware hardware) {
@@ -48,4 +49,13 @@ public class HardwareRepository {
         return sql.selectOne("Hardware.findHardwareIdxByAssetIdx", assetIdx);
     }
 
+    // HardwareRepository.java
+    public List<Hardware> findAllWithPaging(Map<String, Object> params) {
+        return sql.selectList("Hardware.findAllWithPaging", params);
+    }
+
+
+    public int countAll() {
+        return sql.selectOne("Hardware.countAll");
+    }
 }
