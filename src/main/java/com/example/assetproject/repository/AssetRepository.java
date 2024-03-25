@@ -29,10 +29,6 @@ public class AssetRepository {
         sql.selectOne("Asset.update", asset);
     }
 
-    public void deleteHardware(Long assetIdx) {
-        sql.delete("Asset.deleteHardware", assetIdx);
-    }
-
     public void deleteById(Long assetIdx) {
         sql.delete("Asset.deleteById", assetIdx);
     }
@@ -40,4 +36,5 @@ public class AssetRepository {
     public String findAssetCodeById(Long assetIdx) {
         return sql.selectOne("Asset.findAssetCodeById", assetIdx);
     }
+
 }

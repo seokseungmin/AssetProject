@@ -2,7 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        // 전체 선택 또는 선택 해제
+        function toggleCheckboxes(source) {
+            checkboxes = document.getElementsByName('assetIds');
+            for(var i = 0, n = checkboxes.length; i < n; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="container" style="max-width: 800px; margin-top: 50px;">
@@ -12,9 +20,14 @@
 
     <hr class="my-4">
     <div>
+        <form th:action="@{/assets/deleteSelectedAsset}" method="post">
+            <div class="mb-3">
+                <button type="submit" class="btn btn-danger">Delete Selected</button>
+            </div>
         <table class="table">
             <thead>
             <tr>
+                <th><input type="checkbox" onclick="toggleCheckboxes(this)"/></th>
                 <th style="vertical-align: middle;" th:text="#{asset.list.id}">ID</th>
                 <th style="vertical-align: middle;" th:text="#{asset.list.asset.code}">자산번호</th>
                 <th style="vertical-align: middle;" th:text="#{asset.list.asset.name}">자산명</th>
@@ -32,6 +45,7 @@
             </thead>
             <tbody>
             <tr th:each="asset : ${assets}">
+                <td><input type="checkbox" th:value="${asset.assetIdx}" name="assetIds"/></td>
                 <td><a th:href="@{'/assets/' + ${asset.assetIdx} + '/edit/asset'}" th:text="${asset.assetIdx}">ID</a></td>
                 <td th:text="${asset.assetCode}">자산번호</td>
                 <td th:text="${asset.assetName}">자산명</td>
@@ -48,6 +62,7 @@
             </tr>
             </tbody>
         </table>
+        </form>
     </div>
 </div> <!-- /container -->
 </body>

@@ -1,6 +1,7 @@
 package com.example.assetproject.controller;
 
-import com.example.assetproject.dto.*;
+import com.example.assetproject.dto.HardwareAssetDTO;
+import com.example.assetproject.dto.SoftwareAssetDTO;
 import com.example.assetproject.entity.Asset;
 import com.example.assetproject.entity.Hardware;
 import com.example.assetproject.entity.Software;
@@ -226,5 +227,14 @@ public class AssetController {
         return "redirect:/assets/list/software";
     }
 
+    //자산 삭제
+    @PostMapping("/deleteSelectedAsset")
+    @Transactional
+    public String deleteSelectedAsset(@RequestParam("assetIds") List<Long> assetIds, RedirectAttributes redirectAttributes) {
+
+        assetService.deleteSelectedAsset(assetIds);
+        redirectAttributes.addFlashAttribute("successMessage", "Selected software assets have been successfully deleted.");
+        return "redirect:/assets/list/asset";
+    }
 
 }

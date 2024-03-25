@@ -7,9 +7,21 @@ spring:
     url: jdbc:mysql://localhost:3306/AssetManage?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: "*seoksm1017*"
+    hikari:
+      maximumPoolSize: 10 # 커넥션 풀의 최대 사이즈
+      minimumIdle: 5 # 최소 유휴 커넥션 수
+      idleTimeout: 300000 # 커넥션이 유휴 상태로 유지될 수 있는 최대 시간(5분)
+      connectionTimeout: 30000 # 데이터베이스에 커넥션을 얻기 위한 타임아웃 시간(30초)
+      poolName: MyPool # HikariCP 커넥션 풀의 이름
   messages:
     basename: messages,errors
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   config-location: classpath:mybatis-config.xml
+
+logging:
+  level:
+    root: INFO # 전체 로그 레벨 설정
+    com.zaxxer.hikari.HikariConfig: DEBUG # HikariCP 설정 관련 디버그 로그 활성화
+    com.zaxxer.hikari: TRACE # HikariCP 작동 관련 추적 로그 활성화

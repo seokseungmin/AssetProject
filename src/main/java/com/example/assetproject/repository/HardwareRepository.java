@@ -47,4 +47,5 @@ public class HardwareRepository {
     public Long findHardwareIdxByAssetIdx(Long assetIdx) {
         return sql.selectOne("Hardware.findHardwareIdxByAssetIdx", assetIdx);
     }
+
 }
