@@ -9,6 +9,7 @@
         <typeAlias type="com.example.assetproject.entity.Asset" alias="Asset"/>
         <typeAlias type="com.example.assetproject.entity.Hardware" alias="Hardware"/>
         <typeAlias type="com.example.assetproject.entity.Software" alias="Software"/>
+        <typeAlias type="com.example.assetproject.entity.Admin" alias="Admin"/>
         <typeAlias type="com.example.assetproject.dto.HardwareAssetDTO" alias="HardwareAssetDTO"/>
         <typeAlias type="com.example.assetproject.dto.SoftwareAssetDTO" alias="SoftwareAssetDTO"/>
     </typeAliases>
