@@ -25,20 +25,20 @@
             <form th:action="@{/assets/list/asset}" method="get">
                 <div class="input-group mb-3">
                     <select class="form-select" id="category" name="category">
-                        <option value="">All Categories</option>
-                        <option value="assetName">Asset Name</option>
-                        <option value="assetCode">Asset Code</option>
-                        <option value="assetType">Asset Type</option>
-                        <option value="assetStatus">Asset Status</option>
-                        <option value="sn">Serial Number</option>
-                        <option value="location">Location</option>
-                        <option value="dept">Department</option>
-                        <option value="currentUser">Current User</option>
-                        <option value="previousUser">PreviousUser User</option>
-                        <option value="manufacturer">Manufacturer</option>
+                        <option value="" th:text="#{Categories}">All Categories</option>
+                        <option value="assetName" th:text="#{asset.list.asset.name}">Asset Name</option>
+                        <option value="assetCode" th:text="#{asset.list.asset.code}">>Asset Code</option>
+                        <option value="assetType" th:text="#{asset.list.asset.type}">>Asset Type</option>
+                        <option value="assetStatus" th:text="#{asset.list.asset.status}">>Asset Status</option>
+                        <option value="sn" th:text="#{asset.list.serial.number}">>Serial Number</option>
+                        <option value="location" th:text="#{asset.list.location}">>Location</option>
+                        <option value="dept" th:text="#{asset.list.department}">>Department</option>
+                        <option value="currentUser" th:text="#{asset.list.current.user}">>Current User</option>
+                        <option value="previousUser" th:text="#{asset.list.previous.user}">>PreviousUser User</option>
+                        <option value="manufacturer" th:text="#{asset.list.manufacturer}">>Manufacturer</option>
                     </select>
-                    <input type="text" class="form-control" placeholder="Search..." name="keyword"/>
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <input type="text" class="form-control" th:placeholder="#{asset.search.placeholder}" name="keyword"/>
+                    <button type="submit" class="btn btn-primary" th:text="#{asset.search}">Search</button>
                 </div>
             </form>
         </div>
@@ -49,7 +49,7 @@
     <div>
         <form th:action="@{/assets/deleteSelectedAsset}" method="post">
             <div class="mb-3">
-                <button type="submit" class="btn btn-danger">Delete Selected</button>
+                <button type="submit" class="btn btn-danger" th:text="#{asset.delete}">Delete Selected</button>
             </div>
         <table class="table">
             <thead>
@@ -142,13 +142,13 @@
         <div>
             <ul class="pagination">
                 <li class="page-item" th:classappend="${pagination.currentPage == 1} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage - 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}">Previous</a>
+                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage - 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}" th:text="#{asset.previous.button}">Previous</a>
                 </li>
                 <li class="page-item" th:each="i : ${#numbers.sequence(1, pagination.totalPages)}" th:classappend="${i == pagination.currentPage} ? 'active' : ''">
                     <a class="page-link" th:text="${i}" th:href="@{/assets/list/asset(page=${i}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}"></a>
                 </li>
                 <li class="page-item" th:classappend="${pagination.currentPage == pagination.totalPages} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage + 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}">Next</a>
+                    <a class="page-link" th:href="@{/assets/list/asset(page=${pagination.currentPage + 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}" th:text="#{asset.previous.button}">Next</a>
                 </li>
             </ul>
         </div>

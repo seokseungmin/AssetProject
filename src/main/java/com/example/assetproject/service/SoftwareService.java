@@ -37,6 +37,7 @@ public class SoftwareService {
         asset.setAssetCode(form.getAssetCode());
         asset.setAssetName(form.getAssetName());
         asset.setAssetStatus(form.getAssetStatus());
+        asset.setAssetType(form.getAssetType());
         asset.setAssignedDate(form.getAssignedDate());
         asset.setCurrentUser(form.getCurrentUser());
         asset.setDept(form.getDept());

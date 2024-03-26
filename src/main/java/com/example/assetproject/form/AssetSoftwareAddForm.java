@@ -1,6 +1,7 @@
 package com.example.assetproject.form;
 
 import com.example.assetproject.types.Status;
+import com.example.assetproject.types.Type;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -16,6 +17,9 @@ public class AssetSoftwareAddForm {
 
     @NotBlank(message = "자산명은 필수입니다.")
     private String assetName; // 자산명
+
+    @NotNull(message = "자산구분은 필수입니다.")
+    private Type assetType; // 자산구분
 
     @NotNull(message = "자산상태는 필수입니다.")
     private Status assetStatus; // 자산상태

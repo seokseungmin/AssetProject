@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Asset Management Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #007bff; /* 파란색 배경 */
+            display: flex;
+            justify-content: center; /* 가운데 정렬 */
+            align-items: center;
+            height: 100vh;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            background-color: #fff; /* 흰색 배경 */
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+            padding: 20px;
+            width: 300px;
+        }
+
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        li a:hover {
+            color: #007bff;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <li><a href="/assets/list/asset">자산 관리 - 자산</a></li>
+    <li><a href="/assets/list/hardware">자산 관리 - 하드웨어 자산</a></li>
+    <li><a href="/assets/list/software">자산 관리 - 소프트웨어 자산</a></li>
+</ul>
+</body>
+</html>

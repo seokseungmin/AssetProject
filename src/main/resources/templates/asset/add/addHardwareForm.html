@@ -19,7 +19,7 @@
 <div class="container">
     <div class="py-5 text-center">
         <h2 th:text="#{hardware.form.title}">하드웨어 자산 등록 폼</h2>
-        <h6>* <span th:text="#{hardware.required}"></span></h6>
+        <h6><span th:text="#{hardware.required}"></span></h6>
     </div>
     <h4 class="mb-3" th:text="#{hardware.asset.input}">자산 입력</h4>
     <form id="assetForm" th:action th:object="${asset}" method="post">

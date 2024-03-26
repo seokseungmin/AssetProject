@@ -20,7 +20,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary float-end" th:href="@{/assets/add/hardware}">Register Hardware</a>
+                <a class="btn btn-primary float-end" th:href="@{/assets/add/hardware}" th:text="#{hardware.register}">Register Hardware</a>
             </div>
         </div>
 
@@ -31,21 +31,21 @@
                 <form th:action="@{/assets/list/hardware}" method="get">
                     <div class="input-group mb-3">
                         <select class="form-select" id="category" name="category">
-                            <option value="">All Categories</option>
-                            <option value="assetName">Asset Name</option>
-                            <option value="assetType">Asset Type</option>
-                            <option value="assetStatus">Asset Status</option>
-                            <option value="location">Location</option>
-                            <option value="dept">Department</option>
-                            <option value="currentUser">Current User</option>
-                            <option value="cpu">CPU</option>
-                            <option value="ssd">SSD</option>
-                            <option value="hdd">HDD</option>
-                            <option value="memory">Memory</option>
-                            <option value="note">Note</option>
+                            <option value="" th:text="#{Categories}">All Categories</option>
+                            <option value="assetName" th:text="#{hardware.asset.name}">Asset Name</option>
+                            <option value="assetType" th:text="#{hardware.asset.type}">Asset Type</option>
+                            <option value="assetStatus" th:text="#{hardware.asset.status}">Asset Status</option>
+                            <option value="location" th:text="#{hardware.location}">Location</option>
+                            <option value="dept" th:text="#{hardware.department}">Department</option>
+                            <option value="currentUser" th:text="#{hardware.current.user}">Current User</option>
+                            <option value="cpu" th:text="#{hardware.cpu}">CPU</option>
+                            <option value="ssd" th:text="#{hardware.ssd}">SSD</option>
+                            <option value="hdd" th:text="#{hardware.hdd}">HDD</option>
+                            <option value="memory" th:text="#{hardware.memory}">Memory</option>
+                            <option value="note" th:text="#{hardware.note}">Note</option>
                         </select>
-                        <input type="text" class="form-control" placeholder="Search..." name="keyword"/>
-                        <button type="submit" class="btn btn-primary">Search</button>
+                        <input type="text" class="form-control" th:placeholder="#{hardware.search.placeholder}" name="keyword"/>
+                        <button type="submit" class="btn btn-primary" th:text="#{hardware.search}">Search</button>
                     </div>
                 </form>
             </div>
@@ -54,7 +54,7 @@
         <hr class="my-4">
     <form th:action="@{/assets/deleteSelectedHardware}" method="post">
         <div class="mb-3">
-            <button type="submit" class="btn btn-danger">Delete Selected</button>
+            <button type="submit" class="btn btn-danger" th:text="#{hardware.delete}">Delete Selected</button>
         </div>
         <table class="table">
             <thead>
@@ -150,13 +150,13 @@
         <div>
             <ul class="pagination">
                 <li class="page-item" th:classappend="${pagination.currentPage == 1} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{/assets/list/hardware(page=${pagination.currentPage - 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}">Previous</a>
+                    <a class="page-link" th:href="@{/assets/list/hardware(page=${pagination.currentPage - 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}" th:text="#{hardware.previous.button}">Previous</a>
                 </li>
                 <li class="page-item" th:each="i : ${#numbers.sequence(1, pagination.totalPages)}" th:classappend="${i == pagination.currentPage} ? 'active' : ''">
                     <a class="page-link" th:text="${i}" th:href="@{/assets/list/hardware(page=${i}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}"></a>
                 </li>
                 <li class="page-item" th:classappend="${pagination.currentPage == pagination.totalPages} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{/assets/list/hardware(page=${pagination.currentPage + 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}">Next</a>
+                    <a class="page-link" th:href="@{/assets/list/hardware(page=${pagination.currentPage + 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}" th:text="#{hardware.previous.button}">Next</a>
                 </li>
             </ul>
         </div>

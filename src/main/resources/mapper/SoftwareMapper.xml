@@ -103,6 +103,7 @@
         a.location,
         a.dept,
         a.currentUser,
+        sw.softwareIdx,
         sw.expiryDate
         FROM software sw
         JOIN asset a ON sw.assetIdx = a.assetIdx
@@ -148,6 +149,9 @@
             </when>
             <when test="sort == 'dept'">
                 ORDER BY a.dept ${order}
+            </when>
+            <when test="sort == 'currentUser'">
+                ORDER BY a.currentUser ${order}
             </when>
             <when test="sort == 'expiryDate'">
                 ORDER BY sw.expiryDate ${order}

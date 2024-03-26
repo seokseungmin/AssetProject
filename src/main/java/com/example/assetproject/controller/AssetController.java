@@ -44,6 +44,12 @@ public class AssetController {
 //        return "asset/list/asset";
 //    }
 
+    //자산관리 페이지
+    @GetMapping("")
+    public String assetMain(){
+        return "asset/list/home";
+    }
+
     //자산리스트 조회(페이징처리)
     @GetMapping("/list/asset")
     public String assets(@RequestParam(defaultValue = "1") int page,
@@ -121,6 +127,7 @@ public class AssetController {
 
     // //하드웨어 자산리스트 조회(페이징처리)
     @GetMapping("/list/hardware")
+    @ExceptionHandler
     public String hardware(@RequestParam(defaultValue = "1") int page,
                            @RequestParam(required = false) String category,
                            @RequestParam(required = false) String keyword,
