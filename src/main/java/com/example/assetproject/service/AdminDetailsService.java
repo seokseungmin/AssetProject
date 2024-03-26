@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+
 @Service
 @RequiredArgsConstructor
 public class AdminDetailsService implements UserDetailsService {
@@ -30,4 +32,9 @@ public class AdminDetailsService implements UserDetailsService {
     public String findUsernameByEmail(String email) {
         return adminRepository.findUsernameByEmail(email);
     }
+
+    public Admin findByUsernameAndEmail(String username, String email) {
+         return adminRepository.findByUsernameAndEmail(username, email);
+    }
+
 }
