@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Main Page</title>
 </head>
 <body>
-admin page
+<!--로그인한 관리자 정보 보기-->
+<h1>관리자 정보</h1>
+<p>User ID: <span th:text="${adminIdx}"></span></p>
+<p>User name: <span th:text="${username}"></span></p>
+<p>User Password: <span th:text="${password}"></span></p>
+<p>User Email: <span th:text="${email}"></span></p>
+<p>User Role: <span th:text="${role}"></span></p>
+<a href="/logout">로그아웃</a>
 </body>
 </html>

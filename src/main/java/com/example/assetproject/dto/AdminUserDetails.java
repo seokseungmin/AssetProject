@@ -13,8 +13,8 @@ public class AdminUserDetails implements UserDetails {
 
     public AdminUserDetails(Admin admin){
         this.admin = admin;
-
     }
+
     //권한 설정 메서드
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -29,6 +29,14 @@ public class AdminUserDetails implements UserDetails {
     @Override
     public String getPassword() {
         return admin.getPassword();
+    }
+
+    public int getIdx() {
+        return admin.getAdminIdx();
+    }
+
+    public String getEmail() {
+        return admin.getEmail();
     }
 
     @Override
@@ -55,4 +63,5 @@ public class AdminUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

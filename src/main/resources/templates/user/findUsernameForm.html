@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Find Username</title>
+</head>
+<body>
+<form th:action="@{/findUsername}" method="post">
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email">
+    <!-- Thymeleaf를 사용하여 CSRF 토큰 필드 추가 -->
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Find Username</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Username Result</title>
+</head>
+<body>
+<div th:if="${username}">
+    <p>Username: <span th:text="${username}"></span></p>
+</div>
+<div th:if="${username == null}">
+    <p>Username not found for the provided email.</p>
+</div>
+</body>
+</html>

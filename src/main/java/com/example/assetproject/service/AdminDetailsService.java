@@ -27,4 +27,7 @@ public class AdminDetailsService implements UserDetailsService {
         return null;
     }
 
+    public String findUsernameByEmail(String email) {
+        return adminRepository.findUsernameByEmail(email);
+    }
 }

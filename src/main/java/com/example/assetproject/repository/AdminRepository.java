@@ -31,4 +31,8 @@ public class AdminRepository {
         return count != null && count > 0;
     }
 
+    public String findUsernameByEmail(String email) {
+        return sql.selectOne("Admin.findUsernameByEmail", email);
+    }
+
 }

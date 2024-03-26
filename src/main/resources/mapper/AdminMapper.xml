@@ -23,5 +23,10 @@
         WHERE email = #{email}
     </select>
 
+    <select id="findUsernameByEmail" resultType="String">
+        SELECT username FROM admin WHERE email = #{email}
+    </select>
+
+
 
 </mapper>

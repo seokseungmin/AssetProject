@@ -28,14 +28,16 @@
 자산검색<br>
 자산정렬<br>
 
-만들어야할 페이지 및 기능들<br>
-
-관리자 로그인(스프링 시큐리티 JWT or OAuth2)<br>
+관리자 로그인(스프링 시큐리티 Session)<br>
 관리자 로그아웃<br>
-관리자 아이디 찾기<br>
-관리자 비밀번호 찾기(SMTP)<br>
 관리자 추가 페이지<br>
 관리자 조회 페이지<br>
+관리자 아이디 찾기<br>
+
+만들어야할 페이지 및 기능들<br>
+
+
+관리자 비밀번호 찾기(SMTP)<br>
 
 -------관리자쪽 작업 완료해야지 어떤 관리자가 어떤 작업을 처리했는지 로그성 데이터에 (등록, 수정, 삭제) 표시 작업가능-------
 
@@ -47,6 +49,7 @@
 ![Front-end](https://skillicons.dev/icons?i=idea,spring,gradle,java,mysql,html,css,javascript)<br>
 <img src="https://img.shields.io/badge/Spring Web-59666C?style=for-the-badge&logo=Spring&logoColor=white"/>
 <img src="https://img.shields.io/badge/SpringBoot-59666C?style=for-the-badge&logo=SpringBoot&logoColor=white"/>
+<img src="https://img.shields.io/badge/Spring Security-59666C?style=for-the-badge&logo=Spring Security&logoColor=white"/><br>
 <img src="https://img.shields.io/badge/Thymeleaf-59666C?style=for-the-badge&logo=Spring&logoColor=white"/>
 <img src="https://img.shields.io/badge/Mybatis-59666C?style=for-the-badge&logo=Spring&logoColor=white"/>
 <img src="https://img.shields.io/badge/Validation-59666C?style=for-the-badge&logo=Spring&logoColor=white"/>

@@ -1,5 +1,8 @@
 server:
   port: 8080
+  servlet:
+    session:
+      timeout: 90m # 세션 타임아웃을 90분으로 설정
 
 spring:
   datasource:
@@ -25,3 +28,7 @@ logging:
     root: INFO # 전체 로그 레벨 설정
     com.zaxxer.hikari.HikariConfig: DEBUG # HikariCP 설정 관련 디버그 로그 활성화
     com.zaxxer.hikari: TRACE # HikariCP 작동 관련 추적 로그 활성화
+
+org:
+  springframework:
+    security=DEBUG:

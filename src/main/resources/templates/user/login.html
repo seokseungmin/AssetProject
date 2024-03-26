@@ -13,7 +13,7 @@
             <div class="card">
                 <h5 class="card-header">Login</h5>
                 <div class="card-body">
-                    <form action="/loginProcess" method="post">
+                    <form action="/loginProcess" method="post" th:action="@{/loginProcess}">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control" id="username" name="username" required>
@@ -22,8 +22,15 @@
                             <label for="password">Password</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                         </div>
+                        <!-- CSRF 토큰 필드 추가 -->
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
+                    <!-- 추가된 아이디 찾기 및 비밀번호 찾기 버튼 -->
+                    <div class="mt-3">
+                        <a th:href="@{/findUsernameForm}" class="btn btn-link">Find Username</a>
+                        <a th:href="@{/findPassword}" class="btn btn-link">Find Password</a>
+                    </div>
                 </div>
             </div>
         </div>
