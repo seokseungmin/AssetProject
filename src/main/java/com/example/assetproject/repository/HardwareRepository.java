@@ -71,4 +71,11 @@ public class HardwareRepository {
         return sql.selectOne("Hardware.countAllFiltered", params);
     }
 
+    public String findAssetCodeByHardwareIdx(Long hardwareIdx) {
+        return sql.selectOne("Hardware.findAssetCodeByHardwareIdx", hardwareIdx);
+    }
+
+    public String findAssetTypeByHardwareIdx(Long hardwareIdx) {
+        return sql.selectOne("Hardware.findAssetTypeByHardwareIdx", hardwareIdx);
+    }
 }

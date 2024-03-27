@@ -12,6 +12,7 @@ import com.example.assetproject.form.AssetSoftwareAddForm;
 import com.example.assetproject.form.AssetSoftwareUpdateForm;
 import com.example.assetproject.service.AssetService;
 import com.example.assetproject.service.HardwareService;
+import com.example.assetproject.service.HistoryService;
 import com.example.assetproject.service.SoftwareService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,7 @@ public class AssetController {
     private final AssetService assetService;
     private final SoftwareService softwareService;
     private final HardwareService hardwareService;
+    private final HistoryService historyService;
 
     //자산리스트 조회
 //    @GetMapping("/list/asset")

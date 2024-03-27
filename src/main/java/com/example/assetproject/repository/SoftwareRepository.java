@@ -67,4 +67,8 @@ public class SoftwareRepository {
         params.put("keyword", keyword);
         return sql.selectOne("Software.countAllFiltered", params);
     }
+
+    public String findAssetCodeBySoftwareIdx(Long softwareIdx) {
+        return sql.selectOne("Software.findAssetCodeBySoftwareIdx", softwareIdx);
+    }
 }

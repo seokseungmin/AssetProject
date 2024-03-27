@@ -58,4 +58,8 @@ public class AssetRepository {
         params.put("keyword", keyword);
         return sql.selectOne("Asset.countAllFiltered", params);
     }
+
+    public String findAssetTypeById(Long assetIdx) {
+        return sql.selectOne("Asset.findAssetTypeById", assetIdx);
+    }
 }

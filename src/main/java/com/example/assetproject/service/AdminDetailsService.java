@@ -33,8 +33,5 @@ public class AdminDetailsService implements UserDetailsService {
         return adminRepository.findUsernameByEmail(email);
     }
 
-    public Admin findByUsernameAndEmail(String username, String email) {
-         return adminRepository.findByUsernameAndEmail(username, email);
-    }
 
 }

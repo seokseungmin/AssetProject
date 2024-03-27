@@ -11,6 +11,10 @@
         select * from asset where assetIdx= #{id}
     </select>
 
+    <select id="findAssetTypeById" parameterType="Long" resultType="String">
+        select assetType from asset where assetIdx= #{assetIdx}
+    </select>
+
     <insert id="saveHardwareAsset" parameterType="Asset" useGeneratedKeys="true" keyProperty="assetIdx">
         INSERT INTO asset
         (assetCode, assetName, assetType, assetStatus, sn, location, dept,

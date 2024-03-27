@@ -80,6 +80,19 @@
         select assetIdx from hardware where hardwareIdx= #{hardwareIdx}
     </select>
 
+    <select id="findAssetCodeByHardwareIdx" parameterType="Long" resultType="String">
+        select a.assetCode from hardware hw
+        Join asset a on hw.assetIdx = a.assetIdx
+        where hardwareIdx= #{hardwareIdx}
+    </select>
+
+    <select id="findAssetTypeByHardwareIdx" parameterType="Long" resultType="String">
+        select a.assetType from hardware hw
+        Join asset a on hw.assetIdx = a.assetIdx
+        where hardwareIdx= #{hardwareIdx}
+    </select>
+
+
     <select id="findHardwareIdxByAssetIdx" parameterType="Long" resultType="Long">
         select hardwareIdx from hardware where assetIdx= #{assetIdx}
     </select>

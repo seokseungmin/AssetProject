@@ -1,17 +1,28 @@
 package com.example.assetproject.service;
 
+import com.example.assetproject.dto.AdminUserDetails;
+import com.example.assetproject.dto.HardwareAssetDTO;
 import com.example.assetproject.entity.Asset;
 import com.example.assetproject.entity.Hardware;
-import com.example.assetproject.dto.HardwareAssetDTO;
+import com.example.assetproject.entity.History;
 import com.example.assetproject.form.AssetHardwareAddForm;
 import com.example.assetproject.form.AssetHardwareUpdateForm;
 import com.example.assetproject.repository.AssetRepository;
 import com.example.assetproject.repository.HardwareRepository;
+import com.example.assetproject.repository.HistoryRepository;
+import com.example.assetproject.types.Action;
+import com.example.assetproject.types.Type;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +34,7 @@ public class HardwareService {
 
     private final HardwareRepository hardwareRepository;
     private final AssetRepository assetRepository;
+    private final HistoryRepository historyRepository;
 
 //    public List<Hardware> findAll() {
 //        return hardwareRepository.findAll();
@@ -52,6 +64,14 @@ public class HardwareService {
         Long assetIdx = asset.getAssetIdx();
 
         // Hardware 데이터 저장, Asset 저장으로부터 생성된 ID(또는 assetCode)를 사용
+        // form에서 받은 hardware 관련 데이터 설정
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+        String username = ((AdminUserDetails) principal).getUsername();
+
+        LocalDateTime now = LocalDateTime.now();
+
         Hardware hardware = new Hardware();
         hardware.setAssetIdx(assetIdx); // 여기에서 assetIdx 설정
         hardware.setCpu(form.getCpu());
@@ -59,8 +79,17 @@ public class HardwareService {
         hardware.setHdd(form.getHdd());
         hardware.setMemory(form.getMemory());
         hardware.setNote(form.getNote());
-        // form에서 받은 hardware 관련 데이터 설정
-        // ...
+
+        History history = new History();
+        history.setAssetCode(form.getAssetCode());
+        history.setAssetType(form.getAssetType());
+        history.setAction(Action.CREATE);
+        history.setChangedBy(username);
+        history.setChangedDate(now);
+        history.setAssetJSON(null);
+
+        historyRepository.save(history);
+
         hardwareRepository.save(hardware); // MyBatis 사용 시, 적절한 매퍼 메소드 호출
         return assetIdx;
     }
@@ -71,10 +100,19 @@ public class HardwareService {
 
     @Transactional
     public void update(Long hardwareIdx, AssetHardwareUpdateForm form) {
+        // 업데이트 전 HardwareAssetDTO 정보 불러오기
+        HardwareAssetDTO originalHardware = hardwareRepository.findHardwareById(hardwareIdx);
+        if (originalHardware == null) {
+            throw new IllegalArgumentException("Hardware not found with id: " + hardwareIdx);
+        }
 
+        // 업데이트 전 상태 캡처
+        Map<String, Object> beforeHardwareInfo = captureHardwareInfo(originalHardware);
+
+        // 실제 Hardware 엔티티 업데이트 로직
         Hardware hardware = hardwareRepository.findById(hardwareIdx);
         if (hardware == null) {
-            throw new IllegalArgumentException("Hardware not found with id: " + hardwareIdx);
+            throw new IllegalArgumentException("Hardware entity not found with id: " + hardwareIdx);
         }
 
         // Asset 엔티티 업데이트 로직 추가
@@ -98,13 +136,94 @@ public class HardwareService {
         asset.setPurchaseDate(form.getPurchaseDate());
         asset.setReturnDate(form.getReturnDate());
         asset.setSn(form.getSn());
-
         assetRepository.update(asset);
 
+
+        // Hardware 엔티티 업데이트
         hardware.update(form.getCpu(), form.getSsd(), form.getHdd(), form.getMemory(), form.getNote());
+
+        HardwareAssetDTO changedHardware = new HardwareAssetDTO();
+        changedHardware.setAssetCode(form.getAssetCode());
+        changedHardware.setAssetName(form.getAssetName());
+        changedHardware.setAssetType(form.getAssetType());
+        changedHardware.setAssetStatus(form.getAssetStatus());
+        changedHardware.setSn(form.getSn());
+        changedHardware.setLocation(form.getLocation());
+        changedHardware.setDept(form.getDept());
+        changedHardware.setPurchaseDate(form.getPurchaseDate());
+        changedHardware.setAssignedDate(form.getAssignedDate());
+        changedHardware.setReturnDate(form.getReturnDate());
+        changedHardware.setCurrentUser(form.getCurrentUser());
+        changedHardware.setPreviousUser(form.getPreviousUser());
+        changedHardware.setManufacturer(form.getManufacturer());
+
+        changedHardware.setCpu(form.getCpu());
+        changedHardware.setSsd(form.getSsd());
+        changedHardware.setHdd(form.getHdd());
+        changedHardware.setMemory(form.getMemory());
+        changedHardware.setNote(form.getNote());
         hardwareRepository.update(hardware);
+
+        // 업데이트 후 상태 캡처
+        Map<String, Object> afterHardwareInfo = captureHardwareInfo(changedHardware);
+
+        // 사용자 정보 캡처
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = ((AdminUserDetails) authentication.getPrincipal()).getUsername();
+
+        // JSON 문자열 생성 및 History 객체 생성 및 저장
+        String historyJson = createHistoryJson(beforeHardwareInfo, afterHardwareInfo);
+        saveHardwareHistory(form.getAssetCode(), String.valueOf(form.getAssetType()), username, LocalDateTime.now(), historyJson);
     }
 
+    private Map<String, Object> captureHardwareInfo(HardwareAssetDTO hardware) {
+        Map<String, Object> hardwareInfo = new HashMap<>();
+        hardwareInfo.put("assetCode", hardware.getAssetCode());
+        hardwareInfo.put("assetName", hardware.getAssetName());
+        hardwareInfo.put("assetType", hardware.getAssetType());
+        hardwareInfo.put("assetStatus", hardware.getAssetStatus());
+        hardwareInfo.put("sn", hardware.getSn());
+        hardwareInfo.put("location", hardware.getLocation());
+        hardwareInfo.put("dept", hardware.getDept());
+        hardwareInfo.put("purchaseDate", hardware.getPurchaseDate());
+        hardwareInfo.put("assignedDate", hardware.getAssignedDate());
+        hardwareInfo.put("returnDate", hardware.getReturnDate());
+        hardwareInfo.put("currentUser", hardware.getCurrentUser());
+        hardwareInfo.put("previousUser", hardware.getPreviousUser());
+        hardwareInfo.put("manufacturer", hardware.getManufacturer());
+
+        hardwareInfo.put("cpu", hardware.getCpu());
+        hardwareInfo.put("ssd", hardware.getSsd());
+        hardwareInfo.put("hdd", hardware.getHdd());
+        hardwareInfo.put("memory", hardware.getMemory());
+        hardwareInfo.put("note", hardware.getNote());
+        return hardwareInfo;
+    }
+
+    private String createHistoryJson(Map<String, Object> beforeInfo, Map<String, Object> afterInfo) {
+        Map<String, Object> historyMap = new HashMap<>();
+        historyMap.put("before", beforeInfo);
+        historyMap.put("after", afterInfo);
+
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());;
+        try {
+            return objectMapper.writeValueAsString(historyMap);
+        } catch (JsonProcessingException e) {
+            log.error("Error creating JSON string for history", e);
+            return null;
+        }
+    }
+
+    private void saveHardwareHistory(String assetCode, String assetType, String changedBy, LocalDateTime changedDate, String historyJson) {
+        History history = new History();
+        history.setAssetCode(assetCode);
+        history.setAssetType(Type.valueOf(assetType));
+        history.setAction(Action.UPDATE);
+        history.setChangedBy(changedBy);
+        history.setChangedDate(changedDate);
+        history.setAssetJSON(historyJson);
+        historyRepository.save(history);
+    }
 
     public HardwareAssetDTO findHardwareById(Long hardwareIdx) {
         return hardwareRepository.findHardwareById(hardwareIdx);
@@ -115,11 +234,29 @@ public class HardwareService {
         for (Long hardwareIdx : hardwareIds) {
             // 각 소프트웨어에 대해 Asset ID(assetIdx)를 찾아낸다.
             Long assetIdx = hardwareRepository.findAssetIdxByHardwareIdx(hardwareIdx);
+            String assetCode = hardwareRepository.findAssetCodeByHardwareIdx(hardwareIdx);
+            String assetType = hardwareRepository.findAssetTypeByHardwareIdx(hardwareIdx);
+
             if (assetIdx != null) {
                 // 먼저 Software를 삭제한다.
                 hardwareRepository.deleteById(hardwareIdx);
                 // 연결된 Asset도 삭제한다.
                 assetRepository.deleteById(assetIdx);
+
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                Object principal = authentication.getPrincipal();
+                String username = ((AdminUserDetails) principal).getUsername();
+
+                LocalDateTime now = LocalDateTime.now();
+
+                History history = new History();
+                history.setAssetCode(assetCode);
+                history.setAssetType(Type.valueOf(assetType));
+                history.setAction(Action.DELETE);
+                history.setChangedBy(username);
+                history.setChangedDate(now);
+                history.setAssetJSON(null);
+                historyRepository.save(history);
             }
         }
     }

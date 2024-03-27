@@ -1,14 +1,22 @@
 package com.example.assetproject.service;
 
+import com.example.assetproject.dto.AdminUserDetails;
 import com.example.assetproject.entity.Asset;
 import com.example.assetproject.entity.Hardware;
+import com.example.assetproject.entity.History;
 import com.example.assetproject.repository.AssetRepository;
 import com.example.assetproject.repository.HardwareRepository;
+import com.example.assetproject.repository.HistoryRepository;
 import com.example.assetproject.repository.SoftwareRepository;
+import com.example.assetproject.types.Action;
+import com.example.assetproject.types.Type;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +28,7 @@ public class AssetService {
     private final AssetRepository assetRepository;
     private final HardwareRepository hardwareRepository;
     private final SoftwareRepository softwareRepository;
+    private final HistoryRepository historyRepository;
 
 //    public List<Asset> findAll() {
 //        return assetRepository.findAll();
@@ -39,15 +48,40 @@ public class AssetService {
             // 각 소프트웨어에 대해 Asset ID(assetIdx)를 찾아낸다.
 
             String assetCode = assetRepository.findAssetCodeById(assetIdx);
+            String assetType = assetRepository.findAssetTypeById(assetIdx);
+
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Object principal = authentication.getPrincipal();
+            String username = ((AdminUserDetails) principal).getUsername();
+
+            LocalDateTime now = LocalDateTime.now();
+
+            History history = new History();
 
             if(assetIdx != null && assetCode.startsWith("HW")){
                 Long hardwareIdx = hardwareRepository.findHardwareIdxByAssetIdx(assetIdx);
                 hardwareRepository.deleteById(hardwareIdx);
                 assetRepository.deleteById(assetIdx);
+
+                history.setAssetCode(assetCode);
+                history.setAssetType(Type.valueOf(assetType));
+                history.setAction(Action.DELETE);
+                history.setChangedBy(username);
+                history.setChangedDate(now);
+                history.setAssetJSON(null);
+                historyRepository.save(history);
             }else if(assetIdx != null && assetCode.startsWith("SW")){
                 Long softwareIdx = softwareRepository.findSoftwareIdxByAssetIdx(assetIdx);
                 softwareRepository.deleteById(softwareIdx);
                 assetRepository.deleteById(assetIdx);
+
+                history.setAssetCode(assetCode);
+                history.setAssetType(Type.valueOf(assetType));
+                history.setAction(Action.DELETE);
+                history.setChangedBy(username);
+                history.setChangedDate(now);
+                history.setAssetJSON(null);
+                historyRepository.save(history);
             }
         }
     }

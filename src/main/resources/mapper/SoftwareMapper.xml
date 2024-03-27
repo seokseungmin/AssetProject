@@ -68,6 +68,12 @@
         SELECT assetIdx FROM software WHERE softwareIdx = #{softwareIdx}
     </select>
 
+    <select id="findAssetCodeBySoftwareIdx" parameterType="long" resultType="String">
+        SELECT a.assetCode FROM software s
+        JOIN asset a ON s.assetIdx = a.assetIdx
+        WHERE softwareIdx = #{softwareIdx}
+    </select>
+
     <select id="findSoftwareIdxByAssetIdx" parameterType="long" resultType="long">
         SELECT softwareIdx FROM software WHERE assetIdx = #{assetIdx}
     </select>
