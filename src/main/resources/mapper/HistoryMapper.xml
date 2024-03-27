@@ -10,4 +10,112 @@
             (#{assetCode}, #{assetType}, #{action}, #{changedBy}, #{changedDate}, #{assetJSON})
     </insert>
 
+    <select id="findAll" resultType="History">
+        SELECT * FROM History
+    </select>
+
+    <!-- 검색 조건과 페이징을 적용하여 전체 이력 수를 계산 -->
+    <select id="countAllFiltered" parameterType="map" resultType="Integer">
+        SELECT
+        COUNT(historyIdx)
+        FROM history
+        <where>
+            <if test="category != null and category != '' and keyword != null">
+                <choose>
+                    <when test="category == 'historyIdx'">
+                        AND historyIdx LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetCode'">
+                        AND assetCode LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetType'">
+                        AND assetType LIKE #{keyword}
+                    </when>
+                    <when test="category == 'action'">
+                        AND action LIKE #{keyword}
+                    </when>
+                    <!-- 여기에 다른 카테고리 조건을 추가할 수 있습니다. -->
+                    <when test="category == 'changedBy'">
+                        AND changedBy LIKE #{keyword}
+                    </when>
+                    <when test="category == 'changedDate'">
+                        AND changedDate LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetJSON'">
+                        AND assetJSON LIKE #{keyword}
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+    <!-- 검색 조건, 페이징 및 정렬을 적용하여 이력 목록 조회 -->
+    <select id="findAllWithPagingAndFilter" parameterType="map" resultType="History">
+        SELECT
+        historyIdx,
+        assetCode,
+        assetType,
+        action,
+        changedBy,
+        changedDate,
+        assetJSON
+        FROM history
+        <where>
+            <if test="category != null and category != '' and keyword != null">
+                <choose>
+                    <when test="category == 'historyIdx'">
+                        AND historyIdx LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetCode'">
+                        AND assetCode LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetType'">
+                        AND assetType LIKE #{keyword}
+                    </when>
+                    <when test="category == 'action'">
+                        AND action LIKE #{keyword}
+                    </when>
+                    <!-- 여기에 다른 카테고리 조건을 추가할 수 있습니다. -->
+                    <when test="category == 'changedBy'">
+                        AND changedBy LIKE #{keyword}
+                    </when>
+                    <when test="category == 'changedDate'">
+                        AND changedDate LIKE #{keyword}
+                    </when>
+                    <when test="category == 'assetJSON'">
+                        AND assetJSON LIKE #{keyword}
+                    </when>
+                </choose>
+            </if>
+        </where>
+        <choose>
+            <when test="sort == 'historyIdx'">
+                ORDER BY historyIdx ${order}
+            </when>
+            <when test="sort == 'assetCode'">
+                ORDER BY assetCode ${order}
+            </when>
+            <when test="sort == 'assetType'">
+                ORDER BY assetType ${order}
+            </when>
+            <when test="sort == 'action'">
+                ORDER BY action ${order}
+            </when>
+            <when test="sort == 'changedBy'">
+                ORDER BY changedBy ${order}
+            </when>
+            <when test="sort == 'changedDate'">
+                ORDER BY changedDate ${order}
+            </when>
+            <when test="sort == 'assetJSON'">
+                ORDER BY assetJSON ${order}
+            </when>
+            <!-- 이하 정렬 조건들 생략 -->
+            <otherwise>
+                ORDER BY historyIdx ASC
+            </otherwise>
+        </choose>
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
 </mapper>

@@ -23,7 +23,7 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/","/login","/findUsernameForm","/findUsername","/findPasswordForm").permitAll()
-                        .requestMatchers("/assets/**","/register","/registerProcess").hasRole("ADMIN") //관리자만 접근가능
+                        .requestMatchers("/assets/**","/register","/registerProcess","/histories").hasRole("ADMIN") //관리자만 접근가능
                         .anyRequest().authenticated() //인증을 한사람들
                 );
 

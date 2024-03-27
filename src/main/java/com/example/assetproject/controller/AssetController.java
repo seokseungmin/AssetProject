@@ -36,7 +36,6 @@ public class AssetController {
     private final AssetService assetService;
     private final SoftwareService softwareService;
     private final HardwareService hardwareService;
-    private final HistoryService historyService;
 
     //자산리스트 조회
 //    @GetMapping("/list/asset")

@@ -18,6 +18,9 @@ spring:
       poolName: MyPool # HikariCP 커넥션 풀의 이름
   messages:
     basename: messages,errors
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

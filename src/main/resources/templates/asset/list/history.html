@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>History List</title>
+    <!-- 스타일시트와 자바스크립트 리소스를 필요에 따라 추가하세요 -->
+</head>
+<body>
+<div class="container">
+    <h2>History List</h2>
+
+    <!-- 검색 폼 -->
+    <div>
+        <form th:action="@{/histories}" method="get">
+            <input type="text" name="keyword" placeholder="Search..." th:value="${keyword}"/>
+            <select name="category">
+                <option value="">Select Category</option>
+                <option value="assetCode" th:selected="${category == 'assetCode'}">Asset Code</option>
+                <option value="assetType" th:selected="${category == 'assetType'}">Asset Type</option>
+                <option value="action" th:selected="${category == 'action'}">Action</option>
+                <option value="changedBy" th:selected="${category == 'changedBy'}">Changed By</option>
+                <option value="changedDate" th:selected="${category == 'changedDate'}">Changed Date</option>
+                <option value="assetJSON" th:selected="${category == 'assetJSON'}">JSON</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- 히스토리 테이블 -->
+    <table>
+        <thead>
+        <tr>
+            <th>
+                <span th:text="#{asset.list.id}">ID</span>
+                <a th:href="@{/histories(sort='historyIdx', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                <a th:href="@{/histories(sort='historyIdx', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+            </th>
+            <th>
+                <span th:text="#{asset.list.asset.code}">Asset Code</span>
+                <a th:href="@{/histories(sort='assetCode', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                <a th:href="@{/histories(sort='assetCode', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+            </th>
+            <th>
+                <span th:text="#{asset.list.asset.type}">Asset Type</span>
+                <a th:href="@{/histories(sort='assetType', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                <a th:href="@{/histories(sort='assetType', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+            </th>
+            <th>
+                <span th:text="#{asset.list.asset.action}">Action</span>
+                <a th:href="@{/histories(sort='action', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                <a th:href="@{/histories(sort='action', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+            </th>
+            <th>
+                <span th:text="#{asset.list.asset.changedBy}">Changed By</span>
+                <a th:href="@{/histories(sort='changedBy', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                <a th:href="@{/histories(sort='changedBy', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+            </th>
+            <th>
+                <span th:text="#{asset.list.asset.changedDate}">Changed Date</span>
+                <a th:href="@{/histories(sort='changedDate', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                <a th:href="@{/histories(sort='changedDate', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+            </th>
+            <th>
+                <span th:text="#{asset.list.asset.JSON}">JSON Data</span>
+                <a th:href="@{/histories(sort='assetJSON', order='asc', category=${category}, keyword=${keyword}, page=${page})}">▲</a>
+                <a th:href="@{/histories(sort='assetJSON', order='desc', category=${category}, keyword=${keyword}, page=${page})}">▼</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="history : ${histories}">
+            <td th:text="${history.historyIdx}"></td>
+            <td th:text="${history.assetCode}"></td>
+            <td th:text="${history.assetType}"></td>
+            <td th:text="${history.action}"></td>
+            <td th:text="${history.changedBy}"></td>
+            <td th:text="${history.changedDate}"></td>
+            <td th:text="${history.assetJSON}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 페이징 처리 -->
+    <div>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${pagination.currentPage == 1} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{/histories(page=${pagination.currentPage - 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}" th:text="#{previous}">Previous</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(1, pagination.totalPages)}" th:classappend="${i == pagination.currentPage} ? 'active' : ''">
+                <a class="page-link" th:text="${i}" th:href="@{/histories(page=${i}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}"></a>
+            </li>
+            <li class="page-item" th:classappend="${pagination.currentPage == pagination.totalPages} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{/histories(page=${pagination.currentPage + 1}, category=${category}, keyword=${keyword}, sort=${sort}, order=${order})}" th:text="#{next}">Next</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+</body>
+</html>
