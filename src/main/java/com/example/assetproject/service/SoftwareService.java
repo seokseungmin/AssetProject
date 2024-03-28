@@ -80,15 +80,29 @@ public class SoftwareService {
 
         softwareRepository.save(software); // MyBatis 사용 시, 적절한 매퍼 메소드 호출
 
-        History history = new History();
-        history.setAssetCode(form.getAssetCode());
-        history.setAssetType(form.getAssetType());
-        history.setAction(Action.CREATE);
-        history.setChangedBy(username);
-        history.setChangedDate(now);
-        history.setAssetJSON(null);
+        SoftwareAssetDTO createSoftware = new SoftwareAssetDTO();
+        createSoftware.setAssetCode(form.getAssetCode());
+        createSoftware.setAssetName(form.getAssetName());
+        createSoftware.setAssetType(form.getAssetType());
+        createSoftware.setAssetStatus(form.getAssetStatus());
+        createSoftware.setSn(form.getSn());
+        createSoftware.setLocation(form.getLocation());
+        createSoftware.setDept(form.getDept());
+        createSoftware.setPurchaseDate(form.getPurchaseDate());
+        createSoftware.setAssignedDate(form.getAssignedDate());
+        createSoftware.setReturnDate(form.getReturnDate());
+        createSoftware.setCurrentUser(form.getCurrentUser());
+        createSoftware.setPreviousUser(form.getPreviousUser());
+        createSoftware.setManufacturer(form.getManufacturer());
 
-        historyRepository.save(history);
+        createSoftware.setExpiryDate(form.getExpiryDate());
+        createSoftware.setNote(form.getNote());
+
+        Map<String, Object> createSoftwareInfo = captureSoftwareInfo(createSoftware);
+
+        String historyJson = HistoryJson(createSoftwareInfo);
+        saveSoftwareHistory(form.getAssetCode(), String.valueOf(Type.SOFTWARE), String.valueOf(Action.CREATE), username, LocalDateTime.now(), historyJson);
+
         return assetIdx;
     }
 
@@ -163,7 +177,7 @@ public class SoftwareService {
 
         // JSON 문자열 생성 및 History 객체 생성 및 저장
         String historyJson = createHistoryJson(beforeSoftwareInfo, afterSoftwareInfo);
-        saveSoftwareHistory(form.getAssetCode(), String.valueOf(form.getAssetType()), username, LocalDateTime.now(), historyJson);
+        saveSoftwareHistory(form.getAssetCode(), String.valueOf(form.getAssetType()), String.valueOf(Action.UPDATE), username, LocalDateTime.now(), historyJson);
 
     }
 
@@ -202,11 +216,24 @@ public class SoftwareService {
         }
     }
 
-    private void saveSoftwareHistory(String assetCode, String assetType, String changedBy, LocalDateTime changedDate, String historyJson) {
+    private String HistoryJson(Map<String, Object> Info) {
+        Map<String, Object> historyMap = new HashMap<>();
+        historyMap.put("SoftwareInfo", Info);
+
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());;
+        try {
+            return objectMapper.writeValueAsString(historyMap);
+        } catch (JsonProcessingException e) {
+            log.error("Error creating JSON string for history", e);
+            return null;
+        }
+    }
+
+    private void saveSoftwareHistory(String assetCode, String assetType, String action, String changedBy, LocalDateTime changedDate, String historyJson) {
         History history = new History();
         history.setAssetCode(assetCode);
         history.setAssetType(Type.valueOf(assetType));
-        history.setAction(Action.UPDATE);
+        history.setAction(Action.valueOf(action));
         history.setChangedBy(changedBy);
         history.setChangedDate(changedDate);
         history.setAssetJSON(historyJson);
@@ -223,6 +250,9 @@ public class SoftwareService {
             // 각 소프트웨어에 대해 Asset ID(assetIdx)를 찾아낸다.
             Long assetIdx = softwareRepository.findAssetIdxBySoftwareIdx(softwareIdx);
             String assetCode = softwareRepository.findAssetCodeBySoftwareIdx(softwareIdx);
+            Asset asset = assetRepository.findById(assetIdx);
+            Software software = softwareRepository.findById(softwareIdx);
+
             if (assetIdx != null) {
                 // 먼저 Software를 삭제한다.
                 softwareRepository.deleteById(softwareIdx);
@@ -235,14 +265,28 @@ public class SoftwareService {
 
                 LocalDateTime now = LocalDateTime.now();
 
-                History history = new History();
-                history.setAssetCode(assetCode);
-                history.setAssetType(Type.SOFTWARE);
-                history.setAction(Action.DELETE);
-                history.setChangedBy(username);
-                history.setChangedDate(now);
-                history.setAssetJSON(null);
-                historyRepository.save(history);
+                SoftwareAssetDTO deleteSoftware = new SoftwareAssetDTO();
+                deleteSoftware.setAssetCode(asset.getAssetCode());
+                deleteSoftware.setAssetName(asset.getAssetName());
+                deleteSoftware.setAssetType(asset.getAssetType());
+                deleteSoftware.setAssetStatus(asset.getAssetStatus());
+                deleteSoftware.setSn(asset.getSn());
+                deleteSoftware.setLocation(asset.getLocation());
+                deleteSoftware.setDept(asset.getDept());
+                deleteSoftware.setPurchaseDate(asset.getPurchaseDate());
+                deleteSoftware.setAssignedDate(asset.getAssignedDate());
+                deleteSoftware.setReturnDate(asset.getReturnDate());
+                deleteSoftware.setCurrentUser(asset.getCurrentUser());
+                deleteSoftware.setPreviousUser(asset.getPreviousUser());
+                deleteSoftware.setManufacturer(asset.getManufacturer());
+
+                deleteSoftware.setExpiryDate(software.getExpiryDate());
+                deleteSoftware.setNote(software.getNote());
+
+                Map<String, Object> createSoftwareInfo = captureSoftwareInfo(deleteSoftware);
+
+                String historyJson = HistoryJson(createSoftwareInfo);
+                saveSoftwareHistory(asset.getAssetCode(), String.valueOf(Type.SOFTWARE), String.valueOf(Action.DELETE), username, LocalDateTime.now(), historyJson);
             }
         }
     }

@@ -80,15 +80,30 @@ public class HardwareService {
         hardware.setMemory(form.getMemory());
         hardware.setNote(form.getNote());
 
-        History history = new History();
-        history.setAssetCode(form.getAssetCode());
-        history.setAssetType(form.getAssetType());
-        history.setAction(Action.CREATE);
-        history.setChangedBy(username);
-        history.setChangedDate(now);
-        history.setAssetJSON(null);
+        HardwareAssetDTO createHardware = new HardwareAssetDTO();
+        createHardware.setAssetCode(form.getAssetCode());
+        createHardware.setAssetName(form.getAssetName());
+        createHardware.setAssetType(form.getAssetType());
+        createHardware.setAssetStatus(form.getAssetStatus());
+        createHardware.setSn(form.getSn());
+        createHardware.setLocation(form.getLocation());
+        createHardware.setDept(form.getDept());
+        createHardware.setPurchaseDate(form.getPurchaseDate());
+        createHardware.setAssignedDate(form.getAssignedDate());
+        createHardware.setReturnDate(form.getReturnDate());
+        createHardware.setCurrentUser(form.getCurrentUser());
+        createHardware.setPreviousUser(form.getPreviousUser());
+        createHardware.setManufacturer(form.getManufacturer());
 
-        historyRepository.save(history);
+        createHardware.setCpu(form.getCpu());
+        createHardware.setSsd(form.getSsd());
+        createHardware.setHdd(form.getHdd());
+        createHardware.setMemory(form.getMemory());
+        createHardware.setNote(form.getNote());
+
+        Map<String, Object> HardwareInfo = captureHardwareInfo(createHardware);
+        String historyJson = HistoryJson(HardwareInfo);
+        saveHardwareHistory(form.getAssetCode(), String.valueOf(form.getAssetType()), String.valueOf(Action.CREATE), username, LocalDateTime.now(), historyJson);
 
         hardwareRepository.save(hardware); // MyBatis 사용 시, 적절한 매퍼 메소드 호출
         return assetIdx;
@@ -173,7 +188,7 @@ public class HardwareService {
 
         // JSON 문자열 생성 및 History 객체 생성 및 저장
         String historyJson = createHistoryJson(beforeHardwareInfo, afterHardwareInfo);
-        saveHardwareHistory(form.getAssetCode(), String.valueOf(form.getAssetType()), username, LocalDateTime.now(), historyJson);
+        saveHardwareHistory(form.getAssetCode(), String.valueOf(form.getAssetType()), String.valueOf(Action.UPDATE), username, LocalDateTime.now(), historyJson);
     }
 
     private Map<String, Object> captureHardwareInfo(HardwareAssetDTO hardware) {
@@ -214,11 +229,24 @@ public class HardwareService {
         }
     }
 
-    private void saveHardwareHistory(String assetCode, String assetType, String changedBy, LocalDateTime changedDate, String historyJson) {
+    private String HistoryJson(Map<String, Object> HardwareInfo) {
+        Map<String, Object> historyMap = new HashMap<>();
+        historyMap.put("HardwareInfo", HardwareInfo);
+
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());;
+        try {
+            return objectMapper.writeValueAsString(historyMap);
+        } catch (JsonProcessingException e) {
+            log.error("Error creating JSON string for history", e);
+            return null;
+        }
+    }
+
+    private void saveHardwareHistory(String assetCode, String assetType, String action, String changedBy, LocalDateTime changedDate, String historyJson) {
         History history = new History();
         history.setAssetCode(assetCode);
         history.setAssetType(Type.valueOf(assetType));
-        history.setAction(Action.UPDATE);
+        history.setAction(Action.valueOf(action));
         history.setChangedBy(changedBy);
         history.setChangedDate(changedDate);
         history.setAssetJSON(historyJson);
@@ -236,6 +264,8 @@ public class HardwareService {
             Long assetIdx = hardwareRepository.findAssetIdxByHardwareIdx(hardwareIdx);
             String assetCode = hardwareRepository.findAssetCodeByHardwareIdx(hardwareIdx);
             String assetType = hardwareRepository.findAssetTypeByHardwareIdx(hardwareIdx);
+            Asset asset = assetRepository.findById(assetIdx);
+            Hardware hardware = hardwareRepository.findById(hardwareIdx);
 
             if (assetIdx != null) {
                 // 먼저 Software를 삭제한다.
@@ -249,14 +279,30 @@ public class HardwareService {
 
                 LocalDateTime now = LocalDateTime.now();
 
-                History history = new History();
-                history.setAssetCode(assetCode);
-                history.setAssetType(Type.valueOf(assetType));
-                history.setAction(Action.DELETE);
-                history.setChangedBy(username);
-                history.setChangedDate(now);
-                history.setAssetJSON(null);
-                historyRepository.save(history);
+                HardwareAssetDTO deleteHardware = new HardwareAssetDTO();
+                deleteHardware.setAssetCode(asset.getAssetCode());
+                deleteHardware.setAssetName(asset.getAssetName());
+                deleteHardware.setAssetType(asset.getAssetType());
+                deleteHardware.setAssetStatus(asset.getAssetStatus());
+                deleteHardware.setSn(asset.getSn());
+                deleteHardware.setLocation(asset.getLocation());
+                deleteHardware.setDept(asset.getDept());
+                deleteHardware.setPurchaseDate(asset.getPurchaseDate());
+                deleteHardware.setAssignedDate(asset.getAssignedDate());
+                deleteHardware.setReturnDate(asset.getReturnDate());
+                deleteHardware.setCurrentUser(asset.getCurrentUser());
+                deleteHardware.setPreviousUser(asset.getPreviousUser());
+                deleteHardware.setManufacturer(asset.getManufacturer());
+
+                deleteHardware.setCpu(hardware.getCpu());
+                deleteHardware.setSsd(hardware.getSsd());
+                deleteHardware.setHdd(hardware.getHdd());
+                deleteHardware.setMemory(hardware.getMemory());
+                deleteHardware.setNote(hardware.getNote());
+
+                Map<String, Object> HardwareInfo = captureHardwareInfo(deleteHardware);
+                String historyJson = HistoryJson(HardwareInfo);
+                saveHardwareHistory(asset.getAssetCode(), String.valueOf(asset.getAssetType()), String.valueOf(Action.DELETE), username, LocalDateTime.now(), historyJson);
             }
         }
     }

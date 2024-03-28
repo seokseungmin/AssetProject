@@ -7,20 +7,20 @@
 </head>
 <body>
 <div class="container">
-    <h2>History List</h2>
+    <h2 th:text="#{asset.list.history}">History List</h2>
 
     <!-- 검색 폼 -->
     <div>
         <form th:action="@{/histories}" method="get">
             <input type="text" name="keyword" placeholder="Search..." th:value="${keyword}"/>
             <select name="category">
-                <option value="">Select Category</option>
-                <option value="assetCode" th:selected="${category == 'assetCode'}">Asset Code</option>
-                <option value="assetType" th:selected="${category == 'assetType'}">Asset Type</option>
-                <option value="action" th:selected="${category == 'action'}">Action</option>
-                <option value="changedBy" th:selected="${category == 'changedBy'}">Changed By</option>
-                <option value="changedDate" th:selected="${category == 'changedDate'}">Changed Date</option>
-                <option value="assetJSON" th:selected="${category == 'assetJSON'}">JSON</option>
+                <option value="" th:text="#{Categories}">Select Category</option>
+                <option value="assetCode" th:selected="${category == 'assetCode'}" th:text="#{asset.list.asset.name}">Asset Code</option>
+                <option value="assetType" th:selected="${category == 'assetType'}" th:text="#{asset.list.asset.type}">Asset Type</option>
+                <option value="action" th:selected="${category == 'action'}" th:text="#{asset.list.asset.action}">Action</option>
+                <option value="changedBy" th:selected="${category == 'changedBy'}" th:text="#{asset.list.asset.changedBy}">Changed By</option>
+                <option value="changedDate" th:selected="${category == 'changedDate'}" th:text="#{asset.list.asset.changedDate}">Changed Date</option>
+                <option value="assetJSON" th:selected="${category == 'assetJSON'}" th:text="#{asset.list.asset.JSON}">JSON</option>
             </select>
             <button type="submit">Search</button>
         </form>
