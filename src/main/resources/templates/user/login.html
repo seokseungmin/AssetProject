@@ -12,6 +12,7 @@
         <div class="col-md-6">
             <div class="card">
                 <h5 class="card-header">Login</h5>
+                <div th:if="${message}" th:text="${message}"></div>
                 <div class="card-body">
                     <form action="/loginProcess" method="post" th:action="@{/loginProcess}">
                         <div class="form-group">
@@ -29,7 +30,7 @@
                     <!-- 추가된 아이디 찾기 및 비밀번호 찾기 버튼 -->
                     <div class="mt-3">
                         <a th:href="@{/findUsernameForm}" class="btn btn-link">Find Username</a>
-                        <a th:href="@{/findPasswordForm}" class="btn btn-link">Find Password</a>
+                        <a th:href="@{/resetPasswordForm}" class="btn btn-link">Find Password</a>
                     </div>
                 </div>
             </div>
@@ -40,5 +41,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

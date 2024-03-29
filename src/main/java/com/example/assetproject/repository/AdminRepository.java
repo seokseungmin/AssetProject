@@ -38,4 +38,14 @@ public class AdminRepository {
         return sql.selectOne("Admin.findUsernameByEmail", email);
     }
 
+    public Admin findByUsernameAndEmail(String username, String email) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("username", username);
+        params.put("email", email);
+        return sql.selectOne("Admin.findByUsernameAndEmail", params);
+    }
+
+    public void updatePassword(Admin admin) {
+        sql.update("Admin.updatePassword", admin);
+    }
 }

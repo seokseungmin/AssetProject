@@ -6,12 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -24,7 +24,7 @@ public class AdminController {
 
     //로그인한 관리자 정보 보기
     @GetMapping("/admin/detail")
-    public String main(Model model){
+    public String admin(Model model){
 
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -65,5 +65,22 @@ public class AdminController {
         model.addAttribute("username", username);
         return "user/usernameResult"; // 이메일로 찾은 사용자 이름을 보여주는 페이지
     }
+    @GetMapping("/resetPasswordForm")
+    public String showResetPasswordForm() {
+        // 비밀번호 재설정 폼을 보여주는 로직
+        return "user/resetPasswordForm";
+    }
+
+    @PostMapping("/resetPassword")
+    public String resetPassword(@RequestParam("username") String username,
+                                @RequestParam("email") String email, RedirectAttributes redirectAttributes) {
+        // 사용자 이름과 이메일을 이용하여 비밀번호 재설정 및 이메일 전송
+        adminDetailsService.resetPasswordAndSendEmail(username, email);
+        // 리디렉션 시 메시지를 추가
+        redirectAttributes.addFlashAttribute("message", "임시 비밀번호가 귀하의 이메일로 전송되었습니다.");
+        return "redirect:/user/login";
+    }
+
+
 
 }
