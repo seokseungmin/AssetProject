@@ -62,6 +62,9 @@ History 로그성 데이터에 (등록, 수정, 삭제) 작업 기록<br>
 <h2 align="center"> Tables </h2>
 
 ```sql
+
+USE AssetManage;
+
 CREATE TABLE `asset` (
   `assetIdx` BIGINT AUTO_INCREMENT PRIMARY KEY,
   `assetCode` VARCHAR(255) NULL,
