@@ -9,7 +9,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/AssetManage?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
-    password: "*seoksm1017*"
+    password: ""
     hikari:
       maximumPoolSize: 10 # 커넥션 풀의 최대 사이즈
       minimumIdle: 5 # 최소 유휴 커넥션 수
